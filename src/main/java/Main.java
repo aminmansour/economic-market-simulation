@@ -12,6 +12,8 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 
+
+
         testJSONParsing test = new testJSONParsing();
         try {
             test.httpGET("http://api.worldbank.org/countries/all/indicators/SP.POP.TOTL?format=jsonP&prefix=Getdata");
