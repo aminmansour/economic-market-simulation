@@ -59,8 +59,20 @@ public class Main2 extends Application {
         System.out.println(Hani);
         //gets value from given year
         Double value1 = Double.parseDouble(Hani.getString("value"));
-
         String year1 = Hani.getString("date");
+
+
+
+        JSONObject countryArray = Hani.getJSONObject("country");
+        String countyName = countryArray.getString("value");
+
+       // String coutryName = countryObject.getString("value");
+
+
+
+
+
+
 
 
 
@@ -75,7 +87,7 @@ public class Main2 extends Application {
         lineChart.setTitle("Stock Monitoring, 2010");
 
         XYChart.Series series1 = new XYChart.Series();
-        series1.setName("Portfolio 1");
+        series1.setName(countyName);
 
         series1.getData().add(new XYChart.Data(year1, value1));
 
