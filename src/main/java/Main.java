@@ -13,6 +13,7 @@ public class Main extends Application {
         launch(args);
     }
 
+
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setScene(new Scene(new StackPane(),1000,600));
