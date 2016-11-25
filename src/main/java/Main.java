@@ -7,20 +7,34 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.testJSONParsing;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class Main extends Application {
 
     public static void main(String[] args) {
         testJSONParsing test = new testJSONParsing();
-        JSONObject JSONObject;
+        JSONArray jsonarr = null;
+        String pages = null;
+        String page = null;
         try {
-            JSONObject = test.httpGET("http://api.worldbank.org/countries/all/indicators/SP.POP.TOTL?format=jsonP&prefix=Getdata");
+            jsonarr = test.httpGET("http://api.worldbank.org/countries/all/indicators/SP.POP.TOTL?format=jsonP&prefix=Getdata");
         } catch(Exception exe){
             //Your error handling code
         }
 
-        System.out.println();
+        HashMap<String, String> applicationSettings = new HashMap<String,String>();
+        for(int i=0; i<jsonarr.length(); i++){
+            String value = jsonarr.getJSONObject(i).getString("page");
+            String name = jsonarr.getJSONObject(i).getString("pages");
+            applicationSettings.put(name, value);
+        }
+
+        for ( String key : applicationSettings.keySet() ) {
+            System.out.println( key );
+        }
 
 
 
