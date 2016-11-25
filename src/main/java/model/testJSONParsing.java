@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -16,7 +18,7 @@ public class testJSONParsing {
     }
 
     // HTTP GET request
-    public void httpGET(String urlIn) throws Exception {
+    public JSONObject httpGET(String urlIn) throws Exception {
 
         String url = urlIn;
 
@@ -47,6 +49,8 @@ public class testJSONParsing {
 
         getData = getData.substring(8, getData.length() - 1);
 
-        System.out.println(getData);
+        JSONObject returnObject = new JSONObject(getData);
+
+        return returnObject;
     }
 }
