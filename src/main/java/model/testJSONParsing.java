@@ -1,6 +1,6 @@
 package model;
 
-import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,7 +18,7 @@ public class testJSONParsing {
     }
 
     // HTTP GET request
-    public JSONObject httpGET(String urlIn) throws Exception {
+    public JSONArray httpGET(String urlIn) throws Exception {
 
         String url = urlIn;
 
@@ -45,12 +45,12 @@ public class testJSONParsing {
         in.close();
 
         //print result
-        String getData = response.toString();
+        String JSONData = response.toString();
 
-        getData = getData.substring(8, getData.length() - 1);
+        JSONData = JSONData.substring(8, JSONData.length() - 1);
 
-        JSONObject returnObject = new JSONObject(getData);
+        JSONArray JSONArray = new JSONArray(JSONData);
 
-        return returnObject;
+        return JSONArray;
     }
 }
