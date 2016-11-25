@@ -6,6 +6,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+import jdk.nashorn.internal.scripts.JO;
 import model.testJSONParsing;
 import model.urlBuilder;
 import org.json.JSONArray;
@@ -17,6 +19,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class Main2 extends Application {
 
@@ -41,44 +45,57 @@ public class Main2 extends Application {
 
         System.out.println(jsonArray.get(1));
 
-        //test.printJsonObject(jsonObj);
-
-
-
-
         urlBuilder Bob = new urlBuilder();
 
-        String a =  Bob.URL("br","SP.ADO.TFRT","2004", "2006");
+        String a = Bob.URL("br","SP.ADO.TFRT","1961", "2014");
 
         JSONArray Bonobo = test.httpGET(a);
 
         JSONArray John = (JSONArray)Bonobo.get(1);
+
+        ArrayList<Pair<String, Number>> masterArray = new ArrayList<Pair<String, Number>>();
+
+        //JSONObject Hani = John.getJSONObject(1);
+
+       // String country = Hani.getString()
+
+        for(int i = John.length() - 1; i >= 0; --i) {
+
+            JSONObject current = John.getJSONObject(i);
+
+            double value1 = Double.parseDouble(current.getString("value"));
+
+            String year1 = current.getString("date");
+
+            Pair<String, Number> temp = new Pair<String, Number>(year1, value1);
+
+            masterArray.add(temp);
+
+        }
+
         // gets year by index
-        JSONObject Hani = John.getJSONObject(1);
+        //JSONObject Hani = John.getJSONObject(1);
 
-        System.out.println(Hani);
+        //System.out.println(Hani);
         //gets value from given year
-        int value1 = Integer.parseInt(Hani.getString("value"));
-        String year1 = Hani.getString("date");
-
-        Number truevalue1 = (Number) value1;
-
-        System.out.println(value1);
 
 
-        stage.setTitle("Line Chart Sample");
+        stage.setTitle("Line Chart Motherfucker!");
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Month");
+        xAxis.setLabel("Year");
         final LineChart<String,Number> lineChart =
                 new LineChart<String,Number>(xAxis,yAxis);
 
-        lineChart.setTitle("Stock Monitoring, 2010");
+        lineChart.setTitle("Line Chart Motherfucker!");
 
         XYChart.Series series1 = new XYChart.Series();
-        series1.setName("Portfolio 1");
+        series1.setName("Brazil");
 
-        series1.getData().add(new XYChart.Data(year1, truevalue1));
+        for(Pair<String, Number> pair: masterArray) {
+            series1.getData().add(new XYChart.Data(pair.getKey(), pair.getValue()));
+        }
+
 
         Scene scene  = new Scene(lineChart,800,600);
         lineChart.getData().addAll(series1);
