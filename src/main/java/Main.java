@@ -14,28 +14,13 @@ import java.util.HashMap;
 
 public class Main extends Application {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         testJSONParsing test = new testJSONParsing();
-        JSONArray jsonarr = null;
-        String pages = null;
-        String page = null;
-        try {
-            jsonarr = test.httpGET("http://api.worldbank.org/countries/all/indicators/SP.POP.TOTL?format=jsonP&prefix=Getdata");
-        } catch(Exception exe){
-            //Your error handling code
-        }
+        JSONArray jsonArray = test.httpGET("http://api.worldbank.org/countries/all/indicators/SP.POP.TOTL?format=json");
 
-        HashMap<String, String> applicationSettings = new HashMap<String,String>();
-        for(int i=0; i<jsonarr.length(); i++){
-            String value = jsonarr.getJSONObject(i).getString("page");
-            String name = jsonarr.getJSONObject(i).getString("pages");
-            applicationSettings.put(name, value);
-        }
+        System.out.println(jsonArray.get(1));
 
-        for ( String key : applicationSettings.keySet() ) {
-            System.out.println( key );
-        }
-
+        //test.printJsonObject(jsonObj);
 
 
         launch(args);
