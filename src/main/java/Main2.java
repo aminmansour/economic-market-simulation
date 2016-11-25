@@ -58,18 +58,17 @@ public class Main2 extends Application {
 
         System.out.println(Hani);
         //gets value from given year
-        int value1 = Integer.parseInt(Hani.getString("value"));
+        Double value1 = Double.parseDouble(Hani.getString("value"));
+
         String year1 = Hani.getString("date");
 
-        Number truevalue1 = (Number) value1;
+
 
         System.out.println(value1);
-
-
         stage.setTitle("Line Chart Sample");
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Month");
+        xAxis.setLabel("Year");
         final LineChart<String,Number> lineChart =
                 new LineChart<String,Number>(xAxis,yAxis);
 
@@ -78,7 +77,7 @@ public class Main2 extends Application {
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Portfolio 1");
 
-        series1.getData().add(new XYChart.Data(year1, truevalue1));
+        series1.getData().add(new XYChart.Data(year1, value1));
 
         Scene scene  = new Scene(lineChart,800,600);
         lineChart.getData().addAll(series1);
