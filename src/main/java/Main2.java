@@ -116,23 +116,29 @@ public class Main2 extends Application {
 
         lineChart.setTitle("Stock Monitoring, 2010");
 
-        XYChart.Series series1 = new XYChart.Series();
-        series1.setName(galaxy.get(0).get(0).get(2));
+        ArrayList<XYChart.Series> SerialKiller = new ArrayList<XYChart.Series>();
 
-        XYChart.Series series2 = new XYChart.Series();
-        series2.setName(galaxy.get(1).get(0).get(2));
-
-
-        for (int i = 0; i < galaxy.get(0).size() ; i++) {
-            series1.getData().add(new XYChart.Data(galaxy.get(0).get(i).get(1), Double.parseDouble(galaxy.get(0).get(i).get(0))));
+        for (int e = 0; e < galaxy.size(); e++) {
+            SerialKiller.add(new XYChart.Series());
         }
 
-        for (int i = 0; i < galaxy.get(1).size() ; i++) {
-            series2.getData().add(new XYChart.Data(galaxy.get(1).get(i).get(1), Double.parseDouble(galaxy.get(1).get(i).get(0))));
+
+
+
+        for (int q = 0; q < galaxy.size(); q++) {
+            SerialKiller.get(q).setName(galaxy.get(q).get(0).get(2));
+
+            for (int i = 0; i < galaxy.get(q).size(); i++) {
+                System.out.println(SerialKiller.get(q).getName());
+                SerialKiller.get(q).getData().add(new XYChart.Data(galaxy.get(q).get(i).get(1), Double.parseDouble(galaxy.get(q).get(i).get(0))));
+            }
+
+            lineChart.getData().add(SerialKiller.get(q));
+
         }
+
 
         Scene scene  = new Scene(lineChart,800,600);
-        lineChart.getData().addAll(series1,series2);
 
         stage.setScene(scene);
         stage.show();
