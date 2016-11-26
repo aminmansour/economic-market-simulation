@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import view.InterfaceScene;
 
 public class Main extends Application {
 
@@ -15,7 +16,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setScene(new Scene(new StackPane(),1000,600));
+        primaryStage.setWidth(1080);
+        primaryStage.setHeight(640);
+        primaryStage.setScene(new InterfaceScene(primaryStage));
         primaryStage.show();
     }
 }
