@@ -118,14 +118,11 @@ public class Main2 extends Application {
 
         ArrayList<XYChart.Series> SerialKiller = new ArrayList<XYChart.Series>();
 
-        for (int e = 0; e < galaxy.size(); e++) {
-            SerialKiller.add(new XYChart.Series());
-        }
-
 
 
 
         for (int q = 0; q < galaxy.size(); q++) {
+            SerialKiller.add(new XYChart.Series());
             SerialKiller.get(q).setName(galaxy.get(q).get(0).get(2));
 
             for (int i = 0; i < galaxy.get(q).size(); i++) {
