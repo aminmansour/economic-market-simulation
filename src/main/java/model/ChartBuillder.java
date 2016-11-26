@@ -5,6 +5,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import  model.DataPiece;
 
 import java.util.ArrayList;
 
@@ -21,26 +22,27 @@ public class ChartBuillder {
      * @param dataArray county code, data and year sorted grouped by country and then by year
      * @return a Linechart object representing our data
      */
-    public LineChart<String,Number> buildChart(ArrayList<ArrayList<ArrayList<String>>> dataArray) {
+    public LineChart<String,Number> buildChart(ArrayList<ArrayList<DataPiece>> dataArray) {
 
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Year");
+        yAxis.setLabel(dataArray.get(0).get(0).getIndicator());
         final LineChart<String,Number> lineChart =
                 new LineChart<String,Number>(xAxis,yAxis);
 
-        lineChart.setTitle("Stock Monitoring, 2010");
+        lineChart.setTitle("Economic Data");
 
         ArrayList<XYChart.Series> SerialKiller = new ArrayList<XYChart.Series>();
 
 
         for (int q = 0; q < dataArray.size(); q++) {
             SerialKiller.add(new XYChart.Series());
-            SerialKiller.get(q).setName(dataArray.get(q).get(0).get(2));
+            SerialKiller.get(q).setName(dataArray.get(q).get(0).getCountry());
 
             for (int i = 0; i < dataArray.get(q).size(); i++) {
                 System.out.println(SerialKiller.get(q).getName());
-                SerialKiller.get(q).getData().add(new XYChart.Data(dataArray.get(q).get(i).get(1), Double.parseDouble(dataArray.get(q).get(i).get(0))));
+                SerialKiller.get(q).getData().add(new XYChart.Data(dataArray.get(q).get(i).getYear(), Double.parseDouble(dataArray.get(q).get(i).getValue())));
             }
 
             lineChart.getData().add(SerialKiller.get(q));

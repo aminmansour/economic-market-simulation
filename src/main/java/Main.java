@@ -32,7 +32,7 @@ public class Main extends Application {
 
 
         //Scene scene  = new Scene(Ted.buildChart(theArchitect.buildArray(counties)),800,600);
-        primaryStage.setScene(new Scene(Ted.buildChart(theArchitect.buildArray(counties,"1999","2005","NY.GDP.MKTP.CD")),800,600));
+        primaryStage.setScene(new Scene(Ted.buildChart(theArchitect.buildArray(counties,"1999","2005","SP.POP.TOTL")),800,600));
         primaryStage.show();
     }
 }
