@@ -4,10 +4,13 @@
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.ArrayBuilder;
 import model.ChartBuillder;
+import model.CountryReader;
+import model.CountryNamesToCodes;
 
 import java.util.ArrayList;
 
@@ -22,17 +25,22 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         ArrayBuilder theArchitect = new ArrayBuilder();
-        ArrayList<String> counties = new ArrayList<String>();
-        counties.add("br");
-        counties.add("gb");
-        counties.add("us");
+        String csvFile = "C:\\Users\\Sarosi\\Desktop\\Core\\src\\main\\resources\\storage\\CountryCodesCore.csv";
+        CountryReader charles = new CountryReader(csvFile);
+        ArrayList<String> lands = new ArrayList<String>();
+        lands.add("Hungary");
+        lands.add("Brazil");
+        CountryNamesToCodes converter = new CountryNamesToCodes();
+        ArrayList<String> counties =  converter.convert(lands,charles);
+
+
 
         ChartBuillder Ted = new ChartBuillder();
 
 
-
-        //Scene scene  = new Scene(Ted.buildChart(theArchitect.buildArray(counties)),800,600);
-        primaryStage.setScene(new Scene(Ted.buildChart(theArchitect.buildArray(counties,"1999","2005","SP.POP.TOTL")),800,600));
+        //LineChart<String,Number> lineChart = Ted.buildChart(theArchitect.buildArray(counties, "1999", "2005","NY.GDP.MKTP.CD" ));
+        //Scene scene  = new Scene(Ted.buildChart(theArchitect.buildArray(counties, "1999", "2005","NY.GDP.MKTP.CD" )),800,600);
+        primaryStage.setScene(new Scene(Ted.buildLineChart(theArchitect.buildArray(counties,"2005","2005","NY.GNP.MKTP.CD")),800,600));
         primaryStage.show();
     }
 }

@@ -17,18 +17,38 @@ public class DataPiece {
         indicator = inIndicator;
     }
 
+    /**
+     *
+     * @return the country the data represents
+     */
     public String getCountry(){
         return country;
     }
+    /**
+     *
+     * @return the year the data represents
+     */
     public String getYear(){
         return year;
     }
+    /**
+     *
+     * @return the value the data represents
+     */
     public String getValue(){
         return value;
     }
+    /**
+     *
+     * @return the indicator the data represents
+     */
     public String getIndicator(){
         return indicator;
     }
+    /**
+     *
+     * @return a string describing the data
+     */
     public String toString(){
         return "this is a datapiece with " + value + " " + year + " " + country + " " + indicator;
     }
