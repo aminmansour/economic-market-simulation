@@ -18,6 +18,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setWidth(1080);
         primaryStage.setHeight(640);
+        primaryStage.setTitle("Macro Economics");
         primaryStage.setScene(new InterfaceScene(primaryStage));
         primaryStage.show();
     }

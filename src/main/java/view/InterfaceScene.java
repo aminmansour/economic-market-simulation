@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.RssReader;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,7 +40,10 @@ public class InterfaceScene extends Scene {
         setUpNaviagation();
         setIndicatorBox(1,0,"=2.3","0.0%");
         setIndicatorBox(2,-1,"-2.3","-0.5%");
-        loadTopIndicators(new String[]{"Hello","Bye"},0);
+
+        loadTopIndicators(RssReader.retrieveHeadlines(),0);
+
+
         BorderPane bp = Util.createViewScreen();
         bp.setCenter(new Button("hek"));
         setView(bp);
@@ -67,10 +71,11 @@ public class InterfaceScene extends Scene {
         FlowPane flChangingStocks = new FlowPane();
         spGlobal.getChildren().add(flChangingStocks);
         flChangingStocks.setAlignment(Pos.CENTER);
-        tTopBanner = new Text("hello");
+        tTopBanner = new Text("Today's headlines");
         tTopBanner.setFill(Color.WHITE);
-        flChangingStocks.setMaxSize(3000,25);
-        flChangingStocks.setStyle("-fx-translate-x: 100");
+        tTopBanner.setId("top-banner");
+        flChangingStocks.setMaxHeight(25);
+        flChangingStocks.setPadding(new Insets(0,0,0,300));
         flChangingStocks.getStyleClass().add("top-banner");
         flChangingStocks.getChildren().add(tTopBanner);
     }
@@ -137,23 +142,26 @@ public class InterfaceScene extends Scene {
 
     }
 
-    public void loadTopIndicators(final String[] listOfValues,final int currentIndex){
-
-            Timeline ts = new Timeline(new KeyFrame(new Duration(3000), new EventHandler<ActionEvent>() {
+    public void loadTopIndicators(final ArrayList<String> headlines,final int currentIndex) {
+        if (headlines != null) {
+            Timeline ts = new Timeline(new KeyFrame(new Duration(6000), new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
-                    tTopBanner.setText(listOfValues[currentIndex]);
+                    tTopBanner.setText(headlines.get(currentIndex));
                 }
             }));
-        ts.play();
+            ts.play();
             ts.setOnFinished(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
-                    loadTopIndicators(listOfValues,(currentIndex+1)%listOfValues.length);
+                    loadTopIndicators(headlines, (currentIndex + 1) % headlines.size());
                 }
             });
             ts.play();
 
         }
-
+        else{
+            tTopBanner.setText("Macro Economics");
+        }
+    }
         public void setView(Pane view){
         if(spGlobal.getChildren().size() >2 ) {
             spGlobal.getChildren().remove(2);

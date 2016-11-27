@@ -13,7 +13,7 @@ public class RssReaderTest {
     @Test
     public void retrieveHeadlinesFromCorrectSiteTest() {
         try {
-            RssReader.retrieveHeadlines("http://rss.cnn.com/rss/money_news_economy.rss");
+            RssReader.retrieveHeadlines();
         }catch (Exception e){
            fail("The rss failed to read correctly");
         }
