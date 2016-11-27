@@ -40,6 +40,9 @@ public class InterfaceScene extends Scene {
         setIndicatorBox(1,0,"=2.3","0.0%");
         setIndicatorBox(2,-1,"-2.3","-0.5%");
         loadTopIndicators(new String[]{"Hello","Bye"},0);
+        BorderPane bp = Util.createViewScreen();
+        bp.setCenter(new Button("hek"));
+        setView(bp);
     }
 
     private void setUpNaviagation(){
@@ -151,6 +154,12 @@ public class InterfaceScene extends Scene {
 
         }
 
+        public void setView(Pane view){
+        if(spGlobal.getChildren().size() >2 ) {
+            spGlobal.getChildren().remove(2);
+        }
+            spGlobal.getChildren().add(2,view);
+        }
 
 
 }
