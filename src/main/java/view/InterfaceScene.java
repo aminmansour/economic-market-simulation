@@ -1,5 +1,10 @@
 package view;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,6 +14,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,6 +28,7 @@ public class InterfaceScene extends Scene {
     private StackPane spDisplay;
     private GridPane gpLocalIndicators;
     private ArrayList<Button> bNavButtons;
+    private Text tTopBanner;
 
     public InterfaceScene(Stage sCurrent){
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
@@ -30,6 +37,9 @@ public class InterfaceScene extends Scene {
         spGlobal.getStylesheets().add("css/interface-style.css");
         spGlobal.getStyleClass().add("banner");
         setUpNaviagation();
+        setIndicatorBox(1,0,"=2.3","0.0%");
+        setIndicatorBox(2,-1,"-2.3","-0.5%");
+        loadTopIndicators(new String[]{"Hello","Bye"},0);
     }
 
     private void setUpNaviagation(){
@@ -44,7 +54,7 @@ public class InterfaceScene extends Scene {
         BorderPane bpSideNav = createSideNav(vbStack);
         gpLocalIndicators = new GridPane();
         bpSideNav.setBottom(gpLocalIndicators);
-        createIndicatorBoxes(gpLocalIndicators);
+        createIndicatorBoxes(new String[]{"UK","USA","EU","ASIA"},gpLocalIndicators);
         gpLocalIndicators.setAlignment(Pos.CENTER);
         BorderPane.setMargin(gpLocalIndicators,new Insets(0,10,10,10));
         BorderPane.setAlignment(gpLocalIndicators,Pos.CENTER);
@@ -53,10 +63,13 @@ public class InterfaceScene extends Scene {
     private void createTopBar() {
         FlowPane flChangingStocks = new FlowPane();
         spGlobal.getChildren().add(flChangingStocks);
-
         flChangingStocks.setAlignment(Pos.CENTER);
+        tTopBanner = new Text("hello");
+        tTopBanner.setFill(Color.WHITE);
         flChangingStocks.setMaxSize(3000,25);
+        flChangingStocks.setStyle("-fx-translate-x: 100");
         flChangingStocks.getStyleClass().add("top-banner");
+        flChangingStocks.getChildren().add(tTopBanner);
     }
 
     private BorderPane createSideNav(VBox vbStack) {
@@ -71,15 +84,15 @@ public class InterfaceScene extends Scene {
     }
 
 
-    private void createIndicatorBoxes(GridPane gpBoxes){
+    private void createIndicatorBoxes(String[] nameOfCountry,GridPane gpBoxes){
         int counter = 0;
         for(int i = 0 ; i< 2;i++){
             for(int j = 0 ; j<2; j++) {
                 VBox vbIndicatorBox = new VBox();
                 vbIndicatorBox.setId("box"+counter);
                 vbIndicatorBox.getStyleClass().add("indicator-box");
+                Text tName = new Text(nameOfCountry[counter]);
                 counter++;
-                Text tName = new Text("UK");
                 tName.getStyleClass().add("indicator-title");
                 Text tGDP = new Text("+0.43");
                 tGDP.getStyleClass().add("indicator-gdp");
@@ -102,4 +115,42 @@ public class InterfaceScene extends Scene {
             button.setMaxSize(Double.MAX_VALUE,100);
         }
     }
+
+    public void setIndicatorBox(int boxLocation,int hasIncreased,String value,String percentage){
+        VBox vbIndicatorBox = (VBox)gpLocalIndicators.getChildren().get(boxLocation);
+        Text tGDP = (Text)vbIndicatorBox.getChildren().get(1);
+        Text tPercentageIncrease = (Text)vbIndicatorBox.getChildren().get(2);
+        tGDP.setText(value);
+        tPercentageIncrease.setText(percentage);
+        switch (hasIncreased){
+            case 1: tGDP.setStyle("-fx-fill: #9AF261"); tPercentageIncrease.setStyle("-fx-fill: #9AF261");
+            break;
+            case 0: tGDP.setStyle("-fx-fill: white"); tPercentageIncrease.setStyle("-fx-fill: white");
+            break;
+            case -1: tGDP.setStyle("-fx-fill: #dc1c29"); tPercentageIncrease.setStyle("-fx-fill: #ff0538");
+            break;
+        }
+
+
+    }
+
+    public void loadTopIndicators(final String[] listOfValues,final int currentIndex){
+
+            Timeline ts = new Timeline(new KeyFrame(new Duration(3000), new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
+                    tTopBanner.setText(listOfValues[currentIndex]);
+                }
+            }));
+        ts.play();
+            ts.setOnFinished(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
+                    loadTopIndicators(listOfValues,(currentIndex+1)%listOfValues.length);
+                }
+            });
+            ts.play();
+
+        }
+
+
+
 }
