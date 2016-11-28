@@ -53,7 +53,7 @@ public class InterfaceScene extends Scene {
         spGlobal.setAlignment(Pos.TOP_LEFT);
 
         VBox vbStack = new VBox();
-        createButtons(new String[]{"HOME","DISPLAY TYPE","GLOBAL FORECAST","NEWS FEED","BACK"},vbStack);
+        createButtons(new String[]{"Home","Display Type","Global Forecast","News Feed","Back"},vbStack);
         vbStack.setAlignment(Pos.TOP_CENTER);
 
         createTopBar();
