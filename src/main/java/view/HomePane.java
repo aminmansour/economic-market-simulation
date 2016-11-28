@@ -21,15 +21,14 @@ public class HomePane extends BorderPane {
         //<div>Icons made by <a href="http://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 
         setPadding(new Insets(25,0,0,300));
-        Image logoIcon = new Image(getClass().getResourceAsStream("/image/logo-icon.png"));
+        addLogoAndTitle();
+
+    }
+
+    private void addLogoAndTitle() {
         GridPane gpLogoStore = new GridPane();
         gpLogoStore.setAlignment(Pos.CENTER);
-        Label lLogoIcon = new Label("");
-        ImageView logoIconIV = new ImageView(logoIcon);
-        logoIconIV.setFitWidth(150);
-        logoIconIV.setPreserveRatio(true);
-        lLogoIcon.setGraphic(logoIconIV);
-
+        ImageView logoIconIV = createIcon();
         Label lWelcomeMsg = new Label( "Macro Economics");
         lWelcomeMsg.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
         GridPane.setHalignment(lWelcomeMsg, HPos.CENTER);
@@ -38,7 +37,15 @@ public class HomePane extends BorderPane {
         setCenter(gpLogoStore);
         gpLogoStore.add(logoIconIV,0,0);
         gpLogoStore.add(lWelcomeMsg,0,1);
+    }
 
+    private ImageView createIcon() {
+        Label lLogoIcon = new Label("");
+        ImageView logoIconIV = new ImageView(new Image(getClass().getResourceAsStream("/image/logo-icon.png")));
+        logoIconIV.setFitWidth(150);
+        logoIconIV.setPreserveRatio(true);
+        lLogoIcon.setGraphic(logoIconIV);
+        return logoIconIV;
     }
 
 }
