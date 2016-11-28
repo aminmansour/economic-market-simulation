@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.RssReader;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
