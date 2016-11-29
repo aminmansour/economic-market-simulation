@@ -32,7 +32,7 @@ public class InterfaceScene extends Scene {
     private ArrayList<Button> bNavButtons;
     private Text tTopBanner;
 
-    public InterfaceScene(Stage sCurrent,LineChart linechart){
+    public InterfaceScene(Stage sCurrent, LineChart<String,Number> linechart){
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
         spGlobal = (StackPane)getRoot();
         spGlobal.setStyle("-fx-background-color: white");
@@ -47,14 +47,14 @@ public class InterfaceScene extends Scene {
 
         BorderPane bp = Util.createViewScreen();
         bp.setCenter(linechart);
-        setView(bp);
+        setView(new HomePane(linechart));
     }
 
     private void setUpNaviagation(){
         spGlobal.setAlignment(Pos.TOP_LEFT);
 
         VBox vbStack = new VBox();
-        createButtons(new String[]{"Home","Display type","Global Forecast","News Stand","Back"},vbStack);
+        createButtons(new String[]{"Home","Display Type","Global Forecast","News Feed","Back"},vbStack);
         vbStack.setAlignment(Pos.TOP_CENTER);
 
         createTopBar();

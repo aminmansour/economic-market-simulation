@@ -33,6 +33,7 @@ public class Main extends Application {
         lands.add("Bulgaria");
         lands.add("Jordan");
         lands.add("Morocco");
+        lands.add("United Kingdom");
         ArrayList<String> counties =  new CountryNamesToCodes().convert(lands,charles);
         LineChart<String,Number> chart = new ChartBuillder().buildLineChart(new ArrayBuilder().buildArray(counties,"1995","2005","NY.GDP.MKTP.CD"));
 

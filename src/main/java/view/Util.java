@@ -1,7 +1,7 @@
 package view;
 
-        import javafx.geometry.Insets;
-        import javafx.scene.layout.BorderPane;
+import javafx.geometry.Insets;
+import javafx.scene.layout.BorderPane;
 
 /**
  * Created by Amans on 27/11/2016.
