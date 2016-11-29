@@ -46,14 +46,14 @@ public class InterfaceScene extends Scene {
 
         BorderPane bp = Util.createViewScreen();
         bp.setCenter(new Button("hek"));
-        setView(bp);
+        setView(new HomePane());
     }
 
     private void setUpNaviagation(){
         spGlobal.setAlignment(Pos.TOP_LEFT);
 
         VBox vbStack = new VBox();
-        createButtons(new String[]{"Home","Display type","Global Forecast","News Stand","Back"},vbStack);
+        createButtons(new String[]{"Home","Display Type","Global Forecast","News Feed","Back"},vbStack);
         vbStack.setAlignment(Pos.TOP_CENTER);
 
         createTopBar();
