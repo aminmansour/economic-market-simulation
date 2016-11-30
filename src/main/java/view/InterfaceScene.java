@@ -46,8 +46,11 @@ public class InterfaceScene extends Scene {
 
 
         BorderPane bp = Util.createViewScreen();
-        bp.setCenter(linechart);
-        setView(new HomePane(linechart));
+        //bp.setCenter(linechart);
+        ChartPane chartPane = new ChartPane(linechart);
+        setView(chartPane);
+        chartPane.makeMeBigger(222,222);
+
     }
 
     private void setUpNaviagation(){
@@ -91,6 +94,7 @@ public class InterfaceScene extends Scene {
         spGlobal.getChildren().add(bpSideNav);
         return bpSideNav;
     }
+
 
 
     private void createIndicatorBoxes(String[] nameOfCountry,GridPane gpBoxes){
