@@ -1,9 +1,11 @@
 package view;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.DataFactory;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -31,7 +34,7 @@ public class InterfaceScene extends Scene {
     private Text tTopBanner;
     private Stack<BorderPane> pageLoad;
 
-    public InterfaceScene(Stage sCurrent){
+    public InterfaceScene(Stage sCurrent, LineChart<String,Number> linechart){
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
         spGlobal = (StackPane)getRoot();
         spGlobal.setStyle("-fx-background-color: white");
@@ -173,11 +176,11 @@ public class InterfaceScene extends Scene {
         tPercentageIncrease.setText(percentage);
         switch (hasIncreased){
             case 1: tGDP.setStyle("-fx-fill: #9AF261"); tPercentageIncrease.setStyle("-fx-fill: #9AF261");
-            break;
+                break;
             case 0: tGDP.setStyle("-fx-fill: white"); tPercentageIncrease.setStyle("-fx-fill: white");
-            break;
+                break;
             case -1: tGDP.setStyle("-fx-fill: #dc1c29"); tPercentageIncrease.setStyle("-fx-fill: #ff0538");
-            break;
+                break;
         }
 
 
@@ -206,7 +209,6 @@ public class InterfaceScene extends Scene {
         public void setView(Pane view){
         if(spGlobal.getChildren().size() >2 ) {
             spGlobal.getChildren().remove(2);
-
         }
             view.setPickOnBounds(false);
             spGlobal.getChildren().add(2,view);
