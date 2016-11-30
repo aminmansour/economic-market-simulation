@@ -18,15 +18,15 @@ import javafx.scene.text.TextAlignment;
  * Created by denissaidov on 28/11/2016.
  */
 public class HomePane extends BorderPane {
-    public HomePane(LineChart<String,Number> linechart) {
+    public HomePane() {
         //<div>Icons made by <a href="http://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 
         setPadding(new Insets(25,0,0,300));
-        addLogoAndTitle(linechart);
+        addLogoAndTitle();
 
     }
 
-    private void addLogoAndTitle(LineChart<String,Number> linechart) {
+    private void addLogoAndTitle() {
         GridPane gpLogoStore = new GridPane();
         gpLogoStore.setAlignment(Pos.CENTER);
         ImageView logoIconIV = createIcon();
