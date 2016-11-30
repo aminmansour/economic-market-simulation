@@ -1,11 +1,9 @@
 package view;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -155,13 +153,44 @@ public class InterfaceScene extends Scene {
                 }
             });
             ts.play();
-
         }
         else{
             tTopBanner.setText("Macro Economics");
         }
     }
-        public void setView(Pane view){
+
+//    private void recalculateTransition() {
+//        transition.setToX(node.getBoundsInLocal().getMaxX() * -1 - 100);
+//        transition.setFromX(parentPane.widthProperty().get() + 100);
+//
+//        double distance = parentPane.widthProperty().get() + 2 * node.getBoundsInLocal().getMaxX();
+//        transition.setDuration(new Duration(distance / SPEED_FACTOR));
+//    }
+//
+//    private void rerunAnimation() {
+//        transition.stop();
+//        // if needed set different text on "node"
+//        recalculateTransition();
+//        transition.playFromStart();
+//    }
+//
+//
+//    TranslateTransition transition = TranslateTransitionBuilder.create()
+//            .duration(new Duration(10))
+//            .node(node)
+//            .interpolator(Interpolator.LINEAR)
+//            .cycleCount(1)
+//            .build();
+//
+//    transition.setOnFinished(new EventHandler<ActionEvent>() {
+//
+//        @Override
+//        public void handle(ActionEvent actionEvent) {
+//            rerunAnimation();
+//        }
+//    });
+
+    public void setView(Pane view){
         if(spGlobal.getChildren().size() >2 ) {
             spGlobal.getChildren().remove(2);
         }

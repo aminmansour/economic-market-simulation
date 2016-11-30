@@ -33,7 +33,7 @@ public class RssReader {
             }
             reader.close();
             return headlines;
-        }catch (Exception e){
+        } catch (Exception e){
             return null;
         }
     }
