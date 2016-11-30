@@ -1,24 +1,23 @@
 package view;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import model.RssReader;
+import model.DataFactory;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * Created by Amans on 26/11/2016.
@@ -30,6 +29,7 @@ public class InterfaceScene extends Scene {
     private GridPane gpLocalIndicators;
     private ArrayList<Button> bNavButtons;
     private Text tTopBanner;
+    private Stack<BorderPane> pageLoad;
 
     public InterfaceScene(Stage sCurrent){
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
@@ -41,19 +41,56 @@ public class InterfaceScene extends Scene {
         setIndicatorBox(1,0,"=2.3","0.0%");
         setIndicatorBox(2,-1,"-2.3","-0.5%");
 
-        loadTopIndicators(RssReader.retrieveHeadlines(),0);
+        loadTopIndicators(DataFactory.retrieveHeadlines(), 0);
+        HomePane view = new HomePane();
+        view.setPickOnBounds(false);
+        pageLoad = new Stack<BorderPane>();
+        setView(view);
+        setButtonListeners();
 
 
-        BorderPane bp = Util.createViewScreen();
-        bp.setCenter(new Button("hek"));
-        setView(new HomePane());
+    }
+
+    private void setButtonListeners() {
+        bNavButtons.get(3).setOnMousePressed(new EventHandler<MouseEvent>() {
+                                                 @Override
+                                                 public void handle(MouseEvent event) {
+                                                     GlossaryPane gp = new GlossaryPane();
+                                                     pageLoad.push(gp);
+                                                     setView(gp);
+
+                                                 }
+                                             }
+        );
+        bNavButtons.get(0).setOnMousePressed(new EventHandler<MouseEvent>() {
+                                                 @Override
+                                                 public void handle(MouseEvent event) {
+                                                     setView(new HomePane());
+
+                                                 }
+                                             }
+        );
+
+        bNavButtons.get(4).setOnMousePressed(new EventHandler<MouseEvent>() {
+                                                 @Override
+                                                 public void handle(MouseEvent event) {
+                                                     if (pageLoad.size() == 1) {
+                                                         pageLoad.pop();
+                                                         setView(new HomePane());
+                                                     } else if (pageLoad.size() != 0) {
+                                                         setView(pageLoad.pop());
+                                                     }
+
+                                                 }
+                                             }
+        );
     }
 
     private void setUpNaviagation(){
         spGlobal.setAlignment(Pos.TOP_LEFT);
 
         VBox vbStack = new VBox();
-        createButtons(new String[]{"Home","Display Type","Global Forecast","News Feed","Back"},vbStack);
+        createButtons(new String[]{"Home", "Display Type", "Global Forecast", "Word Bank", "Back"}, vbStack);
         vbStack.setAlignment(Pos.TOP_CENTER);
 
         createTopBar();
@@ -69,6 +106,7 @@ public class InterfaceScene extends Scene {
 
     private void createTopBar() {
         FlowPane flChangingStocks = new FlowPane();
+        flChangingStocks.setPickOnBounds(false);
         spGlobal.getChildren().add(flChangingStocks);
         flChangingStocks.setAlignment(Pos.CENTER);
         tTopBanner = new Text("Today's headlines");
@@ -82,7 +120,9 @@ public class InterfaceScene extends Scene {
 
     private BorderPane createSideNav(VBox vbStack) {
         BorderPane bpSideNav = new BorderPane();
+        vbStack.setPickOnBounds(false);
         bpSideNav.setCenter(vbStack);
+        bpSideNav.setPickOnBounds(false);
         BorderPane.setAlignment(vbStack, Pos.CENTER);
         BorderPane.setMargin(vbStack,new Insets(30,30,40,30));
         bpSideNav.setMaxWidth(300);
@@ -121,6 +161,7 @@ public class InterfaceScene extends Scene {
             bNavButtons.add(button);
             VBox.setVgrow(button,Priority.ALWAYS);
             button.setMaxSize(Double.MAX_VALUE,100);
+            button.setPickOnBounds(false);
         }
     }
 
@@ -165,7 +206,9 @@ public class InterfaceScene extends Scene {
         public void setView(Pane view){
         if(spGlobal.getChildren().size() >2 ) {
             spGlobal.getChildren().remove(2);
+
         }
+            view.setPickOnBounds(false);
             spGlobal.getChildren().add(2,view);
         }
 

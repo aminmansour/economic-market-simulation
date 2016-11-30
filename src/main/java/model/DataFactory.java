@@ -1,7 +1,12 @@
 package model;
 
 
+import javafx.util.Pair;
+
+import java.awt.*;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -9,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by Amans on 27/11/2016.
  */
-public class RssReader {
+public class DataFactory {
     //"http://rss.cnn.com/rss/money_news_economy.rss"
 
     public static ArrayList<String> retrieveHeadlines(){
@@ -36,6 +41,24 @@ public class RssReader {
         }catch (Exception e){
             return null;
         }
+    }
+
+    public static Pair<ArrayList<String>, ArrayList<String>> getWordsFromFiles() {
+        ArrayList<String> wordStore = new ArrayList<>(20);
+        ArrayList<String> definitionStore = new ArrayList<>(20);
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(new File("src/main/resources/storage/word-bank.txt")));
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                int indexSeperator = currentLine.indexOf("+");
+                wordStore.add(currentLine.substring(0, indexSeperator));
+                definitionStore.add(currentLine.substring(indexSeperator + 1));
+            }
+        } catch (Exception c) {
+            System.out.println(c.getMessage());
+            return null;
+        }
+        return new Pair<ArrayList<String>, ArrayList<String>>(wordStore, definitionStore);
     }
 
 }

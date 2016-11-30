@@ -19,14 +19,24 @@
     -fx-border-width: 0px 0px 1px 0px;
 }
 
+.text-area .text {
+    -fx-font-alignment: center;
+    -fx-alignment: center;
+    -fx-translate-y: 10px;
+}
+
+.text-area .content {
+    -fx-background-color: white;
+}
 .welcomeMsg {
-    -fx-text-fill:  #595959;
+    -fx-text-fill: #373737;
     -fx-padding: 20px;
 }
 
 .indicator-title{
     -fx-fill: white;
 }
+
 
 .indicator-gdp{
     -fx-fill: #9AF261;
@@ -41,11 +51,20 @@
     -fx-font-family: "verdana";
 }
 
+* {
+    -fx-opacity: 1;
+}
+
+
 .indicator-box{
     -fx-border-color: #595959;
     -fx-padding: 20px;
 }
 
+.word-text {
+    -fx-font-family: "verdana";
+    -fx-font-size: 12px;
+}
 #box0{
     -fx-border-width: 1px 0px 1px 1px;
 }
