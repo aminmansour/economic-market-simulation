@@ -36,7 +36,7 @@ public class HomePane extends BorderPane {
         GridPane.setHalignment(logoIconIV, HPos.CENTER);
         lWelcomeMsg.getStyleClass().add("welcomeMsg");
         setCenter(gpLogoStore);
-        gpLogoStore.add(linechart,0,0);
+        gpLogoStore.add(logoIconIV, 0, 0);
         gpLogoStore.add(lWelcomeMsg,0,1);
     }
 
