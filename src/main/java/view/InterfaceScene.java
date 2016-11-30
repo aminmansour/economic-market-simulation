@@ -1,12 +1,15 @@
 package view;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -15,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.RssReader;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -28,7 +32,7 @@ public class InterfaceScene extends Scene {
     private ArrayList<Button> bNavButtons;
     private Text tTopBanner;
 
-    public InterfaceScene(Stage sCurrent){
+    public InterfaceScene(Stage sCurrent, LineChart<String,Number> linechart){
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
         spGlobal = (StackPane)getRoot();
         spGlobal.setStyle("-fx-background-color: white");
@@ -42,8 +46,8 @@ public class InterfaceScene extends Scene {
 
 
         BorderPane bp = Util.createViewScreen();
-        bp.setCenter(new Button("hek"));
-        setView(new HomePane());
+        bp.setCenter(linechart);
+        setView(new HomePane(linechart));
     }
 
     private void setUpNaviagation(){
@@ -129,11 +133,11 @@ public class InterfaceScene extends Scene {
         tPercentageIncrease.setText(percentage);
         switch (hasIncreased){
             case 1: tGDP.setStyle("-fx-fill: #9AF261"); tPercentageIncrease.setStyle("-fx-fill: #9AF261");
-            break;
+                break;
             case 0: tGDP.setStyle("-fx-fill: white"); tPercentageIncrease.setStyle("-fx-fill: white");
-            break;
+                break;
             case -1: tGDP.setStyle("-fx-fill: #dc1c29"); tPercentageIncrease.setStyle("-fx-fill: #ff0538");
-            break;
+                break;
         }
 
 
@@ -153,49 +157,18 @@ public class InterfaceScene extends Scene {
                 }
             });
             ts.play();
+
         }
         else{
             tTopBanner.setText("Macro Economics");
         }
     }
-
-//    private void recalculateTransition() {
-//        transition.setToX(node.getBoundsInLocal().getMaxX() * -1 - 100);
-//        transition.setFromX(parentPane.widthProperty().get() + 100);
-//
-//        double distance = parentPane.widthProperty().get() + 2 * node.getBoundsInLocal().getMaxX();
-//        transition.setDuration(new Duration(distance / SPEED_FACTOR));
-//    }
-//
-//    private void rerunAnimation() {
-//        transition.stop();
-//        // if needed set different text on "node"
-//        recalculateTransition();
-//        transition.playFromStart();
-//    }
-//
-//
-//    TranslateTransition transition = TranslateTransitionBuilder.create()
-//            .duration(new Duration(10))
-//            .node(node)
-//            .interpolator(Interpolator.LINEAR)
-//            .cycleCount(1)
-//            .build();
-//
-//    transition.setOnFinished(new EventHandler<ActionEvent>() {
-//
-//        @Override
-//        public void handle(ActionEvent actionEvent) {
-//            rerunAnimation();
-//        }
-//    });
-
     public void setView(Pane view){
         if(spGlobal.getChildren().size() >2 ) {
             spGlobal.getChildren().remove(2);
         }
-            spGlobal.getChildren().add(2,view);
-        }
+        spGlobal.getChildren().add(2,view);
+    }
 
 
 }

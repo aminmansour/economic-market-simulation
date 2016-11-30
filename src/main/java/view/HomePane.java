@@ -3,6 +3,7 @@ package view;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,17 +16,17 @@ import javafx.scene.text.TextAlignment;
 
 /**
  * Created by denissaidov on 28/11/2016.
-*/
+ */
 public class HomePane extends BorderPane {
-    public HomePane() {
+    public HomePane(LineChart<String,Number> linechart) {
         //<div>Icons made by <a href="http://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 
         setPadding(new Insets(25,0,0,300));
-        addLogoAndTitle();
+        addLogoAndTitle(linechart);
 
     }
 
-    private void addLogoAndTitle() {
+    private void addLogoAndTitle(LineChart<String,Number> linechart) {
         GridPane gpLogoStore = new GridPane();
         gpLogoStore.setAlignment(Pos.CENTER);
         ImageView logoIconIV = createIcon();
@@ -35,7 +36,7 @@ public class HomePane extends BorderPane {
         GridPane.setHalignment(logoIconIV, HPos.CENTER);
         lWelcomeMsg.getStyleClass().add("welcomeMsg");
         setCenter(gpLogoStore);
-        gpLogoStore.add(logoIconIV,0,0);
+        gpLogoStore.add(linechart,0,0);
         gpLogoStore.add(lWelcomeMsg,0,1);
     }
 
