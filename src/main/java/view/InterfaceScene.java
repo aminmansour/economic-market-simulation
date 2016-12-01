@@ -20,7 +20,7 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 import model.DataFactory;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -156,7 +156,6 @@ public class InterfaceScene extends Scene {
 
     private void createTopBar() {
         FlowPane flChangingStocks = new FlowPane();
-        flChangingStocks.setPickOnBounds(false);
         spGlobal.getChildren().add(flChangingStocks);
         flChangingStocks.setAlignment(Pos.CENTER);
         tTopBanner = new Text("Today's headlines");
@@ -170,9 +169,7 @@ public class InterfaceScene extends Scene {
 
     private BorderPane createSideNav(VBox vbStack) {
         BorderPane bpSideNav = new BorderPane();
-        vbStack.setPickOnBounds(false);
         bpSideNav.setCenter(vbStack);
-        bpSideNav.setPickOnBounds(false);
         BorderPane.setAlignment(vbStack, Pos.CENTER);
         BorderPane.setMargin(vbStack,new Insets(30,30,40,30));
         bpSideNav.setMaxWidth(300);
@@ -253,7 +250,7 @@ public class InterfaceScene extends Scene {
             tTopBanner.setText("Macro Economics");
         }
     }
-        public void setView(Pane view){
+    public void setView(Pane view){
         if(spGlobal.getChildren().size() >2 ) {
             spGlobal.getChildren().remove(2);
         }

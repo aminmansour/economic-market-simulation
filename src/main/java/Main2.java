@@ -4,13 +4,11 @@
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.ArrayBuilder;
 import model.ChartBuillder;
-import model.CountryReader;
 import model.CountryNamesToCodes;
+import model.CountryReader;
 
 import java.util.ArrayList;
 
@@ -25,7 +23,7 @@ public class Main2 extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         ArrayBuilder theArchitect = new ArrayBuilder();
-        String csvFile = "C:\\Users\\Sarosi\\Desktop\\Core\\src\\main\\resources\\storage\\CountryCodesCore.csv";
+        String csvFile = "src\\main\\resources\\storage\\CountryCodesCore.csv";
         CountryReader charles = new CountryReader(csvFile);
         ArrayList<String> lands = new ArrayList<String>();
         lands.add("Hungary");

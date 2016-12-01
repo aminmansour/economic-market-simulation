@@ -23,7 +23,7 @@ public class CountryReader {
      * @throws IOException
      */
     public CountryReader(String filepath) throws IOException {
-        String csvFile = "/src/main/resources/storage/CountryCodesCore.csv";
+        String csvFile = "src\\main\\resources\\storage\\CountryCodesCore.csv";
         BufferedReader reader = new BufferedReader(new FileReader(filepath));
 
         // read file line by line
