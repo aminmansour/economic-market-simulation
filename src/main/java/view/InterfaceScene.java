@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.Pair;
 import model.DataFactory;
 
 import java.io.File;
@@ -50,18 +51,31 @@ public class InterfaceScene extends Scene {
         view.setPickOnBounds(false);
         pageLoad = new Stack<BorderPane>();
         setView(view);
-        setButtonListeners();
+        setButtonListeners(linechart);
 
 
     }
 
-    private void setButtonListeners() {
+    private void setButtonListeners(LineChart<String, Number> lcChart) {
         bNavButtons.get(3).setOnMousePressed(new EventHandler<MouseEvent>() {
                                                  @Override
                                                  public void handle(MouseEvent event) {
-                                                     GlossaryPane gp = new GlossaryPane();
-                                                     pageLoad.push(gp);
-                                                     setView(gp);
+                                                     if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.GlossaryPane")) {
+                                                         Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("GlossaryPane");
+                                                         if (checkOccurence.getKey() == true) {
+                                                             pageLoad.remove(checkOccurence.getValue());
+                                                             pageLoad.push(checkOccurence.getValue());
+                                                             setView(checkOccurence.getValue());
+                                                         } else {
+                                                             GlossaryPane gpWordBank = new GlossaryPane();
+                                                             pageLoad.push(gpWordBank);
+                                                             setView(gpWordBank);
+                                                         }
+                                                     } else if (pageLoad.isEmpty()) {
+                                                         GlossaryPane gpWordBank = new GlossaryPane();
+                                                         pageLoad.push(gpWordBank);
+                                                         setView(gpWordBank);
+                                                     }
 
                                                  }
                                              }
@@ -74,6 +88,28 @@ public class InterfaceScene extends Scene {
                                                  }
                                              }
         );
+        bNavButtons.get(1).setOnMousePressed(new EventHandler<MouseEvent>() {
+                                                 @Override
+                                                 public void handle(MouseEvent event) {
+                                                     if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.IndicatorPane")) {
+                                                         Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("IndicatorPane");
+                                                         if (checkOccurence.getKey() == true) {
+                                                             pageLoad.remove(checkOccurence.getValue());
+                                                             pageLoad.push(checkOccurence.getValue());
+                                                             setView(checkOccurence.getValue());
+                                                         } else {
+                                                             IndicatorPane icIndicator = new IndicatorPane(lcChart);
+                                                             pageLoad.push(icIndicator);
+                                                             setView(icIndicator);
+                                                         }
+                                                     } else if (pageLoad.isEmpty()) {
+                                                         IndicatorPane icIndicator = new IndicatorPane(lcChart);
+                                                         pageLoad.push(icIndicator);
+                                                         setView(icIndicator);
+                                                     }
+                                                 }
+                                             }
+        );
 
         bNavButtons.get(4).setOnMousePressed(new EventHandler<MouseEvent>() {
                                                  @Override
@@ -82,7 +118,8 @@ public class InterfaceScene extends Scene {
                                                          pageLoad.pop();
                                                          setView(new HomePane());
                                                      } else if (pageLoad.size() != 0) {
-                                                         setView(pageLoad.pop());
+                                                         pageLoad.pop();
+                                                         setView(pageLoad.peek());
                                                      }
 
                                                  }
@@ -106,6 +143,15 @@ public class InterfaceScene extends Scene {
         gpLocalIndicators.setAlignment(Pos.CENTER);
         BorderPane.setMargin(gpLocalIndicators,new Insets(0,10,10,10));
         BorderPane.setAlignment(gpLocalIndicators,Pos.CENTER);
+    }
+
+    private Pair<Boolean, BorderPane> checkForPageReoccurence(String typeCheck) {
+        for (BorderPane bpPages : pageLoad) {
+            if (bpPages.getClass().toString().equals("class view." + typeCheck)) {
+                return new Pair<Boolean, BorderPane>(true, bpPages);
+            }
+        }
+        return new Pair<Boolean, BorderPane>(false, null);
     }
 
     private void createTopBar() {
