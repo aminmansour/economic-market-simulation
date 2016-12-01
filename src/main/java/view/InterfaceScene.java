@@ -1,11 +1,9 @@
 package view;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,7 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.RssReader;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -32,7 +30,7 @@ public class InterfaceScene extends Scene {
     private ArrayList<Button> bNavButtons;
     private Text tTopBanner;
 
-    public InterfaceScene(Stage sCurrent, LineChart<String,Number> linechart){
+    public InterfaceScene(Stage sCurrent, LineChart<String,Number> linechart) throws IOException {
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
         spGlobal = (StackPane)getRoot();
         spGlobal.setStyle("-fx-background-color: white");

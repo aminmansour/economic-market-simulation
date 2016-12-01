@@ -3,11 +3,7 @@
  */
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.ArrayBuilder;
 import model.ChartBuillder;
@@ -15,7 +11,6 @@ import model.CountryNamesToCodes;
 import model.CountryReader;
 import view.InterfaceScene;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -28,7 +23,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
 
-        String csvFile = "src\\main\\resources\\storage\\CountryCodesCore.csv";
+        String csvFile = "src/main/resources/storage/CountryCodesCore.csv";
         CountryReader charles = new CountryReader(csvFile);
         ArrayList<String> lands = new ArrayList<String>();
         lands.add("Hungary");
@@ -46,15 +41,15 @@ public class Main extends Application {
         primaryStage.setWidth(1080);
         primaryStage.setHeight(640);
         primaryStage.setTitle("Project Core");
-        BorderPane bp = new BorderPane();
-        Button go = new Button("GO");
-        StackPane st = new StackPane();
-        st.getChildren().add(go);
-        bp.setRight(st);
+//        BorderPane bp = new BorderPane();
+//        Button go = new Button("GO");
+//        StackPane st = new StackPane();
+//        st.getChildren().add(go);
+//        bp.setRight(st);
 
-        bp.setCenter(chart);
+        //bp.setCenter(chart);
 
-        primaryStage.setScene(new Scene(bp));
+        primaryStage.setScene(new InterfaceScene(primaryStage, chart));
         primaryStage.show();
     }
 }
