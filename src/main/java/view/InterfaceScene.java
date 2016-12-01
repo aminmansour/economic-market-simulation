@@ -1,11 +1,9 @@
 package view;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,7 +18,6 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 import model.DataFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -91,19 +88,31 @@ public class InterfaceScene extends Scene {
         bNavButtons.get(1).setOnMousePressed(new EventHandler<MouseEvent>() {
                                                  @Override
                                                  public void handle(MouseEvent event) {
-                                                     if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.IndicatorPane")) {
-                                                         Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("IndicatorPane");
+                                                     if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.ChartPane")) {
+                                                         Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("ChartPane");
                                                          if (checkOccurence.getKey() == true) {
                                                              pageLoad.remove(checkOccurence.getValue());
                                                              pageLoad.push(checkOccurence.getValue());
                                                              setView(checkOccurence.getValue());
                                                          } else {
-                                                             IndicatorPane icIndicator = new IndicatorPane(lcChart);
+                                                             ChartPane icIndicator = null;
+
+                                                             try {
+                                                                 icIndicator = new ChartPane(lcChart);
+                                                             } catch (Exception e) {
+                                                                 e.printStackTrace();
+                                                             }
+
                                                              pageLoad.push(icIndicator);
                                                              setView(icIndicator);
                                                          }
                                                      } else if (pageLoad.isEmpty()) {
-                                                         IndicatorPane icIndicator = new IndicatorPane(lcChart);
+                                                         ChartPane icIndicator = null;
+                                                         try {
+                                                             icIndicator = new ChartPane(lcChart);
+                                                         } catch (Exception e) {
+                                                             e.printStackTrace();
+                                                         }
                                                          pageLoad.push(icIndicator);
                                                          setView(icIndicator);
                                                      }

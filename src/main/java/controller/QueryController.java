@@ -1,32 +1,50 @@
 package controller;
 
-import model.ArrayBuilder;
-import model.DataPiece;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import model.*;
 import view.ChartPane;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * Created by Sarosi on 30/11/2016.
  */
-public class QueryController {
+public class QueryController implements EventHandler<MouseEvent> {
 
-    public QueryController(){
+    private ChartPane chartPane;
+
+    public QueryController(ChartPane chartPane) throws Exception {
+        this.chartPane = chartPane;
+
 
     }
 //actionlistener of go calls this method
-    public ArrayList<ArrayList<DataPiece>> makeLineChart(ChartPane chartPane) throws Exception {
 
-
+    @Override
+    public void handle(MouseEvent event) {
         ArrayBuilder AB = new ArrayBuilder();
-        ArrayList<String> countries = new ArrayList<String>();
+        CountryReader charles = null;
+        try {
+            charles = new CountryReader("src/main/resources/storage/CountryCodesCore.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ArrayList<String> countries = chartPane.countrynames();
+        ArrayList<String> counties =  new CountryNamesToCodes().convert(countries,charles);
 
-        return  AB.buildArray(chartPane.countrynames(),chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(),chartPane.getIndicators().getSelectionModel().toString());
+        ArrayList<ArrayList<DataPiece>> toBeCharted = null;
+        try {
+            toBeCharted = AB.buildArray(counties,chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(),chartPane.getIndicators().getSelectionModel().getSelectedItem().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ChartBuillder chartBuillder = new ChartBuillder();
+
+//        chartPane.getChildren().removeAll();
+        chartPane.setCenterLineChart(chartBuillder.buildLineChart(toBeCharted));
 
     }
-
-
-
-
-
 }

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class CountryNode extends GridPane {
 
     private ComboBox<String> countries;
-    private Button add;
     private Button minus;
 
     public CountryNode() throws IOException {
@@ -39,23 +38,16 @@ public class CountryNode extends GridPane {
 
         GridPane grid2 = new GridPane();
 
-        this.add(grid2, 0, 1);
+        this.add(grid2, 1, 0);
 
-        add = new Button("+");
 
-        minus = new Button("-");
-
-        grid2.add(add, 0, 0);
-
-        grid2.add(minus, 1, 0);
+//        minus = new Button("-");
+//
+//        grid2.add(minus, 1, 0);
     }
 
     public ComboBox<String> getCountries() {
         return countries;
-    }
-
-    public Button getAdd() {
-        return add;
     }
 
     public Button getMinus() {

@@ -5,10 +5,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import model.urlBuilder;
-import model.testJSONParsing;
-import model.DataPiece;
-
 /**
  * Created by Sarosi on 26/11/2016.
  */
@@ -40,6 +36,10 @@ public class ArrayBuilder {
             String a = Bob.URL(countries.get(w), indicator, from, to);
 
             JSONArray Bonobo = test.httpGET(a);
+
+            //System.out.println(a+"hi");
+
+            System.out.println(Bonobo);
 
             JSONArray John = (JSONArray) Bonobo.get(1);
 
