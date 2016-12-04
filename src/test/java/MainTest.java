@@ -17,4 +17,8 @@ public class MainTest {
         Assert.assertEquals("equal","good","good");
     }
 
+    /*public void testJSONParsing() throws Exception {
+        Assert.assertEquals("Testing ");
+    }*/
+
 }

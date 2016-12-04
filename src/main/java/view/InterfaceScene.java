@@ -1,24 +1,25 @@
 package view;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import model.RssReader;
+import javafx.util.Pair;
+import model.DataFactory;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * Created by Amans on 26/11/2016.
@@ -30,8 +31,9 @@ public class InterfaceScene extends Scene {
     private GridPane gpLocalIndicators;
     private ArrayList<Button> bNavButtons;
     private Text tTopBanner;
+    private Stack<BorderPane> pageLoad;
 
-    public InterfaceScene(Stage sCurrent){
+    public InterfaceScene(Stage sCurrent, LineChart<String,Number> linechart){
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
         spGlobal = (StackPane)getRoot();
         spGlobal.setStyle("-fx-background-color: white");
@@ -41,19 +43,104 @@ public class InterfaceScene extends Scene {
         setIndicatorBox(1,0,"=2.3","0.0%");
         setIndicatorBox(2,-1,"-2.3","-0.5%");
 
-        loadTopIndicators(RssReader.retrieveHeadlines(),0);
+        loadTopIndicators(DataFactory.retrieveHeadlines(), 0);
+        HomePane view = new HomePane();
+        view.setPickOnBounds(false);
+        pageLoad = new Stack<BorderPane>();
+        setView(view);
+        setButtonListeners(linechart);
 
 
-        BorderPane bp = Util.createViewScreen();
-        bp.setCenter(new Button("hek"));
-        setView(new HomePane());
+    }
+
+    private void setButtonListeners(LineChart<String, Number> lcChart) {
+        bNavButtons.get(3).setOnMousePressed(new EventHandler<MouseEvent>() {
+                                                 @Override
+                                                 public void handle(MouseEvent event) {
+                                                     if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.GlossaryPane")) {
+                                                         Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("GlossaryPane");
+                                                         if (checkOccurence.getKey() == true) {
+                                                             pageLoad.remove(checkOccurence.getValue());
+                                                             pageLoad.push(checkOccurence.getValue());
+                                                             setView(checkOccurence.getValue());
+                                                         } else {
+                                                             GlossaryPane gpWordBank = new GlossaryPane();
+                                                             pageLoad.push(gpWordBank);
+                                                             setView(gpWordBank);
+                                                         }
+                                                     } else if (pageLoad.isEmpty()) {
+                                                         GlossaryPane gpWordBank = new GlossaryPane();
+                                                         pageLoad.push(gpWordBank);
+                                                         setView(gpWordBank);
+                                                     }
+
+                                                 }
+                                             }
+        );
+        bNavButtons.get(0).setOnMousePressed(new EventHandler<MouseEvent>() {
+                                                 @Override
+                                                 public void handle(MouseEvent event) {
+                                                     setView(new HomePane());
+
+                                                 }
+                                             }
+        );
+        bNavButtons.get(1).setOnMousePressed(new EventHandler<MouseEvent>() {
+                                                 @Override
+                                                 public void handle(MouseEvent event) {
+                                                     if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.ChartPane")) {
+                                                         Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("ChartPane");
+                                                         if (checkOccurence.getKey() == true) {
+                                                             pageLoad.remove(checkOccurence.getValue());
+                                                             pageLoad.push(checkOccurence.getValue());
+                                                             setView(checkOccurence.getValue());
+                                                         } else {
+                                                             ChartPane icIndicator = null;
+
+                                                             try {
+                                                                 icIndicator = new ChartPane(lcChart);
+                                                             } catch (Exception e) {
+                                                                 e.printStackTrace();
+                                                             }
+
+                                                             pageLoad.push(icIndicator);
+                                                             setView(icIndicator);
+                                                         }
+                                                     } else if (pageLoad.isEmpty()) {
+                                                         ChartPane icIndicator = null;
+                                                         try {
+                                                             icIndicator = new ChartPane(lcChart);
+                                                         } catch (Exception e) {
+                                                             e.printStackTrace();
+                                                         }
+                                                         pageLoad.push(icIndicator);
+                                                         setView(icIndicator);
+                                                     }
+                                                 }
+                                             }
+        );
+
+        bNavButtons.get(4).setOnMousePressed(new EventHandler<MouseEvent>() {
+                                                 @Override
+                                                 public void handle(MouseEvent event) {
+                                                     if (pageLoad.size() == 1) {
+                                                         pageLoad.pop();
+                                                         setView(new HomePane());
+                                                     } else if (pageLoad.size() != 0) {
+                                                         pageLoad.pop();
+                                                         setView(pageLoad.peek());
+                                                     }
+
+                                                 }
+                                             }
+        );
     }
 
     private void setUpNaviagation(){
         spGlobal.setAlignment(Pos.TOP_LEFT);
 
         VBox vbStack = new VBox();
-        createButtons(new String[]{"Home","Display Type","Global Forecast","News Feed","Back"},vbStack);
+        createButtons(new String[]{"Home", "Indicator explorer", "Global Forecast", "Word Bank", "Back"}, vbStack);
         vbStack.setAlignment(Pos.TOP_CENTER);
 
         createTopBar();
@@ -65,6 +152,15 @@ public class InterfaceScene extends Scene {
         gpLocalIndicators.setAlignment(Pos.CENTER);
         BorderPane.setMargin(gpLocalIndicators,new Insets(0,10,10,10));
         BorderPane.setAlignment(gpLocalIndicators,Pos.CENTER);
+    }
+
+    private Pair<Boolean, BorderPane> checkForPageReoccurence(String typeCheck) {
+        for (BorderPane bpPages : pageLoad) {
+            if (bpPages.getClass().toString().equals("class view." + typeCheck)) {
+                return new Pair<Boolean, BorderPane>(true, bpPages);
+            }
+        }
+        return new Pair<Boolean, BorderPane>(false, null);
     }
 
     private void createTopBar() {
@@ -121,6 +217,7 @@ public class InterfaceScene extends Scene {
             bNavButtons.add(button);
             VBox.setVgrow(button,Priority.ALWAYS);
             button.setMaxSize(Double.MAX_VALUE,100);
+            button.setPickOnBounds(false);
         }
     }
 
@@ -132,11 +229,11 @@ public class InterfaceScene extends Scene {
         tPercentageIncrease.setText(percentage);
         switch (hasIncreased){
             case 1: tGDP.setStyle("-fx-fill: #9AF261"); tPercentageIncrease.setStyle("-fx-fill: #9AF261");
-            break;
+                break;
             case 0: tGDP.setStyle("-fx-fill: white"); tPercentageIncrease.setStyle("-fx-fill: white");
-            break;
+                break;
             case -1: tGDP.setStyle("-fx-fill: #dc1c29"); tPercentageIncrease.setStyle("-fx-fill: #ff0538");
-            break;
+                break;
         }
 
 
@@ -162,10 +259,11 @@ public class InterfaceScene extends Scene {
             tTopBanner.setText("Macro Economics");
         }
     }
-        public void setView(Pane view){
+    public void setView(Pane view){
         if(spGlobal.getChildren().size() >2 ) {
             spGlobal.getChildren().remove(2);
         }
+            view.setPickOnBounds(false);
             spGlobal.getChildren().add(2,view);
         }
 
