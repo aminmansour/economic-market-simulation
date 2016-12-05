@@ -32,7 +32,7 @@ public class CountryNode extends GridPane {
 
         countries.getSelectionModel().selectFirst();
 
-        countries.setMaxWidth(190);
+        countries.setMaxWidth(162);
 
         this.add(countries, 0, 0);
 

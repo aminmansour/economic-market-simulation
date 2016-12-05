@@ -1,14 +1,37 @@
 #add {
     -fx-background-color: #222222;
-    -fx-text-fill: white;
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+
+    -fx-min-width: 90px;
 }
 
 #go {
     -fx-background-color: #222222;
-    -fx-text-fill: white;
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-min-width: 90px;
 }
 
 .minus {
-    -fx-background-color: #222222;
-    -fx-text-fill: white;
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-border-width: 1px;
+    -fx-border-color: #333333;
+
+}
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-width: 1px;
+    -fx-border-color: #323232;
+}
+
+.text-field {
+    -fx-border-width: 1px;
+    -fx-border-color: #383838;
 }
