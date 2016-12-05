@@ -26,4 +26,10 @@ public class CountryNamesToCodes {
 
     }
 
+    public String singleConvert(String name, CountryReader reader) {
+
+        return reader.getPairs().get(name);
+
+    }
+
 }

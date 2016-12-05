@@ -29,8 +29,6 @@ public class ChartBuillder {
         final LineChart<String,Number> lineChart =
                 new LineChart<String,Number>(xAxis,yAxis);
 
-        lineChart.setTitle("Economic Data");
-
         ArrayList<XYChart.Series> SerialKiller = new ArrayList<XYChart.Series>();
 
 

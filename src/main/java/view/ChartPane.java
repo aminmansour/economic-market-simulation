@@ -4,6 +4,7 @@ import controller.QueryController;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
@@ -13,6 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import model.CountryReader;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,32 +40,40 @@ public class ChartPane extends BorderPane {
     public ChartPane(LineChart<String,Number> linechart) throws Exception {
         //<div>Icons made by <a href="http://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 
-        setPadding(new Insets(0,0,0,300));
+        getStylesheets().add("css/chartPane-style.css");
+
+        setPadding(new Insets(20,0,0,300));
         setCenter(linechart);
 
         addCountry = new Button("Add Country");
+        addCountry.setId("add");
 
         go = new Button("GO");
-        Button go2 = new Button("PPAP");
+        go.setId("go");
         go.setPrefSize(50,25);
         grid = new GridPane();
         grid.setVgap(5);
         grid.setHgap(5);
         grid.setPadding(new Insets(35,5,0,0));
+        grid.getStyleClass().add("options-menu");
 
         setRight(grid);
 
+        String csvFile = "src/main/resources/storage/IndicatorCodesCore.csv";
+        ArrayList<String> cnames = new CountryReader(csvFile).getCountrynames();
+
         indicators = new ComboBox<String>();
-        indicators.getItems().addAll(
-               "NY.GNP.MKTP.CD",
-                "Hani",
-                "Marc"
-                );
+
+        for(int i = 0; i < cnames.size(); ++i) {
+            indicators.getItems().add(i, cnames.get(i));
+        }
 
         indicators.getSelectionModel().selectFirst();
-        indicators.prefWidth(200);
+        indicators.setMaxWidth(250);
 
-        grid.add(go, 0, 0);
+        Label lIndicators = new Label("Indicator:");
+        grid.add(lIndicators, 0,0);
+
         grid.add(indicators, 0, 1);
 
         Label from = new Label("From:");
@@ -78,27 +89,31 @@ public class ChartPane extends BorderPane {
         grid.add(to, 0, 4);
         grid.add(tfTo, 0, 5);
 
-        GridPane test = new GridPane();
-        test.add(addCountry, 0, 0);
+        GridPane belowCountries = new GridPane();
+        belowCountries.setAlignment(Pos.CENTER_RIGHT);
+        belowCountries.add(addCountry, 0, 0);
 
-        grid.add(test, 0, 8);
+        HBox hbGo = new HBox();
+        hbGo.setAlignment(Pos.CENTER_RIGHT);
+        hbGo.setPadding(new Insets(5,0,0,0));
+        hbGo.getChildren().add(go);
+
+        belowCountries.add(hbGo, 0, 1);
+
+        Label lCountries = new Label("Countries:");
+        grid.add(lCountries, 0, 6);
+
+        grid.add(belowCountries, 0, 9);
 
         CountryNode cn = new CountryNode();
-        //Button minus = new Button("-");
+        cn.setPadding(new Insets(2.5,0,2.5,0));
+
         CountryNodeArray.add(cn);
 
         countriesPane = new GridPane();
+
         countriesPane.add(cn, 0, 0);
-        //countriesPane.add(minus, 1, 0);
         grid.add(countriesPane, 0, 7);
-
-
-        CountryNode cn2 = new CountryNode();
-        countriesPane.add(cn2,0,1);
-
-        countriesPane.getChildren().remove(cn2);
-
-
 
         addCountry.setOnMousePressed(new EventHandler<MouseEvent>() {
 
@@ -114,8 +129,8 @@ public class ChartPane extends BorderPane {
 
                 Button minus = new Button("-");
                 minus.setId(Integer.toString((CountryNodeArray.size()-1)));
+                minus.getStyleClass().add("minus");
 
-                CountryNode finalNewNode = newNode;
                 minus.setOnMousePressed(new EventHandler<MouseEvent>() {
 
                     @Override
@@ -135,6 +150,7 @@ public class ChartPane extends BorderPane {
                                 break;
                             }
                         }
+
                         System.out.println(result);
 
                         CountryNodeArray.remove(result);
@@ -148,6 +164,9 @@ public class ChartPane extends BorderPane {
 
                 CountryNodeArray.add(newNode);
 
+                if (newNode != null) {
+                    newNode.setPadding(new Insets(2.5,0,2.5,0));
+                }
                 countriesPane.add(newNode, 0, (CountryNodeArray.size()-1));
                 countriesPane.add(minus, 1, (CountryNodeArray.size()-1));
 

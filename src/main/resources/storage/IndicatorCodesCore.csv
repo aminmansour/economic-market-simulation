@@ -1,0 +1,25 @@
+GDP,NY.GDP.MKTP.CD
+CO2 Emission,EN.ATM.CO2E.KT
+Consumer Price Index,FP.CPI.TOTL
+Current Account Balance,BN.CAB.XOKA.CD
+Education Expenditure,SE.XPD.TOTL.GD.ZS
+Exports,BX.GSR.TOTL.CD
+Foreign Direct Investment,BX.KLT.DINV.CD.WD
+GDP growth,NY.GDP.MKTP.KD.ZG
+GNI per capita,NY.GNP.ATLS.CD
+Government Expense ,GC.XPN.TOTL.GD.ZS
+Gross savings ,NY.GNS.ICTR.ZS
+Health Expenditure,SH.XPD.TOTL.ZS
+Imports,BM.GSR.TOTL.CD
+Income Tax,GC.TAX.YPKG.RV.ZS
+Infation,FP.CPI.TOTL.ZG
+Labor Force,SL.TLF.ACTI.ZS
+Manufacturing,NV.IND.MANF.CD
+Military Expenditure,MS.MIL.XPND.GD.ZS
+Natural Resource Rent,NY.GDP.TOTL.RT.ZS
+New Businesses Registered,IC.BUS.NREG
+Poverty Percentage,SI.POV.NAHC
+Stocks traded,CM.MKT.TRAD.GD.ZS
+Tax Revenue,GC.TAX.TOTL.GD.ZS
+Total Population,SP.POP.TOTL
+Unemployment,SL.UEM.TOTL.ZS

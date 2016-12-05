@@ -38,7 +38,7 @@ public class Main extends Application {
         //ADD ERROR HANDLING TO Arraybuider and ChartBuider for when there is no data for given year
         //ADD CSV of indicators and indicator codes eg.: Gross Domestic Product, NY.GDP.MKTP.CD
 
-        primaryStage.setWidth(1080);
+        primaryStage.setWidth(1200);
         primaryStage.setHeight(640);
         primaryStage.setTitle("Project Core");
 //        BorderPane bp = new BorderPane();

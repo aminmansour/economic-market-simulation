@@ -31,12 +31,20 @@ public class QueryController implements EventHandler<MouseEvent> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        CountryReader indicatorConverter = null;
+        try {
+            indicatorConverter = new CountryReader("src/main/resources/storage/IndicatorCodesCore.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         ArrayList<String> countries = chartPane.countrynames();
         ArrayList<String> counties =  new CountryNamesToCodes().convert(countries,charles);
 
         ArrayList<ArrayList<DataPiece>> toBeCharted = null;
         try {
-            toBeCharted = AB.buildArray(counties,chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(),chartPane.getIndicators().getSelectionModel().getSelectedItem().toString());
+            toBeCharted = AB.buildArray(counties,chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(),new CountryNamesToCodes().singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
         } catch (Exception e) {
             e.printStackTrace();
         }
