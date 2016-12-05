@@ -1,24 +1,24 @@
 package view;
 
 import controller.QueryController;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.CountryReader;
 
+import java.awt.peer.ScrollPanePeer;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 /**
  * Created by denissaidov on 28/11/2016.
@@ -48,21 +48,32 @@ public class ChartPane extends BorderPane {
         addCountry = new Button("Add Country");
         addCountry.setId("add");
 
-        go = new Button("GO");
+        go = new Button("Query");
         go.setId("go");
         go.setPrefSize(50,25);
         grid = new GridPane();
+        ScrollPane SCP = new ScrollPane(grid);
+        SCP.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         grid.setVgap(5);
         grid.setHgap(5);
         grid.setPadding(new Insets(35,5,0,0));
         grid.getStyleClass().add("options-menu");
-
-        setRight(grid);
+        SCP.setMaxWidth(450);
+        SCP.setStyle("-fx-background-color: white; -fx-focus-color: transparent;   -fx-background: #FFFFFF; -fx-border-color: #FFFFFF;");
+        setRight(SCP);
+        BorderPane.setMargin(SCP, new Insets(10, 0, 0, 0));
+        minWidthProperty().bind(Bindings.createDoubleBinding(new Callable<Double>() {
+            @Override
+            public Double call() throws Exception {
+                return SCP.getViewportBounds().getWidth();
+            }
+        }, SCP.viewportBoundsProperty()));
 
         String csvFile = "src/main/resources/storage/IndicatorCodesCore.csv";
         ArrayList<String> cnames = new CountryReader(csvFile).getCountrynames();
 
         indicators = new ComboBox<String>();
+        indicators.setId("dropdown");
 
         for(int i = 0; i < cnames.size(); ++i) {
             indicators.getItems().add(i, cnames.get(i));
