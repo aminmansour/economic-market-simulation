@@ -120,6 +120,41 @@ public class InterfaceScene extends Scene {
                                              }
         );
 
+        bNavButtons.get(2).setOnMousePressed(new EventHandler<MouseEvent>() {
+                                                 @Override
+                                                 public void handle(MouseEvent event) {
+                                                     if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.DuelPane")) {
+                                                         Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("DuelPane");
+                                                         if (checkOccurence.getKey() == true) {
+                                                             pageLoad.remove(checkOccurence.getValue());
+                                                             pageLoad.push(checkOccurence.getValue());
+                                                             setView(checkOccurence.getValue());
+                                                         } else {
+                                                             DualPane dpCrossView = null;
+
+                                                             try {
+                                                                 dpCrossView = new DualPane();
+                                                             } catch (Exception e) {
+                                                                 e.printStackTrace();
+                                                             }
+
+                                                             pageLoad.push(dpCrossView);
+                                                             setView(dpCrossView);
+                                                         }
+                                                     } else if (pageLoad.isEmpty()) {
+                                                         DualPane dpCrossView = null;
+                                                         try {
+                                                             dpCrossView = new DualPane();
+                                                         } catch (Exception e) {
+                                                             e.printStackTrace();
+                                                         }
+                                                         pageLoad.push(dpCrossView);
+                                                         setView(dpCrossView);
+                                                     }
+                                                 }
+                                             }
+        );
+
         bNavButtons.get(4).setOnMousePressed(new EventHandler<MouseEvent>() {
                                                  @Override
                                                  public void handle(MouseEvent event) {

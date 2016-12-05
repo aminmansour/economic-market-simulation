@@ -20,7 +20,7 @@ public class ChartBuillder {
      * @param dataArray county code, data and year sorted grouped by country and then by year
      * @return a Linechart object representing our data
      */
-    public  LineChart<String,Number> buildLineChart(ArrayList<ArrayList<DataPiece>> dataArray) {
+    public  static LineChart<String,Number> buildLineChart(ArrayList<ArrayList<DataPiece>> dataArray) {
 
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
