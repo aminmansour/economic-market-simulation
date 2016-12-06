@@ -80,7 +80,7 @@ public class InterfaceScene extends Scene {
         bNavButtons.get(0).setOnMousePressed(new EventHandler<MouseEvent>() {
                                                  @Override
                                                  public void handle(MouseEvent event) {
-                                                     setView(new HomePane());
+                                                     setView(new NoteBoardPane());
 
                                                  }
                                              }

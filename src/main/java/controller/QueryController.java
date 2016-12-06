@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import model.*;
 import view.ChartPane;
+import view.CountryNode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class QueryController implements EventHandler<MouseEvent> {
 
     private ChartPane chartPane;
 
-    public QueryController(ChartPane chartPane) throws Exception {
+    public QueryController(ChartPane chartPane) {
         this.chartPane = chartPane;
 
 
@@ -24,35 +25,38 @@ public class QueryController implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent event) {
-        ArrayBuilder AB = new ArrayBuilder();
-        CountryReader charles = null;
-        try {
-            charles = new CountryReader("src/main/resources/storage/CountryCodesCore.csv");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        if (!(((CountryNode) chartPane.getCountriesPane().getChildren().get(0)).getCountries().getValue().equals("Select a country") && chartPane.getCountriesPane().getChildren().size() == 1)) {
+            ArrayBuilder query = new ArrayBuilder();
+            CountryReader crListOfCountries = null;
+            try {
+                crListOfCountries = new CountryReader("src/main/resources/storage/CountryCodesCore.csv");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        CountryReader indicatorConverter = null;
-        try {
-            indicatorConverter = new CountryReader("src/main/resources/storage/IndicatorCodesCore.csv");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            CountryReader indicatorConverter = null;
+            try {
+                indicatorConverter = new CountryReader("src/main/resources/storage/IndicatorCodesCore.csv");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        ArrayList<String> countries = chartPane.countrynames();
-        ArrayList<String> counties =  new CountryNamesToCodes().convert(countries,charles);
+            ArrayList<String> countriesFormatted = chartPane.countrynames();
+            ArrayList<String> countriesCoded = CountryNamesToCodes.convert(countriesFormatted, crListOfCountries);
 
-        ArrayList<ArrayList<DataPiece>> toBeCharted = null;
-        try {
-            toBeCharted = AB.buildArray(counties,chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(),new CountryNamesToCodes().singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            ArrayList<ArrayList<DataPiece>> toBeCharted = null;
+            try {
+                toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), CountryNamesToCodes.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        ChartBuillder chartBuillder = new ChartBuillder();
+            ChartBuillder chartBuillder = new ChartBuillder();
 
 //        chartPane.getChildren().removeAll();
-        chartPane.setCenterLineChart(chartBuillder.buildLineChart(toBeCharted));
+            chartPane.setCenterLineChart(chartBuillder.buildLineChart(toBeCharted));
 
+        }
     }
+
 }

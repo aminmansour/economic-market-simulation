@@ -8,13 +8,23 @@
     -fx-min-width: 90px;
 }
 
-#go {
+#bQuery, #go {
     -fx-background-color: #222222;
     -fx-background-color: white;
     -fx-text-fill: black;
     -fx-border-width: 1px;
     -fx-border-color: black;
     -fx-min-width: 90px;
+}
+
+#bQuery:hover, #add:hover, .minus:hover {
+    -fx-background-color: #f9f9f9;
+
+}
+
+#bQuery:pressed, #add:pressed, .minus:pressed {
+    -fx-background-color: #f2f2f2;
+
 }
 
 .minus {
@@ -34,4 +44,10 @@
 .text-field {
     -fx-border-width: 1px;
     -fx-border-color: #383838;
+    -fx-text-box-border: transparent;
+    -fx-background-color: -fx-control-inner-background;
+    -fx-background-insets: 0;
+    -fx-padding: 1 3 1 3;
+    -fx-focus-color: transparent;
 }
+

@@ -7,15 +7,18 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import model.CountryReader;
 
-import java.awt.peer.ScrollPanePeer;
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
@@ -26,8 +29,9 @@ import java.util.concurrent.Callable;
 
 public class ChartPane extends BorderPane {
 
-    private ArrayList<CountryNode> CountryNodeArray = new ArrayList<CountryNode>();
-    private Button go;
+    private CountryNode cn;
+    private ArrayList<CountryNode> countriesArray = new ArrayList<CountryNode>();
+    private Button bQuery;
     private ComboBox<String> indicators;
     private TextField tfFrom;
     private TextField tfTo;
@@ -36,8 +40,7 @@ public class ChartPane extends BorderPane {
     private GridPane countriesPane;
 
 
-
-    public ChartPane(LineChart<String,Number> linechart) throws Exception {
+    public ChartPane(LineChart<String, Number> linechart) {
         //<div>Icons made by <a href="http://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 
         getStylesheets().add("css/chartPane-style.css");
@@ -48,36 +51,42 @@ public class ChartPane extends BorderPane {
         addCountry = new Button("Add Country");
         addCountry.setId("add");
 
-        go = new Button("Query");
-        go.setId("go");
-        go.setPrefSize(50,25);
+        bQuery = new Button("Query");
+        bQuery.setId("bQuery");
+        bQuery.setPrefSize(50, 25);
         grid = new GridPane();
-        ScrollPane SCP = new ScrollPane(grid);
-        SCP.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        ScrollPane spSidePanel = new ScrollPane(grid);
+        spSidePanel.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         grid.setVgap(5);
         grid.setHgap(5);
         grid.setPadding(new Insets(35,5,0,0));
         grid.getStyleClass().add("options-menu");
-        SCP.setMaxWidth(450);
-        SCP.setStyle("-fx-background-color: white; -fx-focus-color: transparent;   -fx-background: #FFFFFF; -fx-border-color: #FFFFFF;");
-        setRight(SCP);
-        BorderPane.setMargin(SCP, new Insets(10, 0, 0, 0));
+        spSidePanel.setMaxWidth(450);
+        spSidePanel.setPadding(new Insets(0, 10, 0, 0));
+        spSidePanel.setStyle("-fx-background-color: white; -fx-focus-color: transparent;   -fx-background: #FFFFFF; -fx-border-color: #FFFFFF;");
+        setRight(spSidePanel);
+        BorderPane.setMargin(spSidePanel, new Insets(10, 0, 0, 0));
         minWidthProperty().bind(Bindings.createDoubleBinding(new Callable<Double>() {
             @Override
             public Double call() throws Exception {
-                return SCP.getViewportBounds().getWidth();
+                return spSidePanel.getViewportBounds().getWidth();
             }
-        }, SCP.viewportBoundsProperty()));
+        }, spSidePanel.viewportBoundsProperty()));
 
         String csvFile = "src/main/resources/storage/IndicatorCodesCore.csv";
-        ArrayList<String> cnames = new CountryReader(csvFile).getCountrynames();
-
         indicators = new ComboBox<String>();
-        indicators.setId("dropdown");
-
-        for(int i = 0; i < cnames.size(); ++i) {
-            indicators.getItems().add(i, cnames.get(i));
+        try {
+            ArrayList<String> cnames = new CountryReader(csvFile).getCountrynames();
+            indicators.setId("dropdown");
+            for (int i = 0; i < cnames.size(); ++i) {
+                indicators.getItems().add(i, cnames.get(i));
+            }
+        } catch (IOException e) {
+            DialogPane jdError = new DialogPane();
+            jdError.setContentText("The storage files have either been deleted or corrupted");
         }
+
+
 
         indicators.getSelectionModel().selectFirst();
         indicators.setMaxWidth(250);
@@ -90,10 +99,12 @@ public class ChartPane extends BorderPane {
         Label from = new Label("From:");
 
         tfFrom = new TextField("2004");
+        tfFrom.setMinHeight(28);
 
         Label to = new Label("To:");
 
         tfTo = new TextField("2006");
+        tfTo.setMinHeight(28);
 
         grid.add(from, 0, 2);
         grid.add(tfFrom, 0, 3);
@@ -101,13 +112,14 @@ public class ChartPane extends BorderPane {
         grid.add(tfTo, 0, 5);
 
         GridPane belowCountries = new GridPane();
+
         belowCountries.setAlignment(Pos.CENTER_RIGHT);
         belowCountries.add(addCountry, 0, 0);
 
         HBox hbGo = new HBox();
         hbGo.setAlignment(Pos.CENTER_RIGHT);
         hbGo.setPadding(new Insets(5,0,0,0));
-        hbGo.getChildren().add(go);
+        hbGo.getChildren().add(bQuery);
 
         belowCountries.add(hbGo, 0, 1);
 
@@ -116,10 +128,10 @@ public class ChartPane extends BorderPane {
 
         grid.add(belowCountries, 0, 9);
 
-        CountryNode cn = new CountryNode();
+        cn = new CountryNode("Select a country");
         cn.setPadding(new Insets(2.5,0,2.5,0));
 
-        CountryNodeArray.add(cn);
+        countriesArray.add(cn);
 
         countriesPane = new GridPane();
 
@@ -130,74 +142,78 @@ public class ChartPane extends BorderPane {
 
             @Override
             public void handle(MouseEvent event) {
+                if (!(cn.getCountries().getValue().equals("Select a country"))) {
+                    CountryNode cbCountries = null;
+                    cbCountries = new CountryNode(cn.getCountries().getValue());
+                    cbCountries.setDisable(true);
 
-                CountryNode newNode = null;
-                try {
-                    newNode = new CountryNode();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    Button bMinus = new Button("-");
+                    bMinus.setId(Integer.toString((countriesArray.size() - 1)));
+                    bMinus.getStyleClass().add("minus");
 
-                Button minus = new Button("-");
-                minus.setId(Integer.toString((CountryNodeArray.size()-1)));
-                minus.getStyleClass().add("minus");
+                    bMinus.setOnMousePressed(new EventHandler<MouseEvent>() {
 
-                minus.setOnMousePressed(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
 
-                    @Override
-                    public void handle(MouseEvent event) {
+                            System.out.println(bMinus.getId());
 
-                        System.out.println(minus.getId());
+                            int rowOfNode = countriesPane.getRowIndex(bMinus);
+                            int colOfNode = countriesPane.getColumnIndex(bMinus) - 1;
 
-                        int ROWofNode = countriesPane.getRowIndex(minus);
-                        int COLofNode = countriesPane.getColumnIndex(minus)-1;
+                            Node result = null;
+                            ObservableList<Node> childrens = countriesPane.getChildren();
 
-                        Node result = null;
-                        ObservableList<Node> childrens = countriesPane.getChildren();
-
-                        for (Node node : childrens) {
-                            if(countriesPane.getRowIndex(node) == ROWofNode && countriesPane.getColumnIndex(node) == COLofNode) {
-                                result = node;
-                                break;
+                            for (Node node : childrens) {
+                                if (countriesPane.getRowIndex(node) == rowOfNode && countriesPane.getColumnIndex(node) == colOfNode) {
+                                    result = node;
+                                    break;
+                                }
                             }
+
+
+                            countriesArray.remove(result);
+
+                            countriesPane.getChildren().remove(bMinus);
+
+                            countriesPane.getChildren().remove(result);
+
                         }
+                    });
 
-                        System.out.println(result);
+                    countriesArray.add(cbCountries);
 
-                        CountryNodeArray.remove(result);
-
-                        countriesPane.getChildren().remove(minus);
-
-                        countriesPane.getChildren().remove(result);
-
+                    if (cbCountries != null) {
+                        cbCountries.setPadding(new Insets(2.5, 0, 2.5, 0));
                     }
-                });
+                    countriesPane.add(cbCountries, 0, (countriesArray.size() - 1));
+                    countriesPane.add(bMinus, 1, (countriesArray.size() - 1));
+                    countriesPane.setMargin(cbCountries, new Insets(0, 4, 0, 0));
+                    cn.getCountries().setValue("Select a country");
 
-                CountryNodeArray.add(newNode);
-
-                if (newNode != null) {
-                    newNode.setPadding(new Insets(2.5,0,2.5,0));
                 }
-                countriesPane.add(newNode, 0, (CountryNodeArray.size()-1));
-                countriesPane.add(minus, 1, (CountryNodeArray.size()-1));
-
             }
+
         });
 
-        go.setOnMousePressed(new QueryController(this));
-
+        bQuery.setOnMousePressed(new QueryController(this));
+        setCenter(new Label("Select Graph"));
     }
 
     public void makeMeBigger(int width, int height) {
         System.out.println(this.getParent().getParent());
     }
 
-    public ArrayList<CountryNode> getCountryNodeArray() {
-        return CountryNodeArray;
+    public ArrayList<CountryNode> getCountriesArray() {
+        return countriesArray;
     }
 
-    public Button getGo() {
-        return go;
+    public Button getbQuery() {
+        return bQuery;
+    }
+
+    public CountryNode getSelectionComboBox() {
+        return cn;
     }
 
     public ComboBox<String> getIndicators() {
@@ -218,8 +234,10 @@ public class ChartPane extends BorderPane {
 
     public ArrayList<String> countrynames() {
         ArrayList<String> names = new ArrayList<String>();
-        for (int i = 0; i < CountryNodeArray.size(); i++) {
-            names.add(CountryNodeArray.get(i).getCountries().getSelectionModel().getSelectedItem().toString());
+        for (int i = 0; i < countriesArray.size(); i++) {
+            if (!countriesArray.get(i).getCountries().getValue().equals("Select a country")) {
+                names.add(countriesArray.get(i).getCountries().getSelectionModel().getSelectedItem().toString());
+            }
 
         }
         return names;

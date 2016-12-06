@@ -26,29 +26,29 @@ public class ArrayBuilder {
     public ArrayList<ArrayList<DataPiece>> buildArray(ArrayList<String> countries, String from, String to, String indicator) throws Exception {
         ArrayList<ArrayList<DataPiece>> galaxy = new ArrayList<ArrayList<DataPiece>>();
 
-        for (int w = 0; w < countries.size(); w++) {
+        for (int i = 0; i < countries.size(); i++) {
 
 
             testJSONParsing test = new testJSONParsing();
 
-            urlBuilder Bob = new urlBuilder();
+            urlBuilder urlBuilder = new urlBuilder();
 
-            String a = Bob.URL(countries.get(w), indicator, from, to);
+            String a = urlBuilder.URL(countries.get(i), indicator, from, to);
 
-            JSONArray Bonobo = test.httpGET(a);
+            JSONArray jsonObject = test.httpGET(a);
 
             //System.out.println(a+"hi");
 
-            System.out.println(Bonobo);
+            System.out.println(jsonObject);
 
-            JSONArray John = (JSONArray) Bonobo.get(1);
+            JSONArray jaDataArray = (JSONArray) jsonObject.get(1);
 
 
             ArrayList<DataPiece> outer = new ArrayList<DataPiece>();
 
-            for (int i = John.length() - 1; i >= 0; i--) {
+            for (int j = jaDataArray.length() - 1; j >= 0; j--) {
                 ArrayList<String> inner = new ArrayList<String>();
-                JSONObject Jake = John.getJSONObject(i);
+                JSONObject Jake = jaDataArray.getJSONObject(j);
                 Double value1 = Double.parseDouble(Jake.getString("value"));
                 String valueX1 = Jake.getString("value");
                 String year1 = Jake.getString("date");

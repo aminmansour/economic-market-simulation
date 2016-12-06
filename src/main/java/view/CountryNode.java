@@ -2,6 +2,7 @@ package view;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DialogPane;
 import javafx.scene.layout.GridPane;
 import model.CountryReader;
 
@@ -16,30 +17,30 @@ public class CountryNode extends GridPane {
     private ComboBox<String> countries;
     private Button minus;
 
-    public CountryNode() throws IOException {
-        String csvFile = "src/main/resources/storage/CountryCodesCore.csv";
+    public CountryNode(String defualtValue) {
+        try {
+            String csvFile = "src/main/resources/storage/CountryCodesCore.csv";
+
+            ArrayList<String> cnames = new CountryReader(csvFile).getCountrynames();
+            countries = new ComboBox<String>();
+            for (int i = 0; i < cnames.size(); ++i) {
+
+                countries.getItems().add(i, cnames.get(i));
+
+            }
+
+            countries.setValue(defualtValue);
+            countries.setMaxWidth(162);
 
 
-        ArrayList<String> cnames = new CountryReader(csvFile).getCountrynames();
-
-       countries = new ComboBox<String>();
-
-        for (int i = 0; i < cnames.size(); ++i) {
-
-            countries.getItems().add(i, cnames.get(i));
+            add(countries, 0, 0);
+            GridPane grid2 = new GridPane();
+            add(grid2, 1, 0);
+        } catch (IOException e) {
+            DialogPane jdError = new DialogPane();
+            jdError.setContentText("The storage files have either been deleted or corrupted");
 
         }
-
-        countries.getSelectionModel().selectFirst();
-
-        countries.setMaxWidth(162);
-
-        this.add(countries, 0, 0);
-
-        GridPane grid2 = new GridPane();
-
-        this.add(grid2, 1, 0);
-
 
 //        minus = new Button("-");
 //

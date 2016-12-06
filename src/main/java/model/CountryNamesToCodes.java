@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class CountryNamesToCodes {
 
-    public CountryNamesToCodes(){}
+
 
     /**
      *
@@ -15,7 +15,7 @@ public class CountryNamesToCodes {
      * @param reader a countryreader which has processed a CSV
      * @return an ArrayList of country codes
      */
-    public ArrayList<String> convert(ArrayList<String> names, CountryReader reader){
+    public static ArrayList<String> convert(ArrayList<String> names, CountryReader reader) {
         ArrayList<String> codes = new ArrayList<String>();
         for (int i = 0; i < names.size(); i++) {
            String code = reader.getPairs().get(names.get(i));
@@ -26,7 +26,7 @@ public class CountryNamesToCodes {
 
     }
 
-    public String singleConvert(String name, CountryReader reader) {
+    public static String singleConvert(String name, CountryReader reader) {
 
         return reader.getPairs().get(name);
 

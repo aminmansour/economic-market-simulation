@@ -1,9 +1,9 @@
 .side-banner {
-    -fx-background-color: #222222;
+    -fx-background-color: #1e1e1e;
 }
 
 .top-banner{
-    -fx-background-color: #222222;
+    -fx-background-color: #1e1e1e;
 }
 
 #top-banner{
@@ -76,4 +76,20 @@
  }
 #box3{
     -fx-border-width: 0px 1px 1px 1px;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 0.2px;
+    -fx-border-radius: 2%;
+
 }

@@ -130,7 +130,7 @@ public class DualPane extends BorderPane {
 
         grid.add(belowCountries, 0, 9);
 
-        CountryNode cn = new CountryNode();
+        CountryNode cn = new CountryNode("Select a country");
         cn.setPadding(new Insets(2.5,0,2.5,0));
 
         CountryNodeArray.add(cn);
@@ -146,14 +146,11 @@ public class DualPane extends BorderPane {
             public void handle(MouseEvent event) {
 
                 CountryNode newNode = null;
-                try {
-                    newNode = new CountryNode();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                newNode = new CountryNode("Select a country");
+
 
                 Button minus = new Button("-");
-                minus.setId(Integer.toString((CountryNodeArray.size()-1)));
+                minus.setId(Integer.toString((CountryNodeArray.size() - 1)));
                 minus.getStyleClass().add("minus");
 
                 minus.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -164,13 +161,14 @@ public class DualPane extends BorderPane {
                         System.out.println(minus.getId());
 
                         int ROWofNode = countriesPane.getRowIndex(minus);
-                        int COLofNode = countriesPane.getColumnIndex(minus)-1;
+                        int COLofNode = countriesPane.getColumnIndex(minus) - 1;
 
                         Node result = null;
                         ObservableList<Node> childrens = countriesPane.getChildren();
+                        System.out.println(childrens.size());
 
                         for (Node node : childrens) {
-                            if(countriesPane.getRowIndex(node) == ROWofNode && countriesPane.getColumnIndex(node) == COLofNode) {
+                            if (countriesPane.getRowIndex(node) == ROWofNode && countriesPane.getColumnIndex(node) == COLofNode) {
                                 result = node;
                                 break;
                             }
@@ -190,11 +188,10 @@ public class DualPane extends BorderPane {
                 CountryNodeArray.add(newNode);
 
                 if (newNode != null) {
-                    newNode.setPadding(new Insets(2.5,0,2.5,0));
+                    newNode.setPadding(new Insets(2.5, 0, 2.5, 0));
                 }
-                countriesPane.add(newNode, 0, (CountryNodeArray.size()-1));
-                countriesPane.add(minus, 1, (CountryNodeArray.size()-1));
-
+                countriesPane.add(newNode, 0, (CountryNodeArray.size() - 1));
+                countriesPane.add(minus, 1, (CountryNodeArray.size() - 1));
             }
         });
 
