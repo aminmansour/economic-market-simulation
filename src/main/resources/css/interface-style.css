@@ -22,7 +22,7 @@
 .text-area .text {
     -fx-font-alignment: center;
     -fx-alignment: center;
-    -fx-translate-y: 10px;
+
 }
 
 .text-area .content {

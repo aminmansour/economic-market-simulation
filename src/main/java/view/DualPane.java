@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
+import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -47,6 +48,7 @@ public class DualPane extends BorderPane {
             count.add("br");
 
             LineChart<String, Number> linechart= ChartBuillder.buildLineChart(new ArrayBuilder().buildArray(count, "1999", "2000", "NY.GNP.MKTP.CD"));
+        linechart.setAnimated(true);
 
 
 

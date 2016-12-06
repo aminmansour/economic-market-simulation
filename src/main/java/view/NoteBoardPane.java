@@ -6,24 +6,30 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 /**
  * Created by Amans on 06/12/2016.
  */
 public class NoteBoardPane extends BorderPane {
+    private VBox vbNodeStack;
+
     public NoteBoardPane() {
         setPadding(new Insets(30, 0, 0, 306));
         GridPane gpComments = new GridPane();
-        VBox vbNodeStack = new VBox();
+        vbNodeStack = new VBox();
         Label lNoteBoard = new Label("Note Board");
         TextArea taCommentToAdd = new TextArea();
         Button bPost = new Button("Post Note");
-        vbNodeStack.getChildren().addAll(lNoteBoard, taCommentToAdd, bPost, createCommentTile("hello gus", "02:16 06/12/2016"));
+        FlowPane flButtonContainer = new FlowPane(bPost);
+        flButtonContainer.setAlignment(Pos.CENTER_RIGHT);
+        vbNodeStack.setMargin(flButtonContainer, new Insets(0, 0, 20, 0));
+        flButtonContainer.setMargin(bPost, new Insets(10, 20, 0, 0));
+        vbNodeStack.setMargin(taCommentToAdd, new Insets(0, 30, 0, 30));
+
+        vbNodeStack.getChildren().addAll(lNoteBoard, taCommentToAdd, flButtonContainer, createCommentTile("hello gus", "02:16 06/12/2016"));
         setCenter(vbNodeStack);
+
         BorderPane.setAlignment(vbNodeStack, Pos.CENTER);
     }
 
@@ -31,14 +37,23 @@ public class NoteBoardPane extends BorderPane {
     private BorderPane createCommentTile(String comment, String date) {
         BorderPane bpComment = new BorderPane();
         Label lRemove = new Label("X");
+        lRemove.setId("remove-button");
         Label lDate = new Label(date);
-        GridPane gpFlow = new GridPane();
+        HBox gpFlow = new HBox();
         FlowPane fpClose = new FlowPane();
         FlowPane fpDate = new FlowPane();
+        fpDate.setStyle("-fx-background-color: #9AF261");
         fpClose.setAlignment(Pos.CENTER_LEFT);
-        gpFlow.add(fpClose, 0, 0);
+        VBox.setVgrow(gpFlow, Priority.ALWAYS);
+        gpFlow.setMaxSize(Double.MAX_VALUE, 100);
+        HBox.setHgrow(fpClose, Priority.ALWAYS);
+        HBox.setHgrow(fpDate, Priority.ALWAYS);
+        gpFlow.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
+        gpFlow.getChildren().add(fpClose);
+        BorderPane.setMargin(gpFlow, new Insets(3, 10, 0, 10));
         GridPane.setHalignment(fpClose, HPos.LEFT);
-        gpFlow.add(fpDate, 1, 0);
+        gpFlow.getChildren().add(fpDate);
         GridPane.setHalignment(fpDate, HPos.RIGHT);
         fpDate.setAlignment(Pos.CENTER_RIGHT);
         fpClose.getChildren().add(lRemove);
