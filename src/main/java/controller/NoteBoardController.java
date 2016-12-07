@@ -32,13 +32,10 @@ public class NoteBoardController implements EventHandler<MouseEvent> {
         vbCommentStack = vbComments;
         taComment = comment;
         nbpCommentView = view;
-        ArrayList<String> commentColors = commentStrore.getCommentColors();
-        int counter = 0;
-        for (Map.Entry<String, String> currentComment : commentStrore.getComments().entrySet()) {
-            Pair<BorderPane, Label> commentSection = nbpCommentView.createCommentTile(currentComment.getKey(), currentComment.getValue(), commentColors.get(counter).toLowerCase());
+        for (Map.Entry<String, Pair<String, String>> currentComment : commentStrore.getComments().entrySet()) {
+            Pair<BorderPane, Label> commentSection = nbpCommentView.createCommentTile(currentComment.getKey(), currentComment.getValue().getKey(), currentComment.getValue().getValue().toLowerCase());
             vbComments.getChildren().add(0, commentSection.getKey());
             commentSection.getValue().setOnMouseClicked(this);
-            ++counter;
         }
     }
 
@@ -50,8 +47,10 @@ public class NoteBoardController implements EventHandler<MouseEvent> {
                 Date now = new Date();
                 String strDate = sdfDate.format(now);
                 System.out.println(strDate);
-                Pair<String, String> commentOf = commentStrore.addToComments(taComment.getText().trim().replaceAll("\\s+", " "), strDate, nbpCommentView.getCurrentColor());
-                vbCommentStack.getChildren().add(0, nbpCommentView.createCommentTile(commentOf.getKey(), commentOf.getValue(), nbpCommentView.getCurrentColor().toLowerCase()).getKey());
+                Pair<String, Pair<String, String>> commentOf = commentStrore.addToComments(taComment.getText().trim().replaceAll("\\s+", " "), strDate, nbpCommentView.getCurrentColor());
+                System.out.println(nbpCommentView.getCurrentColor());
+                vbCommentStack.getChildren().add(0, nbpCommentView.createCommentTile(commentOf.getKey(), commentOf.getValue().getKey(), commentOf.getValue().getValue().toLowerCase()).getKey());
+                printCommentStore();
                 taComment.clear();
             }
         } else {
@@ -67,6 +66,13 @@ public class NoteBoardController implements EventHandler<MouseEvent> {
 
     public void saveToFile() {
         commentStrore.saveToFile();
+    }
+
+    public void printCommentStore() {
+        for (Map.Entry<String, Pair<String, String>> currentComment : commentStrore.getComments().entrySet()) {
+            System.out.println(currentComment.getKey() + "+" + currentComment.getValue().getKey() + "+" + currentComment.getValue().getValue());
+
+        }
     }
 
 
