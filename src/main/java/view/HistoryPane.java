@@ -3,6 +3,7 @@ package view;
 import javafx.event.*;
 import javafx.geometry.*;
 import javafx.geometry.Insets;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -33,26 +34,53 @@ public class HistoryPane extends BorderPane {
         localhistory = hist;
        Collection<ArrayList<ArrayList<DataPiece>>> valset =localhistory.getHistories().values();
        GridPane fl = new GridPane();
+       fl.add(new Label("History: "),0,3);
+      ToggleGroup  tgViewType = new ToggleGroup();
+     RadioButton   rbBar = new RadioButton("bar-chart");
+      RadioButton  rbLine = new RadioButton("line-chart");
+        rbBar.setToggleGroup(tgViewType);
+        rbLine.setToggleGroup(tgViewType);
+        Label chartype = new Label("Chart Type: ");
+        fl.add(chartype,0,0);
+        fl.add(rbBar,0,1);
+        fl.add(rbLine,0,2);
        fl.setPadding(new Insets(10,5,10,5));
-       javafx.scene.control.ScrollPane scp = new javafx.scene.control.ScrollPane(fl);
+        rbLine.setSelected(true);
+        javafx.scene.control.ScrollPane scp = new javafx.scene.control.ScrollPane(fl);
         scp.setStyle("-fx-background-color: white; -fx-focus-color: transparent;   -fx-background: #FFFFFF; -fx-border-color: #FFFFFF;");
 
         setRight(scp);
 
 
        int i = 0;
+
+
         for (ArrayList k: valset){
 
 //        String s = hist.getHistories().get(0).get(i).get(0).getIndicator() + "for";
             Button elemennt = new Button(localhistory.getId(k));
             elemennt.setPadding(new Insets(5,5,5,0));
             GridPane.setMargin(elemennt,new Insets(5,0,0,0));
-            fl.add(elemennt, 0,i);
+            fl.add(elemennt, 0,i+4);
             elemennt.setId("bQuery");
             ChartBuillder ch = new ChartBuillder();
-            LineChart<String,Number> ln = ch.buildLineChart(k);
+
             elemennt.setOnAction((event) -> {
-                setCenter(ln);            });
+
+                if (tgViewType.getSelectedToggle() == rbLine) {
+
+                    LineChart<String, Number> ln = ch.buildLineChart(k);
+
+                    setCenter(ln);
+                }
+                if (tgViewType.getSelectedToggle() == rbBar) {
+
+                    BarChart<String, Number> br = ch.buildBarChart(k);
+                    setCenter(br);
+                }
+
+
+            });
             i++;
         }
     }
