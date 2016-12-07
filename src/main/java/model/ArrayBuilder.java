@@ -1,13 +1,17 @@
 package model;
 
+import javafx.scene.control.Alert;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
  * Created by Sarosi on 26/11/2016.
  */
+
 public class ArrayBuilder {
 
     public ArrayBuilder() {
@@ -28,21 +32,39 @@ public class ArrayBuilder {
 
         for (int i = 0; i < countries.size(); i++) {
 
-
             testJSONParsing test = new testJSONParsing();
 
             urlBuilder urlBuilder = new urlBuilder();
 
             String a = urlBuilder.URL(countries.get(i), indicator, from, to);
 
-            JSONArray jsonObject = test.httpGET(a);
+            JSONArray jsonObject = null;
 
-            //System.out.println(a+"hi");
+            try {
+                jsonObject = test.httpGET(a);
+            } catch (UnknownHostException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Not connected to the Internet");
+                alert.setContentText("Ooops, looks like theres no internet connection." + "\n" + "Please reconnect and try again");
+
+                alert.showAndWait();
+            }
 
             System.out.println(jsonObject);
 
-            JSONArray jaDataArray = (JSONArray) jsonObject.get(1);
+            JSONArray jaDataArray = null;
 
+            try{
+                jaDataArray = (JSONArray) jsonObject.get(1);
+            } catch (JSONException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(countries.get(i));
+                alert.setHeaderText("Can't retrieve data at this time for .");
+                alert.setContentText("Ooops, looks like theres no data to be retrieved. Please check the following:" + "\n" + "1. Please check that all the countries selected are correct." + "\n" + "2. That the indicator you selected is the one intended" + "\n" + "3. That the years selected are reasonable.");
+
+                alert.showAndWait();
+            }
 
             ArrayList<DataPiece> outer = new ArrayList<DataPiece>();
 
@@ -59,14 +81,14 @@ public class ArrayBuilder {
                 inner.add(valueX1);
                 inner.add(year1);
                 inner.add(countyName);
-               // outer.add(inner);
+                // outer.add(inner);
                 DataPiece dataPiece = new DataPiece(valueX1,year1,countyName,indicatorName);
                 System.out.println(dataPiece);
                 outer.add(dataPiece);
-
             }
             galaxy.add(outer);
         }
         return galaxy;
     }
+
 }

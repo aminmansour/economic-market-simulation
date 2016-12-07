@@ -1,9 +1,11 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Created by Sarosi on 26/11/2016.
  */
-public class DataPiece {
+public class DataPiece implements Serializable {
 
     private String country;
     private String year;

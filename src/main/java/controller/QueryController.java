@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.event.EventHandler;
+import javafx.scene.chart.LineChart;
 import javafx.scene.input.MouseEvent;
 import model.*;
 import view.ChartPane;
@@ -44,19 +45,56 @@ public class QueryController implements EventHandler<MouseEvent> {
             ArrayList<String> countriesFormatted = chartPane.countrynames();
             ArrayList<String> countriesCoded = CountryNamesToCodes.convert(countriesFormatted, crListOfCountries);
 
-            ArrayList<ArrayList<DataPiece>> toBeCharted = null;
-            try {
-                toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), CountryNamesToCodes.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
-            } catch (Exception e) {
-                e.printStackTrace();
+            History adding = chartPane.getHistory();
+
+            String countries = "";
+
+            for(String code : countriesCoded) {
+                countries = countries + code;
             }
 
             ChartBuillder chartBuillder = new ChartBuillder();
 
-//        chartPane.getChildren().removeAll();
-            chartPane.setCenterLineChart(chartBuillder.buildLineChart(toBeCharted));
+
+            Boolean isInsideMap = false;
+            String savedMapId = null;
+
+            String searchId = countries + "+" + chartPane.getTfFrom().getText()+chartPane.getTfTo().getText()+CountryNamesToCodes.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter);
+
+            for(String mapId : adding.getHistories().keySet()) {
+
+                if(adding.compareIds(mapId, searchId)) {
+                    isInsideMap = true;
+                    savedMapId = mapId;
+                    break;
+                }
+            }
+
+            if(isInsideMap) {
+
+                ArrayList<ArrayList<DataPiece>> newChart = adding.getLineChart(savedMapId);
+
+                System.out.println("Bibitibopbop");
+
+                chartPane.setCenterLineChart(chartBuillder.buildLineChart(newChart));
+
+            } else {
+                ArrayList<ArrayList<DataPiece>> toBeCharted = null;
+                try {
+                    toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), CountryNamesToCodes.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                LineChart<String, Number> charts = chartBuillder.buildLineChart(toBeCharted);
+                chartPane.setCenterLineChart(charts);
+
+                adding.getHistories().put(countries + "+" + chartPane.getTfFrom().getText()+chartPane.getTfTo().getText()+CountryNamesToCodes.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
+            }
 
         }
     }
+
+
 
 }

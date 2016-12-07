@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import model.DataFactory;
+import model.History;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -32,8 +33,9 @@ public class InterfaceScene extends Scene {
     private ArrayList<Button> bNavButtons;
     private Text tTopBanner;
     private Stack<BorderPane> pageLoad;
+    private History history;
 
-    public InterfaceScene(Stage sCurrent, LineChart<String,Number> linechart){
+    public InterfaceScene(Stage sCurrent, LineChart<String,Number> linechart, History history){
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
         spGlobal = (StackPane)getRoot();
         spGlobal.setStyle("-fx-background-color: white");
@@ -43,6 +45,7 @@ public class InterfaceScene extends Scene {
         setIndicatorBox(1,0,"=2.3","0.0%");
         setIndicatorBox(2,-1,"-2.3","-0.5%");
 
+        this.history = history;
         loadTopIndicators(DataFactory.retrieveHeadlines(), 0);
         HomePane view = new HomePane();
         view.setPickOnBounds(false);
@@ -98,7 +101,7 @@ public class InterfaceScene extends Scene {
                                                              ChartPane icIndicator = null;
 
                                                              try {
-                                                                 icIndicator = new ChartPane(lcChart);
+                                                                 icIndicator = new ChartPane(lcChart, history);
                                                              } catch (Exception e) {
                                                                  e.printStackTrace();
                                                              }
@@ -109,7 +112,7 @@ public class InterfaceScene extends Scene {
                                                      } else if (pageLoad.isEmpty()) {
                                                          ChartPane icIndicator = null;
                                                          try {
-                                                             icIndicator = new ChartPane(lcChart);
+                                                             icIndicator = new ChartPane(lcChart, history);
                                                          } catch (Exception e) {
                                                              e.printStackTrace();
                                                          }

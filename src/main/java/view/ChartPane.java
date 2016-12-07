@@ -7,18 +7,15 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import model.CountryReader;
+import model.History;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
@@ -38,10 +35,13 @@ public class ChartPane extends BorderPane {
     private GridPane grid;
     private Button addCountry;
     private GridPane countriesPane;
+    private History history;
 
 
-    public ChartPane(LineChart<String, Number> linechart) {
+    public ChartPane(LineChart<String, Number> linechart, History history) {
         //<div>Icons made by <a href="http://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+
+        this.history = history;
 
         getStylesheets().add("css/chartPane-style.css");
 
@@ -85,8 +85,6 @@ public class ChartPane extends BorderPane {
             DialogPane jdError = new DialogPane();
             jdError.setContentText("The storage files have either been deleted or corrupted");
         }
-
-
 
         indicators.getSelectionModel().selectFirst();
         indicators.setMaxWidth(250);
@@ -150,7 +148,6 @@ public class ChartPane extends BorderPane {
                     Button bMinus = new Button("-");
                     bMinus.setId(Integer.toString((countriesArray.size() - 1)));
                     bMinus.getStyleClass().add("minus");
-
                     bMinus.setOnMousePressed(new EventHandler<MouseEvent>() {
 
                         @Override
@@ -204,6 +201,10 @@ public class ChartPane extends BorderPane {
         System.out.println(this.getParent().getParent());
     }
 
+    public History getHistory() {
+        return history;
+    }
+
     public ArrayList<CountryNode> getCountriesArray() {
         return countriesArray;
     }
@@ -238,8 +239,8 @@ public class ChartPane extends BorderPane {
             if (!countriesArray.get(i).getCountries().getValue().equals("Select a country")) {
                 names.add(countriesArray.get(i).getCountries().getSelectionModel().getSelectedItem().toString());
             }
-
         }
+
         return names;
 
     }

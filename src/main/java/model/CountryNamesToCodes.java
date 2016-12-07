@@ -6,9 +6,6 @@ import java.util.ArrayList;
  * Created by Sarosi on 27/11/2016.
  */
 public class CountryNamesToCodes {
-
-
-
     /**
      *
      * @param names the full string name of the countries we are requesting the codes for
@@ -23,9 +20,8 @@ public class CountryNamesToCodes {
 
         }
         return codes;
-
     }
-
+    
     public static String singleConvert(String name, CountryReader reader) {
 
         return reader.getPairs().get(name);

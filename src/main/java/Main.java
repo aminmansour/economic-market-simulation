@@ -3,14 +3,16 @@
  */
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.chart.LineChart;
 import javafx.stage.Stage;
-import model.ArrayBuilder;
-import model.ChartBuillder;
-import model.CountryNamesToCodes;
-import model.CountryReader;
+import javafx.stage.WindowEvent;
+import model.*;
 import view.InterfaceScene;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -35,6 +37,10 @@ public class Main extends Application {
         ArrayList<String> counties =  new CountryNamesToCodes().convert(lands,charles);
         LineChart<String,Number> chart = new ChartBuillder().buildLineChart(new ArrayBuilder().buildArray(counties,"1995","2005","NY.GNP.MKTP.CD"));
 
+        System.out.println("deSerializing");
+        History history = new History();
+        System.out.println("stopped deSerializing");
+
         //ADD ERROR HANDLING TO Arraybuider and ChartBuider for when there is no data for given year
         //ADD CSV of indicators and indicator codes eg.: Gross Domestic Product, NY.GDP.MKTP.CD
 
@@ -49,7 +55,25 @@ public class Main extends Application {
 
         //bp.setCenter(chart);
 
-        primaryStage.setScene(new InterfaceScene(primaryStage, chart));
+        primaryStage.setScene(new InterfaceScene(primaryStage, chart, history));
         primaryStage.show();
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+
+                try{
+                FileOutputStream fos = new FileOutputStream("src/main/resources/storage/hashmap.ser");
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(history.getHistories());
+                oos.close();
+                fos.close();
+                System.out.printf("Serialized HashMap data is saved in hashmap.ser");
+            }catch(IOException ioe)
+            {
+                ioe.printStackTrace();
+            }
+
+            }
+        });
     }
 }
