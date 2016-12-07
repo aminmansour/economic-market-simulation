@@ -205,6 +205,42 @@ public class InterfaceScene extends Scene {
         bNavButtons.get(4).setOnMousePressed(new EventHandler<MouseEvent>() {
                                                  @Override
                                                  public void handle(MouseEvent event) {
+                                                     if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.HistoryPane")) {
+                                                         Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("HistoryPane");
+                                                         if (checkOccurence.getKey() == true) {
+                                                             pageLoad.remove(checkOccurence.getValue());
+                                                             pageLoad.push(checkOccurence.getValue());
+                                                             setView(checkOccurence.getValue());
+                                                         } else {
+                                                             HistoryPane dpCrossView = null;
+
+                                                             try {
+                                                                 dpCrossView = new HistoryPane(history);
+                                                             } catch (Exception e) {
+                                                                 e.printStackTrace();
+                                                             }
+
+                                                             pageLoad.push(dpCrossView);
+                                                             setView(dpCrossView);
+                                                         }
+                                                     } else if (pageLoad.isEmpty()) {
+                                                         HistoryPane dpCrossView = null;
+                                                         try {
+                                                             dpCrossView = new HistoryPane(history);
+                                                         } catch (Exception e) {
+                                                             e.printStackTrace();
+                                                         }
+                                                         pageLoad.push(dpCrossView);
+                                                         setView(dpCrossView);
+                                                     }
+                                                 }
+                                             }
+        );
+
+
+        bNavButtons.get(5).setOnMousePressed(new EventHandler<MouseEvent>() {
+                                                 @Override
+                                                 public void handle(MouseEvent event) {
                                                      if (pageLoad.size() == 1) {
                                                          pageLoad.pop();
                                                          setView(new HomePane());
@@ -216,13 +252,14 @@ public class InterfaceScene extends Scene {
                                                  }
                                              }
         );
+
     }
 
     private void setUpNaviagation(){
         spGlobal.setAlignment(Pos.TOP_LEFT);
 
         VBox vbStack = new VBox();
-        createButtons(new String[]{"Note Board", "Indicator Explorer", "Global Forecast", "Word Bank", "Back"}, vbStack);
+        createButtons(new String[]{"Note Board", "Indicator Explorer", "Global Forecast", "Word Bank","History", "Back"}, vbStack);
         vbStack.setAlignment(Pos.TOP_CENTER);
 
         createTopBar();

@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -36,6 +37,9 @@ public class ChartPane extends BorderPane {
     private Button addCountry;
     private GridPane countriesPane;
     private History history;
+    private ToggleGroup tgViewType;
+    private RadioButton rbBar;
+    private RadioButton rbLine;
 
 
     public ChartPane(LineChart<String, Number> linechart, History history) {
@@ -90,9 +94,10 @@ public class ChartPane extends BorderPane {
         indicators.setMaxWidth(250);
 
         Label lIndicators = new Label("Indicator:");
-        grid.add(lIndicators, 0,0);
 
-        grid.add(indicators, 0, 1);
+        grid.add(lIndicators, 0,3);
+
+        grid.add(indicators, 0, 4);
 
         Label from = new Label("From:");
 
@@ -104,12 +109,22 @@ public class ChartPane extends BorderPane {
         tfTo = new TextField("2006");
         tfTo.setMinHeight(28);
 
-        grid.add(from, 0, 2);
-        grid.add(tfFrom, 0, 3);
-        grid.add(to, 0, 4);
-        grid.add(tfTo, 0, 5);
+        grid.add(from, 0, 5);
+        grid.add(tfFrom, 0, 6);
+        grid.add(to, 0, 7);
+        grid.add(tfTo, 0, 8);
 
+        tgViewType = new ToggleGroup();
+        rbBar = new RadioButton("bar-chart");
+        rbLine = new RadioButton("line-chart");
+        rbBar.setToggleGroup(tgViewType);
+        rbLine.setToggleGroup(tgViewType);
+        Label chartype = new Label("Chart Type: ");
+        grid.add(chartype,0,0);
+        grid.add(rbBar,0,2);
+        grid.add(rbLine,0,1);
         GridPane belowCountries = new GridPane();
+        rbLine.setSelected(true);
 
         belowCountries.setAlignment(Pos.CENTER_RIGHT);
         belowCountries.add(addCountry, 0, 0);
@@ -122,9 +137,9 @@ public class ChartPane extends BorderPane {
         belowCountries.add(hbGo, 0, 1);
 
         Label lCountries = new Label("Countries:");
-        grid.add(lCountries, 0, 6);
+        grid.add(lCountries, 0, 9);
 
-        grid.add(belowCountries, 0, 9);
+        grid.add(belowCountries, 0, 12);
 
         cn = new CountryNode("Select a country");
         cn.setPadding(new Insets(2.5,0,2.5,0));
@@ -134,7 +149,7 @@ public class ChartPane extends BorderPane {
         countriesPane = new GridPane();
 
         countriesPane.add(cn, 0, 0);
-        grid.add(countriesPane, 0, 7);
+        grid.add(countriesPane, 0, 10);
 
         addCountry.setOnMousePressed(new EventHandler<MouseEvent>() {
 
@@ -252,6 +267,19 @@ public class ChartPane extends BorderPane {
     public void setCenterLineChart(LineChart<String,Number> lineChart){
         setCenter(lineChart);
     }
+    public void setCenterLineChart(BarChart<String,Number> lineChart){
+        setCenter(lineChart);
+    }
 
+
+    public  ToggleGroup getTgViewType(){
+        return tgViewType;
+    }
+    public RadioButton getRbBar(){
+        return rbBar;
+    }
+    public RadioButton getRbLine(){
+        return rbLine;
+    }
 
 }
