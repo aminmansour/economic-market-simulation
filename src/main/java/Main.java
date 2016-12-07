@@ -4,10 +4,15 @@
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.chart.Axis;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.*;
+import view.HistoryPane;
 import view.InterfaceScene;
 
 import java.io.FileOutputStream;
@@ -34,9 +39,9 @@ public class Main extends Application {
         lands.add("Morocco");
         lands.add("United Kingdom");
         lands.add("Netherlands");
-        ArrayList<String> counties =  new CountryNamesToCodes().convert(lands,charles);
-        LineChart<String,Number> chart = new ChartBuillder().buildLineChart(new ArrayBuilder().buildArray(counties,"1995","2005","NY.GNP.MKTP.CD"));
-
+       // ArrayList<String> counties =  new CountryNamesToCodes().convert(lands,charles);
+        //LineChart<String,Number> chart = new ChartBuillder().buildLineChart(new ArrayBuilder().buildArray(counties,"1995","2005","NY.GNP.MKTP.CD"));
+        LineChart<String, Number> chart2 = new LineChart<String, Number>(new CategoryAxis(),(new NumberAxis()));
         System.out.println("deSerializing");
         History history = new History();
         System.out.println("stopped deSerializing");
@@ -55,7 +60,9 @@ public class Main extends Application {
 
         //bp.setCenter(chart);
 
-        primaryStage.setScene(new InterfaceScene(primaryStage, chart, history));
+        primaryStage.setScene(new InterfaceScene(primaryStage, chart2, history));
+       //  primaryStage.setScene(new Scene(new HistoryPane(history)));
+
         primaryStage.show();
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override

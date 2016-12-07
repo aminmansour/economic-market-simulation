@@ -5,10 +5,8 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.ArrayBuilder;
-import model.ChartBuillder;
-import model.CountryNamesToCodes;
-import model.CountryReader;
+import model.*;
+import view.HistoryPane;
 
 import java.util.ArrayList;
 
@@ -22,25 +20,9 @@ public class Main2 extends Application {
 
     public void start(Stage primaryStage) throws Exception {
 
-        ArrayBuilder theArchitect = new ArrayBuilder();
-        String csvFile = "src\\main\\resources\\storage\\CountryCodesCore.csv";
-        CountryReader charles = new CountryReader(csvFile);
-        ArrayList<String> lands = new ArrayList<String>();
-        lands.add("Hungary");
-        lands.add("Bulgaria");
-        lands.add("Jordan");
-        lands.add("Morocco");
-        CountryNamesToCodes converter = new CountryNamesToCodes();
-        ArrayList<String> counties =  converter.convert(lands,charles);
+        History hist = new History();
 
-
-
-        ChartBuillder Ted = new ChartBuillder();
-
-
-        //LineChart<String,Number> lineChart = Ted.buildChart(theArchitect.buildArray(counties, "1999", "2005","NY.GDP.MKTP.CD" ));
-        //Scene scene  = new Scene(Ted.buildChart(theArchitect.buildArray(counties, "1999", "2005","NY.GDP.MKTP.CD" )),800,600);
-        primaryStage.setScene(new Scene(Ted.buildLineChart(theArchitect.buildArray(counties,"1995","2005","NY.GNP.MKTP.CD")),800,600));
+        primaryStage.setScene(new Scene(new HistoryPane(hist)));
         primaryStage.show();
     }
 }
