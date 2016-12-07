@@ -10,6 +10,8 @@ import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Amans on 27/11/2016.
@@ -60,5 +62,6 @@ public class DataFactory {
         }
         return new Pair<ArrayList<String>, ArrayList<String>>(wordStore, definitionStore);
     }
+
 
 }
