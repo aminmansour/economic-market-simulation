@@ -107,9 +107,18 @@ public class NoteBoardPane extends BorderPane {
         Label lComment = new Label(comment);
         BorderPane.setMargin(lComment, new Insets(5, 0, 20, 30));
         lComment.getStyleClass().add("comment-text");
+        lComment.setWrapText(true);
         bpComment.setCenter(lComment);
         BorderPane.setAlignment(lComment, Pos.CENTER_LEFT);
         BorderPane.setAlignment(fpDate, Pos.CENTER_RIGHT);
+        lComment.prefWidthProperty().bind(bpComment.widthProperty());
+        lComment.prefWidthProperty().bind(bpComment.prefWidthProperty());
+        lComment.setPadding(new Insets(0, 20, 0, 0));
+        lComment.prefHeightProperty().bind(bpComment.heightProperty());
+        lComment.prefHeightProperty().bind(bpComment.prefHeightProperty());
+        bpComment.prefWidthProperty().bind(vbNodeStack.widthProperty());
+        lDate.setPadding(new Insets(0, 20, 0, 0));
+        lComment.setMinWidth(20);
         return new Pair<BorderPane, Label>(bpComment, lRemove);
 
     }

@@ -20,6 +20,9 @@ import javafx.util.Pair;
 import model.DataFactory;
 import model.History;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -60,6 +63,16 @@ public class InterfaceScene extends Scene {
         sCurrent.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 cachedNoteBoard.getController().saveToFile();
+                try {
+                    FileOutputStream fos = new FileOutputStream("src/main/resources/storage/hashmap.ser");
+                    ObjectOutputStream oos = new ObjectOutputStream(fos);
+                    oos.writeObject(history.getHistories());
+                    oos.close();
+                    fos.close();
+                    System.out.printf("Serialized HashMap data is saved in hashmap.ser");
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
             }
         });
 

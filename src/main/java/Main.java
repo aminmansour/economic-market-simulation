@@ -57,23 +57,6 @@ public class Main extends Application {
 
         primaryStage.setScene(new InterfaceScene(primaryStage, chart, history));
         primaryStage.show();
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
 
-                try{
-                FileOutputStream fos = new FileOutputStream("src/main/resources/storage/hashmap.ser");
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(history.getHistories());
-                oos.close();
-                fos.close();
-                System.out.printf("Serialized HashMap data is saved in hashmap.ser");
-            }catch(IOException ioe)
-            {
-                ioe.printStackTrace();
-            }
-
-            }
-        });
     }
 }

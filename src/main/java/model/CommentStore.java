@@ -4,6 +4,7 @@ import javafx.util.Pair;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
  * Created by Amans on 06/12/2016.
  */
 public class CommentStore {
-    private TreeMap<String, Pair<String, String>> storeOfComments;
+    private LinkedHashMap<String, Pair<String, String>> storeOfComments;
     private Pattern p;
     private ArrayList<String> storeOfCommentColors;
 
@@ -24,7 +25,7 @@ public class CommentStore {
     }
 
     private void loadComments() {
-        storeOfComments = new TreeMap<String, Pair<String, String>>();
+        storeOfComments = new LinkedHashMap<String, Pair<String, String>>();
         storeOfCommentColors = new ArrayList<String>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(new File("src/main/resources/storage/comments.txt")));
@@ -41,7 +42,6 @@ public class CommentStore {
                     }
                 }
                 storeOfComments.put(commentData[0], new Pair<String, String>(commentData[1], commentData[2]));
-                storeOfCommentColors.add(commentData[2]);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,7 +50,7 @@ public class CommentStore {
         System.out.println(storeOfCommentColors.size());
     }
 
-    public TreeMap<String, Pair<String, String>> getComments() {
+    public LinkedHashMap<String, Pair<String, String>> getComments() {
         return storeOfComments;
     }
 
@@ -81,6 +81,7 @@ public class CommentStore {
             bw = new BufferedWriter(fw);
             int counter = 0;
             for (Map.Entry<String, Pair<String, String>> currentComment : getComments().entrySet()) {
+                System.out.println(currentComment);
                 content += currentComment.getKey() + "+" + currentComment.getValue().getKey() + "+" + currentComment.getValue().getValue() + "\n";
             }
 
