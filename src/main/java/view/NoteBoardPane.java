@@ -80,6 +80,7 @@ public class NoteBoardPane extends BorderPane {
         lRemove.setOnMouseClicked(nbcController);
         lRemove.setId("remove-button");
 
+
         FlowPane fpClose = new FlowPane();
 
 
