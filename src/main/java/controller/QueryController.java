@@ -3,7 +3,6 @@ package controller;
 import javafx.event.EventHandler;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseEvent;
 import model.*;
 import view.ChartPane;
@@ -96,7 +95,7 @@ public class QueryController implements EventHandler<MouseEvent> {
                     adding.getHistories().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + CountryNamesToCodes.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
                 }
             }
-            if (chartPane.getTgViewType().getSelectedToggle() == chartPane.getRbLine()) {
+            if (chartPane.getTgViewType().getSelectedToggle() == chartPane.getRbBar()) {
                 if (isInsideMap) {
 
                     ArrayList<ArrayList<DataPiece>> newChart = adding.getLineChart(savedMapId);
