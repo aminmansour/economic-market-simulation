@@ -82,4 +82,8 @@ public class History {
 
         return false;
     }
+
+    public void clear(){
+        histories.clear();
+    }
 }
