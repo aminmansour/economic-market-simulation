@@ -36,7 +36,7 @@ public class HistoryPane extends BorderPane {
        fl.setPadding(new Insets(10,5,10,5));
        javafx.scene.control.ScrollPane scp = new javafx.scene.control.ScrollPane(fl);
         scp.setStyle("-fx-background-color: white; -fx-focus-color: transparent;   -fx-background: #FFFFFF; -fx-border-color: #FFFFFF;");
-
+        setCenter(new Label("Select a diagram to view"));
         setRight(scp);
 
 
