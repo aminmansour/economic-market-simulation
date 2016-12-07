@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import model.DataFactory;
@@ -32,6 +33,8 @@ public class InterfaceScene extends Scene {
     private ArrayList<Button> bNavButtons;
     private Text tTopBanner;
     private Stack<BorderPane> pageLoad;
+    private NoteBoardPane cachedNoteBoard;
+    private GlossaryPane cachedGlossary;
 
     public InterfaceScene(Stage sCurrent, LineChart<String,Number> linechart){
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
@@ -49,6 +52,13 @@ public class InterfaceScene extends Scene {
         pageLoad = new Stack<BorderPane>();
         setView(view);
         setButtonListeners(linechart);
+        cachedGlossary = new GlossaryPane();
+        cachedNoteBoard = new NoteBoardPane();
+        sCurrent.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                cachedNoteBoard.getController().saveToFile();
+            }
+        });
 
 
     }
@@ -64,14 +74,13 @@ public class InterfaceScene extends Scene {
                                                              pageLoad.push(checkOccurence.getValue());
                                                              setView(checkOccurence.getValue());
                                                          } else {
-                                                             GlossaryPane gpWordBank = new GlossaryPane();
-                                                             pageLoad.push(gpWordBank);
-                                                             setView(gpWordBank);
+
+                                                             pageLoad.push(cachedGlossary);
+                                                             setView(cachedGlossary);
                                                          }
                                                      } else if (pageLoad.isEmpty()) {
-                                                         GlossaryPane gpWordBank = new GlossaryPane();
-                                                         pageLoad.push(gpWordBank);
-                                                         setView(gpWordBank);
+                                                         pageLoad.push(cachedGlossary);
+                                                         setView(cachedGlossary);
                                                      }
 
                                                  }
@@ -80,11 +89,33 @@ public class InterfaceScene extends Scene {
         bNavButtons.get(0).setOnMousePressed(new EventHandler<MouseEvent>() {
                                                  @Override
                                                  public void handle(MouseEvent event) {
-                                                     setView(new NoteBoardPane());
+                                                     if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.NoteBoardPane")) {
+                                                         Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("NoteBoardPane");
+                                                         if (checkOccurence.getKey() == true) {
+                                                             pageLoad.remove(checkOccurence.getValue());
+                                                             pageLoad.push(checkOccurence.getValue());
+                                                             setView(checkOccurence.getValue());
+                                                         } else {
+                                                             try {
+                                                             } catch (Exception e) {
+                                                                 e.printStackTrace();
+                                                             }
 
+                                                             pageLoad.push(cachedNoteBoard);
+                                                             setView(cachedNoteBoard);
+                                                         }
+                                                     } else if (pageLoad.isEmpty()) {
+                                                         try {
+                                                         } catch (Exception e) {
+                                                             e.printStackTrace();
+                                                         }
+                                                         pageLoad.push(cachedNoteBoard);
+                                                         setView(cachedNoteBoard);
+                                                     }
                                                  }
                                              }
         );
+
         bNavButtons.get(1).setOnMousePressed(new EventHandler<MouseEvent>() {
                                                  @Override
                                                  public void handle(MouseEvent event) {
@@ -175,7 +206,7 @@ public class InterfaceScene extends Scene {
         spGlobal.setAlignment(Pos.TOP_LEFT);
 
         VBox vbStack = new VBox();
-        createButtons(new String[]{"Home", "Indicator explorer", "Global Forecast", "Word Bank", "Back"}, vbStack);
+        createButtons(new String[]{"Note Board", "Indicator Explorer", "Global Forecast", "Word Bank", "Back"}, vbStack);
         vbStack.setAlignment(Pos.TOP_CENTER);
 
         createTopBar();
