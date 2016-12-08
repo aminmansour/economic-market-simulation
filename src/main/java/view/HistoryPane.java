@@ -29,28 +29,29 @@ public class HistoryPane extends BorderPane {
     private History localhistory;
 
     public HistoryPane(History hist){
-        Button clear = new Button("Delete History");
 
 
 
 
         getStylesheets().add("css/chartPane-style.css");
+        Button clear = new Button("Clear History");
         setPadding(new Insets(30, 0, 0, 306));
         localhistory = hist;
        Collection<ArrayList<ArrayList<DataPiece>>> valset =localhistory.getHistories().values();
        GridPane fl = new GridPane();
+        fl.setVgap(20);
        fl.add(new Label("History: "),0,4);
-      ToggleGroup  tgViewType = new ToggleGroup();
-     RadioButton   rbBar = new RadioButton("bar-chart");
-      RadioButton  rbLine = new RadioButton("line-chart");
+        ToggleGroup tgViewType = new ToggleGroup();
+        RadioButton rbBar = new RadioButton("bar-chart");
+        RadioButton rbLine = new RadioButton("line-chart");
         rbBar.setToggleGroup(tgViewType);
         rbLine.setToggleGroup(tgViewType);
         Label chartype = new Label("Chart Type: ");
         fl.add(chartype,0,1);
         fl.add(rbBar,0,2);
         fl.add(rbLine,0,3);
-       fl.setPadding(new Insets(10,5,10,5));
-       fl.add(clear,0,0);
+        fl.setPadding(new Insets(10, 5, 10, 5));
+        fl.add(clear, 0, 0);
         rbLine.setSelected(true);
         javafx.scene.control.ScrollPane scp = new javafx.scene.control.ScrollPane(fl);
         scp.setStyle("-fx-background-color: white; -fx-focus-color: transparent;   -fx-background: #FFFFFF; -fx-border-color: #FFFFFF;");
@@ -63,10 +64,7 @@ public class HistoryPane extends BorderPane {
         });
 
 
-
-
-
-       int i = 0;
+        int i = 0;
 
 
         for (ArrayList k: valset){
@@ -96,6 +94,7 @@ public class HistoryPane extends BorderPane {
 
             });
             i++;
+            fl.setPadding(new Insets(20, 10, 0, 0));
         }
     }
 

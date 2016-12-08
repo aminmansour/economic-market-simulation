@@ -211,8 +211,9 @@ public class InterfaceScene extends Scene {
                                                          Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("HistoryPane");
                                                          if (checkOccurence.getKey() == true) {
                                                              pageLoad.remove(checkOccurence.getValue());
-                                                             pageLoad.push(checkOccurence.getValue());
-                                                             setView(checkOccurence.getValue());
+                                                             HistoryPane hpHistory = new HistoryPane(history);
+                                                             pageLoad.push(hpHistory);
+                                                             setView(hpHistory);
                                                          } else {
                                                              HistoryPane dpCrossView = null;
 

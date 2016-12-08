@@ -27,6 +27,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
 
+        primaryStage.setMaximized(true);
         String csvFile = "src/main/resources/storage/CountryCodesCore.csv";
         CountryReader charles = new CountryReader(csvFile);
         ArrayList<String> lands = new ArrayList<String>();
@@ -36,8 +37,8 @@ public class Main extends Application {
         lands.add("Morocco");
         lands.add("United Kingdom");
         lands.add("Netherlands");
-       ArrayList<String> counties =  new CountryNamesToCodes().convert(lands,charles);
-      // BarChart<String,Number> chart = new ChartBuillder().buildLineChart(new ArrayBuilder().buildArray(counties,"1995","2005","NY.GNP.MKTP.CD"));
+        ArrayList<String> counties = new CountryNamesToCodes().convert(lands, charles);
+        // BarChart<String,Number> chart = new ChartBuillder().buildLineChart(new ArrayBuilder().buildArray(counties,"1995","2005","NY.GNP.MKTP.CD"));
         LineChart<String, Number> chart2 = new LineChart<String, Number>(new CategoryAxis(),(new NumberAxis()));
         System.out.println("deSerializing");
         History history = new History();
