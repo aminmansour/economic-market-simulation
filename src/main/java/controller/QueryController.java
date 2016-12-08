@@ -3,7 +3,6 @@ package controller;
 import javafx.event.EventHandler;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseEvent;
 import model.*;
 import view.ChartPane;
