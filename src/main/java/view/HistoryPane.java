@@ -23,9 +23,9 @@ import java.util.Collection;
 public class HistoryPane extends BorderPane {
 
 
-    ToggleGroup  tgViewType;
-    RadioButton   rbBar;
-    RadioButton  rbLine;
+    private ToggleGroup tgViewType;
+    private RadioButton rbBar;
+    private RadioButton rbLine;
 
     private GridPane fl;
 
@@ -39,8 +39,6 @@ public class HistoryPane extends BorderPane {
         localhistory = hist;
         Collection<ArrayList<ArrayList<DataPiece>>> valset =localhistory.getHistories().values();
         fl = new GridPane();
-        fl.setVgap(20);
-        fl = new GridPane();
         fl.add(new Label("History: "),0,4);
         tgViewType = new ToggleGroup();
         rbBar = new RadioButton("bar-chart");
@@ -49,6 +47,7 @@ public class HistoryPane extends BorderPane {
         rbLine.setToggleGroup(tgViewType);
         Label chartype = new Label("Chart Type: ");
         fl.add(chartype,0,1);
+        fl.setMargin(clear, new Insets(0, 90, 0, 0));
         fl.add(rbBar,0,2);
         fl.add(rbLine,0,3);
         fl.setPadding(new Insets(10, 5, 10, 5));
@@ -56,13 +55,21 @@ public class HistoryPane extends BorderPane {
         rbLine.setSelected(true);
         javafx.scene.control.ScrollPane scp = new javafx.scene.control.ScrollPane(fl);
         scp.setStyle("-fx-background-color: white; -fx-focus-color: transparent;   -fx-background: #FFFFFF; -fx-border-color: #FFFFFF;");
-        setCenter(new Label("Select a diagram to view"));
         setRight(scp);
 
+        fl.setVgap(20);
+        if (fl.getChildren().size() > 5) {
+            setCenter(new Label("Select a diagram to view"));
+        } else {
+            setCenter(new Label("Nothing to show"));
+        }
         clear.setOnAction((event) ->{
 
             hist.clear();
-            update();
+            if (fl.getChildren().size() > 5) {
+                fl.getChildren().remove(5, fl.getChildren().size());
+            }
+            ((Label) getCenter()).setText("Nothing to show");
 
         });
 
@@ -87,63 +94,24 @@ public class HistoryPane extends BorderPane {
                     LineChart<String, Number> ln = ch.buildLineChart(k);
 
                     setCenter(ln);
-                    update();
+
                 }
                 if (tgViewType.getSelectedToggle() == rbBar) {
 
                     BarChart<String, Number> br = ch.buildBarChart(k);
                     setCenter(br);
-                    update();
-                }
 
 
-            });
-            i++;
-        }
-    }
-
-
-    public void update(){
-
-        /*
-
-                fl.add(new Label("Lets do it like they do it on the discovery channel."),0,5);
-
-
-        Collection<ArrayList<ArrayList<DataPiece>>> valset =localhistory.getHistories().values();
-
-        int i = 0;
-
-        for (ArrayList k: valset){
-
-            Button elemennt = new Button(localhistory.getId(k));
-            elemennt.setPadding(new Insets(5,5,5,0));
-            GridPane.setMargin(elemennt,new Insets(5,0,0,0));
-            fl.add(elemennt, 0,i+6);
-            elemennt.setId("bQuery");
-            ChartBuillder ch = new ChartBuillder();
-
-            elemennt.setOnAction((event) -> {
-
-                if (tgViewType.getSelectedToggle() == rbLine) {
-
-                    LineChart<String, Number> ln = ch.buildLineChart(k);
-
-                    setCenter(ln);
-                }
-                if (tgViewType.getSelectedToggle() == rbBar) {
-
-                    BarChart<String, Number> br = ch.buildBarChart(k);
-                    setCenter(br);
                 }
 
 
             });
             i++;
 
+
         }
-        */
-        System.out.println("this feature workth not");
+
     }
+
 
 }
