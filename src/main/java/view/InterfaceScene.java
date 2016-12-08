@@ -9,6 +9,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -259,7 +261,7 @@ public class InterfaceScene extends Scene {
         spGlobal.setAlignment(Pos.TOP_LEFT);
 
         VBox vbStack = new VBox();
-        createButtons(new String[]{"Note Board", "Indicator Explorer", "Global Forecast", "Word Bank","History", "Back"}, vbStack);
+        createButtons(new String[]{"Note Board", "Indicator Explorer", "Compare Zone", "Word Bank", "History", "Back"}, new String[]{"note", "stock", "compare", "glossary", "clock", "back"}, vbStack);
         vbStack.setAlignment(Pos.TOP_CENTER);
 
         createTopBar();
@@ -327,10 +329,16 @@ public class InterfaceScene extends Scene {
         }
     }
 
-    private void createButtons(String[] listOfButtons,VBox vbStack){
+    private void createButtons(String[] listOfButtons, String[] icon, VBox vbStack) {
         bNavButtons = new ArrayList<Button>(listOfButtons.length);
+
         for(int i = 0; i<listOfButtons.length;i++){
-            Button button = new Button(listOfButtons[i]);
+            Image imageOk = new Image("icons/" + icon[i] + ".png");
+            ImageView graphic = new ImageView(imageOk);
+            graphic.setPreserveRatio(true);
+            graphic.setFitWidth(35);
+            Button button = new Button(listOfButtons[i], graphic);
+            button.setId("nav-button" + i);
             button.getStyleClass().add("nav-buttons");
             vbStack.getChildren().add(button);
             bNavButtons.add(button);

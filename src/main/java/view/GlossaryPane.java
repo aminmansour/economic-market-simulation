@@ -24,7 +24,7 @@ public class GlossaryPane extends BorderPane {
         setPadding(new Insets(30, 0, 0, 306));
         Text tPageTitle = new Text("Word Bank");
 
-        tPageTitle.setStyle("-fx-font-family: sans-serif; -fx-font-weight: bold; -fx-font-size: 20px; ");
+        tPageTitle.setStyle(" -fx-font-size: 40px; -fx-font-family: arial; -fx-font-weight: 300; -fx-text-fill: #3c3c3c; ");
         setTop(tPageTitle);
         BorderPane.setAlignment(tPageTitle, Pos.CENTER);
         GridPane gpFactStack = new GridPane();

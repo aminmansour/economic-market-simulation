@@ -17,11 +17,15 @@
     -fx-font-weight: 300;
     -fx-border-color: #595959;
     -fx-border-width: 0px 0px 1px 0px;
+    -fx-graphic-text-gap: 30px;
+
+
 }
 
 .text-area .text {
     -fx-font-alignment: center;
     -fx-alignment: center;
+
 
 }
 
@@ -76,6 +80,7 @@
  }
 #box3{
     -fx-border-width: 0px 1px 1px 1px;
+    -fx-graphic-text-gap: 10px;
 }
 
 .scroll-pane {
@@ -93,3 +98,5 @@
     -fx-border-radius: 2%;
 
 }
+
+
