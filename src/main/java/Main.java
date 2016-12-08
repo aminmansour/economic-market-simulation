@@ -4,8 +4,11 @@
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.*;
@@ -27,22 +30,24 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
 
+        InterfaceScene main = new InterfaceScene(primaryStage);
+        primaryStage.setScene(main);
+//        primaryStage.setMaximized(true);
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
         primaryStage.setMaximized(true);
         String csvFile = "src/main/resources/storage/CountryCodesCore.csv";
         CountryReader charles = new CountryReader(csvFile);
         ArrayList<String> lands = new ArrayList<String>();
-        lands.add("Hungary");
         lands.add("Bulgaria");
-        lands.add("Jordan");
-        lands.add("Morocco");
-        lands.add("United Kingdom");
-        lands.add("Netherlands");
         ArrayList<String> counties = new CountryNamesToCodes().convert(lands, charles);
         // BarChart<String,Number> chart = new ChartBuillder().buildLineChart(new ArrayBuilder().buildArray(counties,"1995","2005","NY.GNP.MKTP.CD"));
         LineChart<String, Number> chart2 = new LineChart<String, Number>(new CategoryAxis(),(new NumberAxis()));
+
         System.out.println("deSerializing");
         History history = new History();
         System.out.println("stopped deSerializing");
+        main.doWork(primaryStage, chart2, history);
 
         //ADD ERROR HANDLING TO Arraybuider and ChartBuider for when there is no data for given year
         //ADD CSV of indicators and indicator codes eg.: Gross Domestic Product, NY.GDP.MKTP.CD
@@ -58,7 +63,6 @@ public class Main extends Application {
 
         //bp.setCenter(chart);
 
-       primaryStage.setScene(new InterfaceScene(primaryStage, chart2, history));
        //primaryStage.setScene(new Scene(new ChartBuillder().buildBarChart(new ArrayBuilder().buildArray(counties,"1995","2005","NY.GNP.MKTP.CD"))));;
 
         primaryStage.show();

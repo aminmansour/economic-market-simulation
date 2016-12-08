@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.input.MouseEvent;
@@ -79,7 +80,8 @@ public class QueryController implements EventHandler<MouseEvent> {
 
                     System.out.println("Bibitibopbop");
 
-                    chartPane.setCenterLineChart(chartBuillder.buildLineChart(newChart));
+                    LineChart<String, Number> xy = chartBuillder.buildLineChart(newChart);
+                    chartPane.setCenterLineChart(xy);
 
                 } else {
                     ArrayList<ArrayList<DataPiece>> toBeCharted = null;
@@ -101,8 +103,9 @@ public class QueryController implements EventHandler<MouseEvent> {
                     ArrayList<ArrayList<DataPiece>> newChart = adding.getLineChart(savedMapId);
 
                     System.out.println("Bibitibopbop");
+                    BarChart<String, Number> xy = chartBuillder.buildBarChart(newChart);
 
-                    chartPane.setCenterLineChart(chartBuillder.buildBarChart(newChart));
+                    chartPane.setCenterLineChart(xy);
 
                 } else {
                     ArrayList<ArrayList<DataPiece>> toBeCharted = null;

@@ -31,29 +31,8 @@ public class DualController implements EventHandler<MouseEvent> {
             charles = new CountryReader("src/main/resources/storage/CountryCodesCore.csv");
         } catch (IOException e) {
             e.printStackTrace();
+
+
         }
-
-        CountryReader indicatorConverter = null;
-        try {
-            indicatorConverter = new CountryReader("src/main/resources/storage/IndicatorCodesCore.csv");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ArrayList<String> countries = dualPane.countrynames();
-        ArrayList<String> counties =  new CountryNamesToCodes().convert(countries,charles);
-
-        ArrayList<ArrayList<DataPiece>> toBeCharted = null;
-        try {
-            toBeCharted = AB.buildArray(counties,dualPane.getTfFrom().getText(), dualPane.getTfTo().getText(),new CountryNamesToCodes().singleConvert(dualPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        ChartBuillder chartBuillder = new ChartBuillder();
-
-//        chartPane.getChildren().removeAll();
-        dualPane.setCenterLineChart(chartBuillder.buildLineChart(toBeCharted));
-
     }
 }

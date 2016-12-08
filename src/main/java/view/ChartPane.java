@@ -49,7 +49,7 @@ public class ChartPane extends BorderPane {
 
         getStylesheets().add("css/chartPane-style.css");
 
-        setPadding(new Insets(20,0,0,300));
+
         setCenter(linechart);
 
         addCountry = new Button("Add Country");
@@ -288,6 +288,7 @@ public class ChartPane extends BorderPane {
 
     public void setCenterLineChart(LineChart<String,Number> lineChart){
         setCenter(lineChart);
+
     }
     public void setCenterLineChart(BarChart<String,Number> lineChart){
         setCenter(lineChart);
@@ -302,6 +303,10 @@ public class ChartPane extends BorderPane {
     }
     public RadioButton getRbLine(){
         return rbLine;
+    }
+
+    public void setMarginAround() {
+        setPadding(new Insets(20, 0, 0, 300));
     }
 
 }

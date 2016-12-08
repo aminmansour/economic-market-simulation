@@ -43,22 +43,29 @@ public class InterfaceScene extends Scene {
     private NoteBoardPane cachedNoteBoard;
     private GlossaryPane cachedGlossary;
 
-    public InterfaceScene(Stage sCurrent, LineChart<String,Number> linechart, History history){
+    public InterfaceScene(Stage sCurrent) {
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
         spGlobal = (StackPane)getRoot();
+        setUpNaviagation();
+        HomePane view = new HomePane();
+        setView(view);
         spGlobal.setStyle("-fx-background-color: white");
         spGlobal.getStylesheets().add("css/interface-style.css");
         spGlobal.getStyleClass().add("banner");
-        setUpNaviagation();
         setIndicatorBox(1,0,"=2.3","0.0%");
         setIndicatorBox(2,-1,"-2.3","-0.5%");
 
-        this.history = history;
-        loadTopIndicators(DataFactory.retrieveHeadlines(), 0);
-        HomePane view = new HomePane();
+
         view.setPickOnBounds(false);
         pageLoad = new Stack<BorderPane>();
-        setView(view);
+
+
+    }
+
+    public void doWork(Stage sCurrent, LineChart<String, Number> linechart, History history) {
+        loadTopIndicators(DataFactory.retrieveHeadlines(), 0);
+
+        this.history = history;
         setButtonListeners(linechart);
         cachedGlossary = new GlossaryPane();
         cachedNoteBoard = new NoteBoardPane();
@@ -77,8 +84,6 @@ public class InterfaceScene extends Scene {
                 }
             }
         });
-
-
     }
 
     private void setButtonListeners(LineChart<String, Number> lcChart) {
@@ -107,6 +112,7 @@ public class InterfaceScene extends Scene {
         bNavButtons.get(0).setOnMousePressed(new EventHandler<MouseEvent>() {
                                                  @Override
                                                  public void handle(MouseEvent event) {
+                                                     System.out.println("hello");
                                                      if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.NoteBoardPane")) {
                                                          Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("NoteBoardPane");
                                                          if (checkOccurence.getKey() == true) {
@@ -148,6 +154,7 @@ public class InterfaceScene extends Scene {
 
                                                              try {
                                                                  icIndicator = new ChartPane(lcChart, history);
+                                                                 icIndicator.setMarginAround();
                                                              } catch (Exception e) {
                                                                  e.printStackTrace();
                                                              }
@@ -159,6 +166,7 @@ public class InterfaceScene extends Scene {
                                                          ChartPane icIndicator = null;
                                                          try {
                                                              icIndicator = new ChartPane(lcChart, history);
+                                                             icIndicator.setMarginAround();
                                                          } catch (Exception e) {
                                                              e.printStackTrace();
                                                          }
@@ -182,7 +190,7 @@ public class InterfaceScene extends Scene {
                                                              DualPane dpCrossView = null;
 
                                                              try {
-                                                                 dpCrossView = new DualPane();
+                                                                 dpCrossView = new DualPane(history);
                                                              } catch (Exception e) {
                                                                  e.printStackTrace();
                                                              }
@@ -193,7 +201,7 @@ public class InterfaceScene extends Scene {
                                                      } else if (pageLoad.isEmpty()) {
                                                          DualPane dpCrossView = null;
                                                          try {
-                                                             dpCrossView = new DualPane();
+                                                             dpCrossView = new DualPane(history);
                                                          } catch (Exception e) {
                                                              e.printStackTrace();
                                                          }
