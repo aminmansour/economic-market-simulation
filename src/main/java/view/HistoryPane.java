@@ -1,24 +1,20 @@
 package view;
 
-import javafx.event.*;
-import javafx.geometry.*;
 import javafx.geometry.Insets;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import model.ChartBuillder;
 import model.DataPiece;
 import model.History;
 
-import java.lang.management.BufferPoolMXBean;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
-import javafx.scene.input.MouseEvent;
 
 
 /**
@@ -26,24 +22,29 @@ import javafx.scene.input.MouseEvent;
  */
 public class HistoryPane extends BorderPane {
 
+
+    ToggleGroup  tgViewType;
+    RadioButton   rbBar;
+    RadioButton  rbLine;
+
+    private GridPane fl;
+
     private History localhistory;
 
     public HistoryPane(History hist){
-
-
-
+        Button clear = new Button("Delete History");
 
         getStylesheets().add("css/chartPane-style.css");
-        Button clear = new Button("Clear History");
         setPadding(new Insets(30, 0, 0, 306));
         localhistory = hist;
-       Collection<ArrayList<ArrayList<DataPiece>>> valset =localhistory.getHistories().values();
-       GridPane fl = new GridPane();
+        Collection<ArrayList<ArrayList<DataPiece>>> valset =localhistory.getHistories().values();
+        fl = new GridPane();
         fl.setVgap(20);
-       fl.add(new Label("History: "),0,4);
-        ToggleGroup tgViewType = new ToggleGroup();
-        RadioButton rbBar = new RadioButton("bar-chart");
-        RadioButton rbLine = new RadioButton("line-chart");
+        fl = new GridPane();
+        fl.add(new Label("History: "),0,4);
+        tgViewType = new ToggleGroup();
+        rbBar = new RadioButton("bar-chart");
+        rbLine = new RadioButton("line-chart");
         rbBar.setToggleGroup(tgViewType);
         rbLine.setToggleGroup(tgViewType);
         Label chartype = new Label("Chart Type: ");
@@ -59,7 +60,9 @@ public class HistoryPane extends BorderPane {
         setRight(scp);
 
         clear.setOnAction((event) ->{
+
             hist.clear();
+            update();
 
         });
 
@@ -69,11 +72,54 @@ public class HistoryPane extends BorderPane {
 
         for (ArrayList k: valset){
 
-//        String s = hist.getHistories().get(0).get(i).get(0).getIndicator() + "for";
             Button elemennt = new Button(localhistory.getId(k));
             elemennt.setPadding(new Insets(5,5,5,0));
             GridPane.setMargin(elemennt,new Insets(5,0,0,0));
             fl.add(elemennt, 0,i+5);
+            elemennt.setId("bQuery");
+            ChartBuillder ch = new ChartBuillder();
+
+            elemennt.setOnAction((event) -> {
+
+                if (tgViewType.getSelectedToggle() == rbLine) {
+
+
+                    LineChart<String, Number> ln = ch.buildLineChart(k);
+
+                    setCenter(ln);
+                    update();
+                }
+                if (tgViewType.getSelectedToggle() == rbBar) {
+
+                    BarChart<String, Number> br = ch.buildBarChart(k);
+                    setCenter(br);
+                    update();
+                }
+
+
+            });
+            i++;
+        }
+    }
+
+
+    public void update(){
+
+        /*
+
+                fl.add(new Label("Lets do it like they do it on the discovery channel."),0,5);
+
+
+        Collection<ArrayList<ArrayList<DataPiece>>> valset =localhistory.getHistories().values();
+
+        int i = 0;
+
+        for (ArrayList k: valset){
+
+            Button elemennt = new Button(localhistory.getId(k));
+            elemennt.setPadding(new Insets(5,5,5,0));
+            GridPane.setMargin(elemennt,new Insets(5,0,0,0));
+            fl.add(elemennt, 0,i+6);
             elemennt.setId("bQuery");
             ChartBuillder ch = new ChartBuillder();
 
@@ -94,8 +140,10 @@ public class HistoryPane extends BorderPane {
 
             });
             i++;
-            fl.setPadding(new Insets(20, 10, 0, 0));
+
         }
+        */
+        System.out.println("this feature workth not");
     }
 
 }

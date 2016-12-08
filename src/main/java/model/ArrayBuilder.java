@@ -59,33 +59,36 @@ public class ArrayBuilder {
                 jaDataArray = (JSONArray) jsonObject.get(1);
             } catch (JSONException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(countries.get(i));
-                alert.setHeaderText("Can't retrieve data at this time for .");
-                alert.setContentText("Ooops, looks like theres no data to be retrieved. Please check the following:" + "\n" + "1. Please check that all the countries selected are correct." + "\n" + "2. That the indicator you selected is the one intended" + "\n" + "3. That the years selected are reasonable.");
+                alert.setTitle("Error");
+                alert.setHeaderText("Can't Retrieve Data For " + countries.get(i));
+                alert.setContentText("Ooops, looks like there's no data to be retrieved for " + countries.get(i) + " between the years " + from + " - " + to + " with indicator " + indicator +".");
 
                 alert.showAndWait();
             }
 
             ArrayList<DataPiece> outer = new ArrayList<DataPiece>();
 
-            for (int j = jaDataArray.length() - 1; j >= 0; j--) {
-                ArrayList<String> inner = new ArrayList<String>();
-                JSONObject Jake = jaDataArray.getJSONObject(j);
-                Double value1 = Double.parseDouble(Jake.getString("value"));
-                String valueX1 = Jake.getString("value");
-                String year1 = Jake.getString("date");
-                JSONObject countryArray = Jake.getJSONObject("country");
-                String countyName = countryArray.getString("value");
-                JSONObject indicatorArray = Jake.getJSONObject("indicator");
-                String indicatorName = indicatorArray.getString("value");
-                inner.add(valueX1);
-                inner.add(year1);
-                inner.add(countyName);
-                // outer.add(inner);
-                DataPiece dataPiece = new DataPiece(valueX1,year1,countyName,indicatorName);
-                System.out.println(dataPiece);
-                outer.add(dataPiece);
+            if(jaDataArray != null) {
+                for (int j = jaDataArray.length() - 1; j >= 0; j--) {
+                    ArrayList<String> inner = new ArrayList<String>();
+                    JSONObject Jake = jaDataArray.getJSONObject(j);
+                    Double value1 = Double.parseDouble(Jake.getString("value"));
+                    String valueX1 = Jake.getString("value");
+                    String year1 = Jake.getString("date");
+                    JSONObject countryArray = Jake.getJSONObject("country");
+                    String countyName = countryArray.getString("value");
+                    JSONObject indicatorArray = Jake.getJSONObject("indicator");
+                    String indicatorName = indicatorArray.getString("value");
+                    inner.add(valueX1);
+                    inner.add(year1);
+                    inner.add(countyName);
+                    // outer.add(inner);
+                    DataPiece dataPiece = new DataPiece(valueX1,year1,countyName,indicatorName);
+                    System.out.println(dataPiece);
+                    outer.add(dataPiece);
+                }
             }
+
             galaxy.add(outer);
         }
         return galaxy;
