@@ -12,6 +12,10 @@ public class History {
 
     private HashMap<String, ArrayList<ArrayList<DataPiece>>> histories;
 
+    /**
+     *  An object that saves the data from the queries of the user and saves them in a hashmap with a unique id
+     */
+
     public History() {
 
         histories = new HashMap<>();
@@ -34,11 +38,23 @@ public class History {
 
     }
 
+    /**
+     *
+     * @param key a unique id for a linechart
+     * @return a saved chart based on key
+     */
+
     public ArrayList<ArrayList<DataPiece>> getLineChart(String key) {
 
         return histories.get(key);
 
     }
+
+    /**
+     *
+     * @param chartIn the data to make a linechart
+     * @return an id for the data if its already saved
+     */
 
     public String getId(ArrayList<ArrayList<DataPiece>> chartIn) {
 
@@ -56,9 +72,21 @@ public class History {
         return answer;
     }
 
+    /**
+     *
+     * @return the hasmap
+     */
+
     public HashMap<String, ArrayList<ArrayList<DataPiece>>> getHistories() {
         return histories;
     }
+
+    /**
+     * compares two idds to check if they are the same
+     * @param queryId1
+     * @param queryId2
+     * @return a boolean
+     */
 
     public boolean compareIds(String queryId1, String queryId2) {
 
@@ -82,6 +110,10 @@ public class History {
 
         return false;
     }
+
+    /**
+     * clears history
+     */
 
     public void clear(){
         histories.clear();

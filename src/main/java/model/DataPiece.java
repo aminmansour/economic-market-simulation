@@ -12,6 +12,14 @@ public class DataPiece implements Serializable {
     private String value;
     private String indicator;
 
+    /**
+     * An object encapsulating  a single piece of data containing value, year, country, and indicator
+     * @param inValue input value
+     * @param inYear input year
+     * @param inCountry input country
+     * @param inIndicator input indicator
+     */
+
     public DataPiece(String inValue, String inYear, String inCountry, String inIndicator){
         country = inCountry;
         year = inYear;

@@ -1,6 +1,7 @@
 package model;
 
 import javafx.scene.chart.*;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class ChartBuillder {
                 System.out.println(SerialKiller.get(q).getName());
                 SerialKiller.get(q).getData().add(new XYChart.Data(dataArray.get(q).get(i).getYear(), Double.parseDouble(dataArray.get(q).get(i).getValue())));
             }
-
+            checkNoData(SerialKiller.get(q));
             lineChart.getData().add(SerialKiller.get(q));
 
         }
@@ -69,12 +70,38 @@ public class ChartBuillder {
                 System.out.println(SerialKiller.get(q).getName());
                 SerialKiller.get(q).getData().add(new XYChart.Data(dataArray.get(q).get(i).getYear(), Double.parseDouble(dataArray.get(q).get(i).getValue())));
             }
-
+                checkNoData(SerialKiller.get(q));
             lineChart.getData().add(SerialKiller.get(q));
 
         }
 
         return lineChart;
+    }
+
+    static void checkNoData(XYChart.Series<Integer,Double> series) {
+        double d1 = 0;
+        XYChart.Data<Integer,Double> last = null;
+        for (Object data : series.getData()) {
+            if (data instanceof XYChart.Data<?,?>) {
+                XYChart.Data<Integer,Double> cdata = (XYChart.Data<Integer,Double>)data;
+                if (last != null && last.getYValue() == null) {
+                    double mid = (d1 + cdata.getYValue())/2;
+                    last.setYValue(mid);
+                    Text nodata = new Text("no data");
+                    nodata.setTranslateY(nodata.getLayoutBounds().getHeight()/2);
+                    last.setNode(nodata);
+                }
+                if (last != null) d1 = last.getYValue();
+                last = cdata;
+            }
+        }
+        if (last != null && last.getYValue() == null) {
+            last.setYValue(d1);
+            Text nodata = new Text("no data");
+            nodata.setTranslateY(nodata.getLayoutBounds().getHeight()/2);
+            last.setNode(nodata);
+
+        }
     }
 
 }
