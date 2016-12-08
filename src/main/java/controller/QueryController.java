@@ -26,6 +26,11 @@ public class QueryController implements EventHandler<MouseEvent> {
     }
 //actionlistener of go calls this method
 
+
+    /**
+     * the eventhandler for gathering information from the user query and displaying the information in the requested chart format
+     * @param event the button press on Chartpane's go button
+     */
     @Override
     public void handle(MouseEvent event) {
         if (!(((CountryNode) chartPane.getCountriesPane().getChildren().get(0)).getCountries().getValue().equals("Select a country") && chartPane.getCountriesPane().getChildren().size() == 1)) {
