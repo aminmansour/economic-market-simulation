@@ -53,7 +53,7 @@ public class Main extends Application {
         //ADD CSV of indicators and indicator codes eg.: Gross Domestic Product, NY.GDP.MKTP.CD
 
         primaryStage.setWidth(1200);
-        primaryStage.setHeight(640);
+        primaryStage.setHeight(840);
         primaryStage.setTitle("Project Core");
 //        BorderPane bp = new BorderPane();
 //        Button go = new Button("GO");
