@@ -1,6 +1,7 @@
 package model;
 
 import javafx.scene.chart.*;
+import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -22,25 +23,35 @@ public class ChartBuillder {
 
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Year");
-        yAxis.setLabel(dataArray.get(0).get(0).getIndicator());
         final LineChart<String,Number> lineChart =
                 new LineChart<String,Number>(xAxis,yAxis);
+        xAxis.setLabel("Year");
+        try {
+            yAxis.setLabel(dataArray.get(0).get(0).getIndicator());
 
-        ArrayList<XYChart.Series> SerialKiller = new ArrayList<XYChart.Series>();
+
+            ArrayList<XYChart.Series> SerialKiller = new ArrayList<XYChart.Series>();
 
 
-        for (int q = 0; q < dataArray.size(); q++) {
-            SerialKiller.add(new XYChart.Series());
-            SerialKiller.get(q).setName(dataArray.get(q).get(0).getCountry());
+            for (int q = 0; q < dataArray.size(); q++) {
+                SerialKiller.add(new XYChart.Series());
+                SerialKiller.get(q).setName(dataArray.get(q).get(0).getCountry());
 
-            for (int i = 0; i < dataArray.get(q).size(); i++) {
-                System.out.println(SerialKiller.get(q).getName());
-                SerialKiller.get(q).getData().add(new XYChart.Data(dataArray.get(q).get(i).getYear(), Double.parseDouble(dataArray.get(q).get(i).getValue())));
+                for (int i = 0; i < dataArray.get(q).size(); i++) {
+                    System.out.println(SerialKiller.get(q).getName());
+                    SerialKiller.get(q).getData().add(new XYChart.Data(dataArray.get(q).get(i).getYear(), Double.parseDouble(dataArray.get(q).get(i).getValue())));
+                }
+                checkNoData(SerialKiller.get(q));
+                lineChart.getData().add(SerialKiller.get(q));
+
             }
-            checkNoData(SerialKiller.get(q));
-            lineChart.getData().add(SerialKiller.get(q));
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No data found");
+            alert.setContentText("There is no data for this coutry in this time period.");
 
+            alert.showAndWait();
         }
 
         return lineChart;

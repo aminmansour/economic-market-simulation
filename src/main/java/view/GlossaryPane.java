@@ -52,7 +52,7 @@ public class GlossaryPane extends BorderPane {
             Text t = new Text(wordBank.getKey().get(i));
             t.getStyleClass().add("word-text");
             gp.add(t, 0, i);
-            GridPane.setMargin(t, new Insets(30, 15, 40, 22));
+            GridPane.setMargin(t, new Insets(30, 35, 40, 22));
             TextArea d = new TextArea(wordBank.getValue().get(i));
 
             d.setWrapText(true);
@@ -61,6 +61,7 @@ public class GlossaryPane extends BorderPane {
             gp.add(d, 1, i);
             GridPane.setMargin(d, new Insets(30, 40, 40, 0));
             GridPane.setHalignment(gp, HPos.CENTER);
+            gp.setStyle("-fx-background-color: white");
         }
     }
 }

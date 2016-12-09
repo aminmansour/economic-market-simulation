@@ -94,7 +94,6 @@ public class ChartPane extends BorderPane {
         indicators.setMaxWidth(250);
 
         Label lIndicators = new Label("Indicator:");
-
         grid.add(lIndicators, 0,3);
 
         grid.add(indicators, 0, 4);
@@ -231,7 +230,8 @@ public class ChartPane extends BorderPane {
         });
 
         bQuery.setOnMousePressed(new QueryController(this));
-        setCenter(new Label("Select Graph"));
+        Label lMessage = new Label("Select Graph");
+        setCenter(lMessage);
     }
 
     public void makeMeBigger(int width, int height) {
@@ -308,5 +308,10 @@ public class ChartPane extends BorderPane {
     public void setMarginAround() {
         setPadding(new Insets(20, 0, 0, 300));
     }
+
+    public void setMarginWithIn() {
+        BorderPane.setMargin((Node) getCenter(), new Insets(60));
+    }
+
 
 }

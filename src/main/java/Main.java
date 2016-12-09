@@ -44,9 +44,7 @@ public class Main extends Application {
         // BarChart<String,Number> chart = new ChartBuillder().buildLineChart(new ArrayBuilder().buildArray(counties,"1995","2005","NY.GNP.MKTP.CD"));
         LineChart<String, Number> chart2 = new LineChart<String, Number>(new CategoryAxis(),(new NumberAxis()));
 
-        System.out.println("deSerializing");
         History history = new History();
-        System.out.println("stopped deSerializing");
         main.doWork(primaryStage, chart2, history);
 
         //ADD ERROR HANDLING TO Arraybuider and ChartBuider for when there is no data for given year

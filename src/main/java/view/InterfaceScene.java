@@ -180,8 +180,8 @@ public class InterfaceScene extends Scene {
         bNavButtons.get(2).setOnMousePressed(new EventHandler<MouseEvent>() {
                                                  @Override
                                                  public void handle(MouseEvent event) {
-                                                     if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.DuelPane")) {
-                                                         Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("DuelPane");
+                                                     if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.DualPane")) {
+                                                         Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("DualPane");
                                                          if (checkOccurence.getKey() == true) {
                                                              pageLoad.remove(checkOccurence.getValue());
                                                              pageLoad.push(checkOccurence.getValue());

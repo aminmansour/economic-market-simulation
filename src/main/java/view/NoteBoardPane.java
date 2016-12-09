@@ -1,5 +1,6 @@
 package view;
 
+import com.sun.prism.paint.Color;
 import controller.NoteBoardController;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -8,6 +9,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
+import javafx.util.Callback;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -66,6 +69,7 @@ public class NoteBoardPane extends BorderPane {
         setCenter(vbNodeStack);
         bPost.setId("post-button");
         BorderPane.setAlignment(vbNodeStack, Pos.CENTER);
+
     }
 
 

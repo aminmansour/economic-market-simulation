@@ -41,6 +41,7 @@ public class DualPane extends BorderPane {
     private GridPane countriesPane;
 
 
+
     public DualPane(History history) throws Exception {
         //<div>Icons made by <a href="http://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
         setPadding(new Insets(20,0,0,300));
@@ -61,6 +62,9 @@ public class DualPane extends BorderPane {
         GridPane.setHalignment(child1, HPos.CENTER);
         gpStack.getChildren().add(child1);
         VBox.setVgrow(child, Priority.ALWAYS);
+        child.setMarginWithIn();
+        child1.setMarginWithIn();
+
 
         VBox.setVgrow(child1, Priority.ALWAYS);
         child.maxWidth(Double.MAX_VALUE);

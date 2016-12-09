@@ -68,6 +68,7 @@ public class HistoryPane extends BorderPane {
             hist.clear();
             if (fl.getChildren().size() > 5) {
                 fl.getChildren().remove(5, fl.getChildren().size());
+                setCenter(new Label("Nothing to show"));
             }
             ((Label) getCenter()).setText("Nothing to show");
 
