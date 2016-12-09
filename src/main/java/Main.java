@@ -12,6 +12,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.*;
+import org.json.JSONArray;
 import view.HistoryPane;
 import view.InterfaceScene;
 
@@ -52,6 +53,9 @@ public class Main extends Application {
         //ADD CSV of indicators and indicator codes eg.: Gross Domestic Product, NY.GDP.MKTP.CD
 
         primaryStage.setTitle("Project Core");
+        //StockIndicators test = new StockIndicators();
+        //System.out.println(test.getAAPLBid());
+
 //        BorderPane bp = new BorderPane();
 //        Button go = new Button("GO");
 //        StackPane st = new StackPane();
