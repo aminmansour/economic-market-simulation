@@ -63,7 +63,7 @@ public class ChartPane extends BorderPane {
         spSidePanel.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         grid.setVgap(5);
         grid.setHgap(5);
-        grid.setPadding(new Insets(35,5,0,0));
+        grid.setPadding(new Insets(0,5,0,0));
         grid.getStyleClass().add("options-menu");
         spSidePanel.setMaxWidth(450);
         spSidePanel.setPadding(new Insets(0, 10, 0, 0));
@@ -120,26 +120,48 @@ public class ChartPane extends BorderPane {
         rbBar.setToggleGroup(tgViewType);
         rbLine.setToggleGroup(tgViewType);
         Label chartype = new Label("Chart Type: ");
-        grid.add(chartype,0,0);
-        grid.add(rbBar,0,2);
-        grid.add(rbLine,0,1);
+        //grid.add(chartype,0,0);
+        //grid.add(rbBar,0,2);
+        //grid.add(rbLine,0,1);
+
+        grid.add(chartype,0,9);
+        GridPane gpChartType = new GridPane();
+
+        HBox hbRbBar = new HBox();
+        hbRbBar.setAlignment(Pos.CENTER_LEFT);
+        HBox hbRbLine = new HBox();
+        hbRbLine.setAlignment(Pos.CENTER_RIGHT);
+        hbRbLine.setPadding(new Insets(0,0,0,0));
+        hbRbBar.setPadding(new Insets(0,40,0,0));
+
+        hbRbBar.getChildren().add(rbBar);
+        hbRbLine.getChildren().add(rbLine);
+
+        gpChartType.add(hbRbBar,0,0);
+        gpChartType.add(hbRbLine,1,0);
+
+        grid.add(gpChartType,0,10);
+
         GridPane belowCountries = new GridPane();
         rbLine.setSelected(true);
 
+        //belowCountries.add(chartype,0,0);
         belowCountries.setAlignment(Pos.CENTER_RIGHT);
-        belowCountries.add(addCountry, 0, 0);
+        belowCountries.add(addCountry, 1, 2);
 
         HBox hbGo = new HBox();
         hbGo.setAlignment(Pos.CENTER_RIGHT);
         hbGo.setPadding(new Insets(5,0,0,0));
         hbGo.getChildren().add(bQuery);
 
-        belowCountries.add(hbGo, 0, 1);
+        belowCountries.add(hbGo, 1, 3);
+
+
 
         Label lCountries = new Label("Countries:");
-        grid.add(lCountries, 0, 9);
+        grid.add(lCountries, 0, 11);
 
-        grid.add(belowCountries, 0, 12);
+        grid.add(belowCountries, 0, 14);
 
         cn = new CountryNode("Select a country");
         cn.setPadding(new Insets(2.5,0,2.5,0));
@@ -149,7 +171,7 @@ public class ChartPane extends BorderPane {
         countriesPane = new GridPane();
 
         countriesPane.add(cn, 0, 0);
-        grid.add(countriesPane, 0, 10);
+        grid.add(countriesPane, 0, 12);
 
         addCountry.setOnMousePressed(new EventHandler<MouseEvent>() {
 
