@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * Created by Amans on 06/12/2016.
  */
 public class CommentStore {
-    private TreeMap<String, String> storeOfComments;
+    private TreeMap<String, Pair<String, String>> storeOfComments;
     private Pattern p;
     private ArrayList<String> storeOfCommentColors;
 
@@ -24,7 +24,7 @@ public class CommentStore {
     }
 
     private void loadComments() {
-        storeOfComments = new TreeMap<String, String>();
+        storeOfComments = new TreeMap<String, Pair<String, String>>();
         storeOfCommentColors = new ArrayList<String>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(new File("src/main/resources/storage/comments.txt")));
@@ -40,7 +40,7 @@ public class CommentStore {
                         counter++;
                     }
                 }
-                storeOfComments.put(commentData[0], commentData[1]);
+                storeOfComments.put(commentData[0], new Pair<String, String>(commentData[1], commentData[2]));
                 storeOfCommentColors.add(commentData[2]);
             }
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class CommentStore {
         System.out.println(storeOfCommentColors.size());
     }
 
-    public TreeMap<String, String> getComments() {
+    public TreeMap<String, Pair<String, String>> getComments() {
         return storeOfComments;
     }
 
@@ -58,10 +58,9 @@ public class CommentStore {
         return storeOfCommentColors;
     }
 
-    public Pair<String, String> addToComments(String commment, String date, String color) {
-        storeOfComments.put(commment, date);
-        storeOfCommentColors.add(color);
-        return new Pair<String, String>(commment, date);
+    public Pair<String, Pair<String, String>> addToComments(String commment, String date, String color) {
+        storeOfComments.put(commment, new Pair<String, String>(date, color));
+        return new Pair<String, Pair<String, String>>(commment, new Pair<String, String>(date, color));
 
     }
 
@@ -81,9 +80,8 @@ public class CommentStore {
             fw = new FileWriter("src/main/resources/storage/comments.txt");
             bw = new BufferedWriter(fw);
             int counter = 0;
-            for (Map.Entry<String, String> currentComment : getComments().entrySet()) {
-                content += currentComment.getKey() + "+" + currentComment.getValue() + "+" + storeOfCommentColors.get(counter) + "\n";
-                ++counter;
+            for (Map.Entry<String, Pair<String, String>> currentComment : getComments().entrySet()) {
+                content += currentComment.getKey() + "+" + currentComment.getValue().getKey() + "+" + currentComment.getValue().getValue() + "\n";
             }
 
             bw.write(content);
