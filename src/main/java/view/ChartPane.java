@@ -301,6 +301,10 @@ public class ChartPane extends BorderPane {
         return grid;
     }
 
+    /**
+     * @return an array of the names of the countries selected
+     */
+
     public ArrayList<String> countrynames() {
         ArrayList<String> names = new ArrayList<String>();
         for (int i = 0; i < countriesArray.size(); i++) {
