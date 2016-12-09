@@ -1,9 +1,5 @@
-.side-banner {
-    -fx-background-color: #1e1e1e;
-}
-
-.top-banner{
-    -fx-background-color: #1e1e1e;
+.side-banner, .top-banner {
+    -fx-background-color: #3c3c3c;
 }
 
 #top-banner{

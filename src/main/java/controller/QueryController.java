@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 import javafx.scene.input.MouseEvent;
 import model.*;
 import view.ChartPane;
@@ -141,6 +142,9 @@ public class QueryController implements EventHandler<MouseEvent> {
     public void printError(String messageHeader, String submessage) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add("css/chartPane-style.css");
+        dialogPane.getStyleClass().add("alert");
         alert.setContentText(submessage);
         alert.setHeaderText(messageHeader);
         alert.showAndWait();

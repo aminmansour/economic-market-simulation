@@ -87,7 +87,9 @@ public class ChartPane extends BorderPane {
             }
         } catch (IOException e) {
             DialogPane jdError = new DialogPane();
+            jdError.getStyleClass().add("alert");
             jdError.setContentText("The storage files have either been deleted or corrupted");
+            jdError.setVisible(true);
         }
 
         indicators.getSelectionModel().selectFirst();
