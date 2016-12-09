@@ -30,6 +30,10 @@ public class ArrayBuilder {
     public ArrayList<ArrayList<DataPiece>> buildArray(ArrayList<String> countries, String from, String to, String indicator) throws Exception {
         ArrayList<ArrayList<DataPiece>> galaxy = new ArrayList<ArrayList<DataPiece>>();
 
+        CountryReader countryCodes = new CountryReader("src/main/resources/storage/CountryCodesCore.csv");
+        CountryReader indicatorCodes = new CountryReader("src/main/resources/storage/IndicatorCodesCore.csv");
+
+
         for (int i = 0; i < countries.size(); i++) {
 
             testJSONParsing test = new testJSONParsing();
@@ -60,8 +64,8 @@ public class ArrayBuilder {
             } catch (JSONException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setHeaderText("Can't Retrieve Data For " + countries.get(i));
-                alert.setContentText("Ooops, looks like there's no data to be retrieved for " + countries.get(i) + " between the years " + from + " - " + to + " with indicator " + indicator +".");
+                alert.setHeaderText("Can't Retrieve Data For " + new CountryNamesToCodes().backwardsConvert(countries.get(i),countryCodes));
+                alert.setContentText("Ooops, looks like there's no data to be retrieved for " + new CountryNamesToCodes().backwardsConvert(countries.get(i),countryCodes) + " between the years " + from + " - " + to + " with the " + new CountryNamesToCodes().backwardsConvert(indicator,indicatorCodes) + " indicator.");
 
                 alert.showAndWait();
             }
