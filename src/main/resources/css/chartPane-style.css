@@ -50,9 +50,6 @@
 
 }
 
-.alert, .alert:header *.header-panel {
-    -fx-background-color: white;
-}
 .combo-box {
     -fx-background-color: white;
     -fx-border-width: 1px;
