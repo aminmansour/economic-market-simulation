@@ -17,7 +17,12 @@ public class testJSONParsing {
 
     }
 
-    // HTTP GET request
+    /** HTTP GET request
+     *
+     * @param urlIn url input
+     * @return Json array from API
+     * @throws Exception if URL incorrect
+     */
     public JSONArray httpGET(String urlIn) throws Exception {
 
         String url = urlIn;

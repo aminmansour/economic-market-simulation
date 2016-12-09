@@ -42,8 +42,8 @@ public class HomePane extends BorderPane {
 
     private ImageView createIcon() {
         Label lLogoIcon = new Label("");
-        ImageView logoIconIV = new ImageView(new Image(getClass().getResourceAsStream("/image/logo-icon.png")));
-        logoIconIV.setFitWidth(150);
+        ImageView logoIconIV = new ImageView(new Image(getClass().getResourceAsStream("/image/money.gif")));
+        logoIconIV.setFitWidth(600);
         logoIconIV.setPreserveRatio(true);
         lLogoIcon.setGraphic(logoIconIV);
         return logoIconIV;

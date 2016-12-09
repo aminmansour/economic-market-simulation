@@ -27,6 +27,7 @@ import java.util.concurrent.Callable;
 
 public class ChartPane extends BorderPane {
 
+
     private CountryNode cn;
     private ArrayList<CountryNode> countriesArray = new ArrayList<CountryNode>();
     private Button bQuery;
@@ -40,6 +41,12 @@ public class ChartPane extends BorderPane {
     private ToggleGroup tgViewType;
     private RadioButton rbBar;
     private RadioButton rbLine;
+
+    /**
+     *  creates a BorderPane contaiing a chart and a sidebar for making a request
+     * @param linechart an initial linechart
+     * @param history a hasmap containing  history, which we add new queries to
+     */
 
 
     public ChartPane(LineChart<String, Number> linechart, History history) {
@@ -236,38 +243,60 @@ public class ChartPane extends BorderPane {
         setCenter(lMessage);
     }
 
+    /**
+     *  sets size
+     * @param width
+     * @param height
+     */
     public void makeMeBigger(int width, int height) {
         System.out.println(this.getParent().getParent());
     }
 
+    /**
+     * @return history
+     */
     public History getHistory() {
         return history;
     }
 
+    /**
+     * @return array of data in combobox selection
+     */
     public ArrayList<CountryNode> getCountriesArray() {
         return countriesArray;
     }
 
+    /**
+     * @return the button that initiates the query
+     */
     public Button getbQuery() {
         return bQuery;
     }
 
-    public CountryNode getSelectionComboBox() {
-        return cn;
-    }
-
+    /**
+     * @return indicator
+     */
     public ComboBox<String> getIndicators() {
         return indicators;
     }
 
+    /**
+     * @return start  query year
+     */
     public TextField getTfFrom() {
         return tfFrom;
     }
 
+    /**
+     * @return end  query year
+     */
     public TextField getTfTo() {
         return tfTo;
     }
 
+    /**
+     * @return the gridpane
+     */
     public GridPane getGrid() {
         return grid;
     }
