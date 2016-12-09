@@ -1,5 +1,5 @@
 .side-banner, .top-banner {
-    -fx-background-color: #3c3c3c;
+    -fx-background-color: #1e1e1e;
 }
 
 #top-banner{
@@ -14,7 +14,6 @@
     -fx-border-color: #595959;
     -fx-border-width: 0px 0px 1px 0px;
     -fx-graphic-text-gap: 30px;
-
 
 }
 
