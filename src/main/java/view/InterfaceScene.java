@@ -62,7 +62,6 @@ public class InterfaceScene extends Scene {
             String msftRawPercentage = stockIndicatorsData.getMSFTPercent().replaceAll("[%\\+]","");
             String googlRawPercentage = stockIndicatorsData.getGOOGLPercent().replaceAll("[%\\+]","");
             String yhooRawPercentage = stockIndicatorsData.getYHOOPercent().replaceAll("[%\\+]","");
-
             if(Double.parseDouble(aaplRawPercentage) < 0) {
                 setIndicatorBox(0,-1,stockIndicatorsData.getAAPLBid(),stockIndicatorsData.getAAPLPercent());
             } else if(Double.parseDouble(aaplRawPercentage) == 0) {
