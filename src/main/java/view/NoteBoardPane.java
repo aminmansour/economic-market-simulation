@@ -18,12 +18,16 @@ import java.util.concurrent.Callable;
 
 /**
  * Created by Amans on 06/12/2016.
+ * defines the view when  the note board button is clicked
  */
 public class NoteBoardPane extends BorderPane {
     private ComboBox<String> cbColor;
     private NoteBoardController nbcController;
     private VBox vbNodeStack;
 
+    /**
+     * The constructor sets up the note board layout and adds action listeners to the buttons. It also loads the comments from file to the vbox stack.
+     */
     public NoteBoardPane() {
         setPadding(new Insets(30, 0, 0, 306));
         getStylesheets().add("css/notePane-style.css");
@@ -72,41 +76,30 @@ public class NoteBoardPane extends BorderPane {
 
     }
 
-
+    /**
+     *Creates the comment tile to display and puts on the comment stack
+     * @param comment The primary comment message
+     * @param date  The date of that paritcular message
+     * @param color The color of the message note
+     * @return
+     */
     public Pair<BorderPane, Label> createCommentTile(String comment, String date, String color) {
         BorderPane bpComment = new BorderPane();
         vbNodeStack.setMargin(bpComment, new Insets(2, 0, 0, 0));
         bpComment.getStyleClass().add("comment-section");
         bpComment.setId(color);
-        Label lRemove = new Label("Remove");
-
-
-        lRemove.setOnMouseClicked(nbcController);
-        lRemove.setId("remove-button");
-
-
-        FlowPane fpClose = new FlowPane();
-
-
-        fpClose.setAlignment(Pos.CENTER_LEFT);
-        Label lDate = new Label(date);
         HBox gpFlow = new HBox();
-        FlowPane fpDate = new FlowPane();
+        Label lRemove = createRemoveButton(gpFlow);
         VBox.setVgrow(gpFlow, Priority.ALWAYS);
-        gpFlow.setMaxSize(Double.MAX_VALUE, 100);
-        HBox.setHgrow(fpClose, Priority.ALWAYS);
+        Label lDate = new Label(date);
+        FlowPane fpDate = new FlowPane();
         HBox.setHgrow(fpDate, Priority.ALWAYS);
-        gpFlow.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-
-        gpFlow.getChildren().add(fpClose);
-
-        BorderPane.setMargin(gpFlow, new Insets(3, 10, 0, 10));
-        GridPane.setHalignment(fpClose, HPos.LEFT);
-        gpFlow.getChildren().add(fpDate);
-        GridPane.setHalignment(fpDate, HPos.RIGHT);
         fpDate.setAlignment(Pos.CENTER_RIGHT);
-        fpClose.getChildren().add(lRemove);
         fpDate.getChildren().add(lDate);
+        GridPane.setHalignment(fpDate, HPos.RIGHT);
+        gpFlow.getChildren().add(fpDate);
+        gpFlow.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        BorderPane.setMargin(gpFlow, new Insets(3, 10, 0, 10));
         bpComment.setTop(gpFlow);
         Label lComment = new Label(comment);
         BorderPane.setMargin(lComment, new Insets(5, 0, 20, 30));
@@ -115,11 +108,7 @@ public class NoteBoardPane extends BorderPane {
         bpComment.setCenter(lComment);
         BorderPane.setAlignment(lComment, Pos.CENTER_LEFT);
         BorderPane.setAlignment(fpDate, Pos.CENTER_RIGHT);
-        lComment.prefWidthProperty().bind(bpComment.widthProperty());
-        lComment.prefWidthProperty().bind(bpComment.prefWidthProperty());
-        lComment.setPadding(new Insets(0, 20, 0, 0));
-        lComment.prefHeightProperty().bind(bpComment.heightProperty());
-        lComment.prefHeightProperty().bind(bpComment.prefHeightProperty());
+        setLabelBinding(bpComment, lComment);
         bpComment.prefWidthProperty().bind(vbNodeStack.widthProperty());
         lDate.setPadding(new Insets(0, 20, 0, 0));
         lComment.setMinWidth(20);
@@ -127,6 +116,32 @@ public class NoteBoardPane extends BorderPane {
 
     }
 
+    private Label createRemoveButton(HBox gpFlow) {
+        Label lRemove = new Label("Remove");
+        lRemove.setOnMouseClicked(nbcController);
+        lRemove.setId("remove-button");
+        FlowPane fpClose = new FlowPane();
+        fpClose.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(fpClose, Priority.ALWAYS);
+        GridPane.setHalignment(fpClose, HPos.LEFT);
+        gpFlow.setMaxSize(Double.MAX_VALUE, 100);
+        gpFlow.getChildren().add(fpClose);
+        fpClose.getChildren().add(lRemove);
+        return lRemove;
+    }
+
+    private void setLabelBinding(BorderPane bpComment, Label lComment) {
+        lComment.prefWidthProperty().bind(bpComment.widthProperty());
+        lComment.prefWidthProperty().bind(bpComment.prefWidthProperty());
+        lComment.setPadding(new Insets(0, 20, 0, 0));
+        lComment.prefHeightProperty().bind(bpComment.heightProperty());
+        lComment.prefHeightProperty().bind(bpComment.prefHeightProperty());
+    }
+
+    /**
+     *  Retrieves the color specified by the user before posting a comment.
+     * @return the current color selected in the color comboBox
+     */
     public String getCurrentColor() {
         return cbColor.getValue();
     }
