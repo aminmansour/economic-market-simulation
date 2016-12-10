@@ -48,7 +48,7 @@ public class Main extends Application {
         LineChart<String, Number> chart2 = new LineChart<String, Number>(new CategoryAxis(),(new NumberAxis()));
 
         History history = new History();
-        main.doWork(primaryStage, chart2, history);
+        main.loadStore(primaryStage, chart2, history);
 
         //ADD ERROR HANDLING TO Arraybuider and ChartBuider for when there is no data for given year
         //ADD CSV of indicators and indicator codes eg.: Gross Domestic Product, NY.GDP.MKTP.CD
