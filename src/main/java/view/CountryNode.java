@@ -39,10 +39,14 @@ public class CountryNode extends GridPane {
                 grid2.getChildren().remove(flag);
                 FileInputStream fis = null;
                 try {
+                    if(name == "Select a country"){
+
+                    }else{
                     fis = new FileInputStream("src/main/resources/image/flags/"+ code.toLowerCase() + ".png");
                     flag = new ImageView(new Image(fis));
                     flag.setFitHeight(25);
                     grid2.add(flag, 1, 0);
+                    }
                 } catch (FileNotFoundException e) {
                     System.out.println("no flag");
                 }
@@ -74,7 +78,7 @@ public class CountryNode extends GridPane {
         return countries;
     }
 
-    public ImageView getMinus() {
+    public ImageView getFlag() {
         return flag;
     }
 }
