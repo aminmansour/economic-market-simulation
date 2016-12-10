@@ -77,11 +77,10 @@ public class NoteBoardPane extends BorderPane {
     }
 
     /**
-     * Creates the comment tile to display and puts on the comment stack
-     *
+     *Creates the comment tile to display and puts on the comment stack
      * @param comment The primary comment message
-     * @param date    The date of that paritcular message
-     * @param color   The color of the message note
+     * @param date  The date of that paritcular message
+     * @param color The color of the message note
      * @return
      */
     public Pair<BorderPane, Label> createCommentTile(String comment, String date, String color) {
