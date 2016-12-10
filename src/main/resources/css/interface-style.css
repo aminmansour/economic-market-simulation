@@ -41,16 +41,16 @@
 
 
 .indicator-gdp{
-    -fx-fill: #9AF261;
-    -fx-font-family: "verdana";
-    -fx-font-size: 30px;
+    -fx-fill: #00a478;
+    -fx-font-family: arial;
+    -fx-font-size: 29px;
     -fx-font-weight: bold;
 }
 
 .indicator-increase{
-    -fx-fill:  #9AF261;
-    -fx-font-size: 20px;
-    -fx-font-family: "verdana";
+    -fx-fill: #00a478;
+    -fx-font-size: 17px;
+    -fx-font-family: arial;
 }
 
 * {

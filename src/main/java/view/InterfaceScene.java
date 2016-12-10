@@ -43,6 +43,7 @@ public class InterfaceScene extends Scene {
     private History history;
     private NoteBoardPane cachedNoteBoard;
     private GlossaryPane cachedGlossary;
+    public BorderPane bpSideNav;
 
     public InterfaceScene(Stage sCurrent) {
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
@@ -61,7 +62,6 @@ public class InterfaceScene extends Scene {
             String msftRawPercentage = stockIndicatorsData.getMSFTPercent().replaceAll("[%\\+]","");
             String googlRawPercentage = stockIndicatorsData.getGOOGLPercent().replaceAll("[%\\+]","");
             String yhooRawPercentage = stockIndicatorsData.getYHOOPercent().replaceAll("[%\\+]","");
-
             if(Double.parseDouble(aaplRawPercentage) < 0) {
                 setIndicatorBox(0,-1,stockIndicatorsData.getAAPLBid(),stockIndicatorsData.getAAPLPercent());
             } else if(Double.parseDouble(aaplRawPercentage) == 0) {
@@ -95,10 +95,7 @@ public class InterfaceScene extends Scene {
             }
 
         } catch (Exception E) {
-            setIndicatorBox(0,0,"N/A","N/A");
-            setIndicatorBox(1,0,"N/A","N/A");
-            setIndicatorBox(2,0,"N/A","N/A");
-            setIndicatorBox(3,0,"N/A","N/A");
+            bpSideNav.setBottom(null);
         }
 
 
@@ -322,7 +319,7 @@ public class InterfaceScene extends Scene {
 
         createTopBar();
 
-        BorderPane bpSideNav = createSideNav(vbStack);
+        bpSideNav = createSideNav(vbStack);
         gpLocalIndicators = new GridPane();
         bpSideNav.setBottom(gpLocalIndicators);
         createIndicatorBoxes(new String[]{"AAPL","MSFT","GOOGL","YHOO"},gpLocalIndicators);
