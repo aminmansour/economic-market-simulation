@@ -21,6 +21,7 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 import model.DataFactory;
 import model.History;
+import model.StockIndicators;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -52,8 +53,54 @@ public class InterfaceScene extends Scene {
         spGlobal.setStyle("-fx-background-color: white");
         spGlobal.getStylesheets().add("css/interface-style.css");
         spGlobal.getStyleClass().add("banner");
-        setIndicatorBox(1,0,"=2.3","0.0%");
-        setIndicatorBox(2,-1,"-2.3","-0.5%");
+        try {
+            StockIndicators stockIndicatorsData = new StockIndicators();
+
+
+            String aaplRawPercentage = stockIndicatorsData.getAAPLPercent().replaceAll("[%\\+]","");
+            String msftRawPercentage = stockIndicatorsData.getMSFTPercent().replaceAll("[%\\+]","");
+            String googlRawPercentage = stockIndicatorsData.getGOOGLPercent().replaceAll("[%\\+]","");
+            String yhooRawPercentage = stockIndicatorsData.getYHOOPercent().replaceAll("[%\\+]","");
+
+            if(Double.parseDouble(aaplRawPercentage) < 0) {
+                setIndicatorBox(0,-1,stockIndicatorsData.getAAPLBid(),stockIndicatorsData.getAAPLPercent());
+            } else if(Double.parseDouble(aaplRawPercentage) == 0) {
+                setIndicatorBox(0,0,stockIndicatorsData.getAAPLBid(),stockIndicatorsData.getAAPLPercent());
+            } else if(Double.parseDouble(aaplRawPercentage) > 0) {
+                setIndicatorBox(0,1,stockIndicatorsData.getAAPLBid(),stockIndicatorsData.getAAPLPercent());
+            }
+
+            if(Double.parseDouble(msftRawPercentage) < 0) {
+                setIndicatorBox(1,-1,stockIndicatorsData.getMSFTBid(),stockIndicatorsData.getMSFTPercent());
+            } else if(Double.parseDouble(msftRawPercentage) == 0) {
+                setIndicatorBox(1,0,stockIndicatorsData.getMSFTBid(),stockIndicatorsData.getMSFTPercent());
+            } else if(Double.parseDouble(msftRawPercentage) > 0) {
+                setIndicatorBox(1,1,stockIndicatorsData.getMSFTBid(),stockIndicatorsData.getMSFTPercent());
+            }
+
+            if(Double.parseDouble(googlRawPercentage) < 0) {
+                setIndicatorBox(2,-1,stockIndicatorsData.getGOOGLBid(),stockIndicatorsData.getGOOGLPercent());
+            } else if(Double.parseDouble(googlRawPercentage) == 0) {
+                setIndicatorBox(2,0,stockIndicatorsData.getGOOGLBid(),stockIndicatorsData.getGOOGLPercent());
+            } else if(Double.parseDouble(googlRawPercentage) > 0) {
+                setIndicatorBox(2,1,stockIndicatorsData.getGOOGLBid(),stockIndicatorsData.getGOOGLPercent());
+            }
+
+            if(Double.parseDouble(yhooRawPercentage) < 0) {
+                setIndicatorBox(3,-1,stockIndicatorsData.getYHOOBid(),stockIndicatorsData.getYHOOPercent());
+            } else if(Double.parseDouble(yhooRawPercentage) == 0) {
+                setIndicatorBox(3,0,stockIndicatorsData.getYHOOBid(),stockIndicatorsData.getYHOOPercent());
+            } else if(Double.parseDouble(yhooRawPercentage) > 0) {
+                setIndicatorBox(3,1,stockIndicatorsData.getYHOOBid(),stockIndicatorsData.getYHOOPercent());
+            }
+
+        } catch (Exception E) {
+            setIndicatorBox(0,0,"N/A","N/A");
+            setIndicatorBox(1,0,"N/A","N/A");
+            setIndicatorBox(2,0,"N/A","N/A");
+            setIndicatorBox(3,0,"N/A","N/A");
+        }
+
 
 
         view.setPickOnBounds(false);
@@ -278,7 +325,7 @@ public class InterfaceScene extends Scene {
         BorderPane bpSideNav = createSideNav(vbStack);
         gpLocalIndicators = new GridPane();
         bpSideNav.setBottom(gpLocalIndicators);
-        createIndicatorBoxes(new String[]{"UK","USA","EU","ASIA"},gpLocalIndicators);
+        createIndicatorBoxes(new String[]{"AAPL","MSFT","GOOGL","YHOO"},gpLocalIndicators);
         gpLocalIndicators.setAlignment(Pos.CENTER);
         BorderPane.setMargin(gpLocalIndicators,new Insets(0,10,10,10));
         BorderPane.setAlignment(gpLocalIndicators,Pos.CENTER);
@@ -318,22 +365,23 @@ public class InterfaceScene extends Scene {
     }
 
 
-    private void createIndicatorBoxes(String[] nameOfCountry,GridPane gpBoxes){
+    private void createIndicatorBoxes(String[] nameOfCountry,GridPane gpBoxes) {
         int counter = 0;
-        for(int i = 0 ; i< 2;i++){
-            for(int j = 0 ; j<2; j++) {
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
                 VBox vbIndicatorBox = new VBox();
-                vbIndicatorBox.setId("box"+counter);
+                vbIndicatorBox.setId("box" + counter);
                 vbIndicatorBox.getStyleClass().add("indicator-box");
                 Text tName = new Text(nameOfCountry[counter]);
                 counter++;
-                tName.getStyleClass().add("indicator-title");
-                Text tGDP = new Text("+0.43");
-                tGDP.getStyleClass().add("indicator-gdp");
-                Text tPercent = new Text("0.43%");
+
+                    tName.getStyleClass().add("indicator-title");
+                    Text tGDP = new Text("GOO2");
+                    tGDP.getStyleClass().add("indicator-gdp");
+                    Text tPercent = new Text("GOO");
                 tPercent.getStyleClass().add("indicator-increase");
                 vbIndicatorBox.getChildren().addAll(tName, tGDP, tPercent);
-                gpBoxes.add(vbIndicatorBox,i,j);
+                gpBoxes.add(vbIndicatorBox, i, j);
             }
         }
     }
