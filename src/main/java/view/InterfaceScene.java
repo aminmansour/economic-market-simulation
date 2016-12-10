@@ -62,7 +62,14 @@ public class InterfaceScene extends Scene {
 
     }
 
-    public void doWork(Stage sCurrent, LineChart<String, Number> linechart, History history) {
+    /**
+     * Loads the backend required to run the interface
+     *
+     * @param sCurrent  The primary stage
+     * @param linechart The linechart which we preload
+     * @param history   The cache store which stores data
+     */
+    public void loadStore(Stage sCurrent, LineChart<String, Number> linechart, History history) {
         loadTopIndicators(DataFactory.retrieveHeadlines(), 0);
 
         this.history = history;
@@ -341,7 +348,7 @@ public class InterfaceScene extends Scene {
     private void createButtons(String[] listOfButtons, String[] icon, VBox vbStack) {
         bNavButtons = new ArrayList<Button>(listOfButtons.length);
 
-        for(int i = 0; i<listOfButtons.length;i++){
+        for(int i = 0; i<listOfButtons.length; i++){
             Image imageOk = new Image("icons/" + icon[i] + ".png");
             ImageView graphic = new ImageView(imageOk);
             graphic.setPreserveRatio(true);
@@ -357,7 +364,14 @@ public class InterfaceScene extends Scene {
         }
     }
 
-    public void setIndicatorBox(int boxLocation,int hasIncreased,String value,String percentage){
+    /**
+     * Sets a individual indicator box with a value by referencing its index in the grid. Also sets the color depending of the input specified.
+     * @param boxLocation Index of box in grid
+     * @param hasIncreased if 1 the box's text turns green, if -1 the box's text turns red and if 0 the text turns white
+     * @param value The value which the box displays
+     * @param percentage The subtext value of the box
+     */
+    public void setIndicatorBox(int boxLocation, int hasIncreased, String value, String percentage){
         VBox vbIndicatorBox = (VBox)gpLocalIndicators.getChildren().get(boxLocation);
         Text tGDP = (Text)vbIndicatorBox.getChildren().get(1);
         Text tPercentageIncrease = (Text)vbIndicatorBox.getChildren().get(2);
@@ -375,7 +389,12 @@ public class InterfaceScene extends Scene {
 
     }
 
-    public void loadTopIndicators(final ArrayList<String> headlines,final int currentIndex) {
+    /**
+     *  Recursively iterates through the array of headlines in an infinite loop
+     * @param headlines The array of headlines to display
+     * @param currentIndex Index of current headline displayed
+     */
+    public void loadTopIndicators(final ArrayList<String> headlines, final int currentIndex) {
         if (headlines != null) {
             Timeline ts = new Timeline(new KeyFrame(new Duration(6000), new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
@@ -390,18 +409,22 @@ public class InterfaceScene extends Scene {
             });
             ts.play();
 
-        }
-        else{
+        } else{
             tTopBanner.setText("Macro Economics");
         }
     }
+
+    /**
+     * Alternates the page displayed on the interface depending on input pane.
+     * @param view  The pane you want to set at the center
+     */
     public void setView(Pane view){
         if(spGlobal.getChildren().size() >2 ) {
             spGlobal.getChildren().remove(2);
         }
-            view.setPickOnBounds(false);
-            spGlobal.getChildren().add(2,view);
-        }
+        view.setPickOnBounds(false);
+        spGlobal.getChildren().add(2,view);
+    }
 
 
 }
