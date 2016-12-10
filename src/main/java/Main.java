@@ -31,6 +31,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        System.setProperty("glass.accessible.force", "false");
 
 
         InterfaceScene main = new InterfaceScene(primaryStage);
