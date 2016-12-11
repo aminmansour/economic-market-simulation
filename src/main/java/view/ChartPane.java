@@ -49,7 +49,7 @@ public class ChartPane extends BorderPane {
 
         getStylesheets().add("css/chartPane-style.css");
 
-        setPadding(new Insets(20,0,0,300));
+
         setCenter(linechart);
 
         addCountry = new Button("Add Country");
@@ -94,7 +94,6 @@ public class ChartPane extends BorderPane {
         indicators.setMaxWidth(250);
 
         Label lIndicators = new Label("Indicator:");
-
         grid.add(lIndicators, 0,3);
 
         grid.add(indicators, 0, 4);
@@ -231,7 +230,8 @@ public class ChartPane extends BorderPane {
         });
 
         bQuery.setOnMousePressed(new QueryController(this));
-        setCenter(new Label("Select Graph"));
+        Label lMessage = new Label("Select Graph");
+        setCenter(lMessage);
     }
 
     public void makeMeBigger(int width, int height) {
@@ -288,6 +288,7 @@ public class ChartPane extends BorderPane {
 
     public void setCenterLineChart(LineChart<String,Number> lineChart){
         setCenter(lineChart);
+
     }
     public void setCenterLineChart(BarChart<String,Number> lineChart){
         setCenter(lineChart);
@@ -303,5 +304,14 @@ public class ChartPane extends BorderPane {
     public RadioButton getRbLine(){
         return rbLine;
     }
+
+    public void setMarginAround() {
+        setPadding(new Insets(20, 0, 0, 300));
+    }
+
+    public void setMarginWithIn() {
+        BorderPane.setMargin((Node) getCenter(), new Insets(60));
+    }
+
 
 }
