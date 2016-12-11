@@ -16,6 +16,7 @@ import javafx.scene.text.TextAlignment;
 
 /**
  * Created by denissaidov on 28/11/2016.
+ * Sets up the home view when the program is intially loaded
  */
 public class HomePane extends BorderPane {
     public HomePane() {
@@ -34,10 +35,12 @@ public class HomePane extends BorderPane {
         lWelcomeMsg.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
         GridPane.setHalignment(lWelcomeMsg, HPos.CENTER);
         GridPane.setHalignment(logoIconIV, HPos.CENTER);
+        lWelcomeMsg.setStyle("-fx-background-color: #0D1B1E");
         lWelcomeMsg.getStyleClass().add("welcomeMsg");
         setCenter(gpLogoStore);
         gpLogoStore.add(logoIconIV, 0, 0);
         gpLogoStore.add(lWelcomeMsg,0,1);
+        gpLogoStore.setVgap(10);
     }
 
     private ImageView createIcon() {

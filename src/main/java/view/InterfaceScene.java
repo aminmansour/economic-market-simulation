@@ -423,7 +423,9 @@ public class InterfaceScene extends Scene {
         tGDP.setText(value);
         tPercentageIncrease.setText(percentage);
         switch (hasIncreased){
-            case 1: tGDP.setStyle("-fx-fill: #9AF261"); tPercentageIncrease.setStyle("-fx-fill: #9AF261");
+            case 1:
+                tGDP.setStyle("-fx-fill: #90e55e");
+                tPercentageIncrease.setStyle("-fx-fill: #89de5e");
                 break;
             case 0: tGDP.setStyle("-fx-fill: white"); tPercentageIncrease.setStyle("-fx-fill: white");
                 break;
