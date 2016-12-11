@@ -395,7 +395,7 @@ public class InterfaceScene extends Scene {
      * @param currentIndex Index of current headline displayed
      */
     public void loadTopIndicators(final ArrayList<String> headlines, final int currentIndex) {
-        if (headlines != null) {
+        if (headlines != null && !headlines.isEmpty()) {
             Timeline ts = new Timeline(new KeyFrame(new Duration(6000), new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
                     tTopBanner.setText(headlines.get(currentIndex));
