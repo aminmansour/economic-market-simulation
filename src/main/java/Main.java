@@ -12,9 +12,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.*;
+import org.json.JSONArray;
 import view.HistoryPane;
 import view.InterfaceScene;
 
+import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -24,6 +26,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+
     }
 
     @Override
@@ -31,10 +34,10 @@ public class Main extends Application {
 
 
         InterfaceScene main = new InterfaceScene(primaryStage);
+        primaryStage.setWidth(1200);
+        primaryStage.setHeight(840);
         primaryStage.setScene(main);
-//        primaryStage.setMaximized(true);
-        Screen screen = Screen.getPrimary();
-        Rectangle2D bounds = screen.getVisualBounds();
+        primaryStage.show();
         primaryStage.setMaximized(true);
         String csvFile = "src/main/resources/storage/CountryCodesCore.csv";
         CountryReader charles = new CountryReader(csvFile);
@@ -45,14 +48,15 @@ public class Main extends Application {
         LineChart<String, Number> chart2 = new LineChart<String, Number>(new CategoryAxis(),(new NumberAxis()));
 
         History history = new History();
-        main.doWork(primaryStage, chart2, history);
+        main.loadStore(primaryStage, chart2, history);
 
         //ADD ERROR HANDLING TO Arraybuider and ChartBuider for when there is no data for given year
         //ADD CSV of indicators and indicator codes eg.: Gross Domestic Product, NY.GDP.MKTP.CD
 
-        primaryStage.setWidth(1200);
-        primaryStage.setHeight(840);
         primaryStage.setTitle("Project Core");
+        //StockIndicators test = new StockIndicators();
+        //System.out.println(test.getAAPLBid());
+
 //        BorderPane bp = new BorderPane();
 //        Button go = new Button("GO");
 //        StackPane st = new StackPane();
@@ -61,9 +65,8 @@ public class Main extends Application {
 
         //bp.setCenter(chart);
 
-       //primaryStage.setScene(new Scene(new ChartBuillder().buildBarChart(new ArrayBuilder().buildArray(counties,"1995","2005","NY.GNP.MKTP.CD"))));;
+        //primaryStage.setScene(new Scene(new ChartBuillder().buildBarChart(new ArrayBuilder().buildArray(counties,"1995","2005","NY.GNP.MKTP.CD"))));;
 
-        primaryStage.show();
 
     }
 }

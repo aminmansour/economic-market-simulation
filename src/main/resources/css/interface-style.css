@@ -1,15 +1,13 @@
-.side-banner {
-    -fx-background-color: #1e1e1e;
-}
-
-.top-banner{
-    -fx-background-color: #1e1e1e;
+.side-banner, .top-banner {
+    -fx-background-color: #0d1c1f;
 }
 
 #top-banner{
     -fx-fill: white;
     -fx-font-family: "verdana";
+
 }
+
 .nav-buttons{
     -fx-background-color: transparent;
     -fx-text-fill: white;
@@ -36,8 +34,9 @@
     -fx-font-size: 15px;
 }
 .welcomeMsg {
-    -fx-text-fill: #373737;
-    -fx-padding: 20px;
+    -fx-text-fill: white;
+    -fx-padding: 10px;
+    -fx-font-family: arial;
 }
 
 .indicator-title{
@@ -46,16 +45,16 @@
 
 
 .indicator-gdp{
-    -fx-fill: #9AF261;
-    -fx-font-family: "verdana";
-    -fx-font-size: 30px;
+    -fx-fill: #00a478;
+    -fx-font-family: arial;
+    -fx-font-size: 29px;
     -fx-font-weight: bold;
 }
 
 .indicator-increase{
-    -fx-fill:  #9AF261;
-    -fx-font-size: 20px;
-    -fx-font-family: "verdana";
+    -fx-fill: #00a478;
+    -fx-font-size: 17px;
+    -fx-font-family: arial;
 }
 
 * {

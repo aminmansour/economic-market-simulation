@@ -1,6 +1,7 @@
 package model;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,6 +64,9 @@ public class ArrayBuilder {
                 jaDataArray = (JSONArray) jsonObject.get(1);
             } catch (JSONException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
+                DialogPane dialogPane = alert.getDialogPane();
+                dialogPane.getStylesheets().add("css/chartPane-style.css");
+                dialogPane.getStyleClass().add("alert");
                 alert.setTitle("Error");
                 alert.setHeaderText("Can't Retrieve Data For " + new CountryNamesToCodes().backwardsConvert(countries.get(i),countryCodes));
                 alert.setContentText("Ooops, looks like there's no data to be retrieved for " + new CountryNamesToCodes().backwardsConvert(countries.get(i),countryCodes) + " between the years " + from + " - " + to + " with the " + new CountryNamesToCodes().backwardsConvert(indicator,indicatorCodes) + " indicator.");

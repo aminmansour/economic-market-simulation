@@ -2,6 +2,7 @@ package model;
 
 import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -47,6 +48,9 @@ public class ChartBuillder {
             }
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getStylesheets().add("css/chartPane-style.css");
+            dialogPane.getStyleClass().add("alert");
             alert.setTitle("Error");
             alert.setHeaderText("No data found");
             alert.setContentText("There is no data for this coutry in this time period.");

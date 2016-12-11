@@ -15,10 +15,16 @@ import java.util.TreeMap;
 
 /**
  * Created by Amans on 27/11/2016.
+ * Contains a set miscellaneous methods
  */
 public class DataFactory {
     //"http://rss.cnn.com/rss/money_news_economy.rss"
 
+    /**
+     * Retrieves all the current headlines on international finance from CNN.
+     *
+     * @return The arraylist of the headlines
+     */
     public static ArrayList<String> retrieveHeadlines(){
         try {
             URL rss = new URL("http://rss.cnn.com/rss/money_news_economy.rss");
@@ -45,6 +51,10 @@ public class DataFactory {
         }
     }
 
+    /**
+     * Loads up the macro-economics words with their associated definitions from local file storage and loads it
+     * @return A pair where the key is the ArrayList of all the words and the value is the ArrayList of all definitions
+     */
     public static Pair<ArrayList<String>, ArrayList<String>> getWordsFromFiles() {
         ArrayList<String> wordStore = new ArrayList<>(20);
         ArrayList<String> definitionStore = new ArrayList<>(20);

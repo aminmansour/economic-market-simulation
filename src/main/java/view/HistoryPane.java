@@ -58,11 +58,7 @@ public class HistoryPane extends BorderPane {
         setRight(scp);
 
         fl.setVgap(20);
-        if (fl.getChildren().size() > 5) {
-            setCenter(new Label("Select a diagram to view"));
-        } else {
-            setCenter(new Label("Nothing to show"));
-        }
+        System.out.println(fl.getChildren().size());
         clear.setOnAction((event) ->{
 
             hist.clear();
@@ -109,6 +105,11 @@ public class HistoryPane extends BorderPane {
             });
             i++;
 
+            if (fl.getChildren().size() > 5) {
+                setCenter(new Label("Select a diagram to view"));
+            } else {
+                setCenter(new Label("Nothing to show"));
+            }
 
         }
 

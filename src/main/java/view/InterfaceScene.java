@@ -21,6 +21,7 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 import model.DataFactory;
 import model.History;
+import model.StockIndicators;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class InterfaceScene extends Scene {
     private History history;
     private NoteBoardPane cachedNoteBoard;
     private GlossaryPane cachedGlossary;
+    public BorderPane bpSideNav;
 
     public InterfaceScene(Stage sCurrent) {
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
@@ -52,8 +54,50 @@ public class InterfaceScene extends Scene {
         spGlobal.setStyle("-fx-background-color: white");
         spGlobal.getStylesheets().add("css/interface-style.css");
         spGlobal.getStyleClass().add("banner");
-        setIndicatorBox(1,0,"=2.3","0.0%");
-        setIndicatorBox(2,-1,"-2.3","-0.5%");
+        try {
+            StockIndicators stockIndicatorsData = new StockIndicators();
+
+
+            String aaplRawPercentage = stockIndicatorsData.getAAPLPercent().replaceAll("[%\\+]","");
+            String msftRawPercentage = stockIndicatorsData.getMSFTPercent().replaceAll("[%\\+]","");
+            String googlRawPercentage = stockIndicatorsData.getGOOGLPercent().replaceAll("[%\\+]","");
+            String yhooRawPercentage = stockIndicatorsData.getYHOOPercent().replaceAll("[%\\+]","");
+            if(Double.parseDouble(aaplRawPercentage) < 0) {
+                setIndicatorBox(0,-1,stockIndicatorsData.getAAPLBid(),stockIndicatorsData.getAAPLPercent());
+            } else if(Double.parseDouble(aaplRawPercentage) == 0) {
+                setIndicatorBox(0,0,stockIndicatorsData.getAAPLBid(),stockIndicatorsData.getAAPLPercent());
+            } else if(Double.parseDouble(aaplRawPercentage) > 0) {
+                setIndicatorBox(0,1,stockIndicatorsData.getAAPLBid(),stockIndicatorsData.getAAPLPercent());
+            }
+
+            if(Double.parseDouble(msftRawPercentage) < 0) {
+                setIndicatorBox(1,-1,stockIndicatorsData.getMSFTBid(),stockIndicatorsData.getMSFTPercent());
+            } else if(Double.parseDouble(msftRawPercentage) == 0) {
+                setIndicatorBox(1,0,stockIndicatorsData.getMSFTBid(),stockIndicatorsData.getMSFTPercent());
+            } else if(Double.parseDouble(msftRawPercentage) > 0) {
+                setIndicatorBox(1,1,stockIndicatorsData.getMSFTBid(),stockIndicatorsData.getMSFTPercent());
+            }
+
+            if(Double.parseDouble(googlRawPercentage) < 0) {
+                setIndicatorBox(2,-1,stockIndicatorsData.getGOOGLBid(),stockIndicatorsData.getGOOGLPercent());
+            } else if(Double.parseDouble(googlRawPercentage) == 0) {
+                setIndicatorBox(2,0,stockIndicatorsData.getGOOGLBid(),stockIndicatorsData.getGOOGLPercent());
+            } else if(Double.parseDouble(googlRawPercentage) > 0) {
+                setIndicatorBox(2,1,stockIndicatorsData.getGOOGLBid(),stockIndicatorsData.getGOOGLPercent());
+            }
+
+            if(Double.parseDouble(yhooRawPercentage) < 0) {
+                setIndicatorBox(3,-1,stockIndicatorsData.getYHOOBid(),stockIndicatorsData.getYHOOPercent());
+            } else if(Double.parseDouble(yhooRawPercentage) == 0) {
+                setIndicatorBox(3,0,stockIndicatorsData.getYHOOBid(),stockIndicatorsData.getYHOOPercent());
+            } else if(Double.parseDouble(yhooRawPercentage) > 0) {
+                setIndicatorBox(3,1,stockIndicatorsData.getYHOOBid(),stockIndicatorsData.getYHOOPercent());
+            }
+
+        } catch (Exception E) {
+            bpSideNav.setBottom(null);
+        }
+
 
 
         view.setPickOnBounds(false);
@@ -62,7 +106,14 @@ public class InterfaceScene extends Scene {
 
     }
 
-    public void doWork(Stage sCurrent, LineChart<String, Number> linechart, History history) {
+    /**
+     * Loads the backend required to run the interface
+     *
+     * @param sCurrent  The primary stage
+     * @param linechart The linechart which we preload
+     * @param history   The cache store which stores data
+     */
+    public void loadStore(Stage sCurrent, LineChart<String, Number> linechart, History history) {
         loadTopIndicators(DataFactory.retrieveHeadlines(), 0);
 
         this.history = history;
@@ -275,10 +326,10 @@ public class InterfaceScene extends Scene {
 
         createTopBar();
 
-        BorderPane bpSideNav = createSideNav(vbStack);
+        bpSideNav = createSideNav(vbStack);
         gpLocalIndicators = new GridPane();
         bpSideNav.setBottom(gpLocalIndicators);
-        createIndicatorBoxes(new String[]{"UK","USA","EU","ASIA"},gpLocalIndicators);
+        createIndicatorBoxes(new String[]{"AAPL","MSFT","GOOGL","YHOO"},gpLocalIndicators);
         gpLocalIndicators.setAlignment(Pos.CENTER);
         BorderPane.setMargin(gpLocalIndicators,new Insets(0,10,10,10));
         BorderPane.setAlignment(gpLocalIndicators,Pos.CENTER);
@@ -318,22 +369,23 @@ public class InterfaceScene extends Scene {
     }
 
 
-    private void createIndicatorBoxes(String[] nameOfCountry,GridPane gpBoxes){
+    private void createIndicatorBoxes(String[] nameOfCountry,GridPane gpBoxes) {
         int counter = 0;
-        for(int i = 0 ; i< 2;i++){
-            for(int j = 0 ; j<2; j++) {
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
                 VBox vbIndicatorBox = new VBox();
-                vbIndicatorBox.setId("box"+counter);
+                vbIndicatorBox.setId("box" + counter);
                 vbIndicatorBox.getStyleClass().add("indicator-box");
                 Text tName = new Text(nameOfCountry[counter]);
                 counter++;
-                tName.getStyleClass().add("indicator-title");
-                Text tGDP = new Text("+0.43");
-                tGDP.getStyleClass().add("indicator-gdp");
-                Text tPercent = new Text("0.43%");
+
+                    tName.getStyleClass().add("indicator-title");
+                    Text tGDP = new Text("GOO2");
+                    tGDP.getStyleClass().add("indicator-gdp");
+                    Text tPercent = new Text("GOO");
                 tPercent.getStyleClass().add("indicator-increase");
                 vbIndicatorBox.getChildren().addAll(tName, tGDP, tPercent);
-                gpBoxes.add(vbIndicatorBox,i,j);
+                gpBoxes.add(vbIndicatorBox, i, j);
             }
         }
     }
@@ -341,7 +393,7 @@ public class InterfaceScene extends Scene {
     private void createButtons(String[] listOfButtons, String[] icon, VBox vbStack) {
         bNavButtons = new ArrayList<Button>(listOfButtons.length);
 
-        for(int i = 0; i<listOfButtons.length;i++){
+        for(int i = 0; i<listOfButtons.length; i++){
             Image imageOk = new Image("icons/" + icon[i] + ".png");
             ImageView graphic = new ImageView(imageOk);
             graphic.setPreserveRatio(true);
@@ -357,14 +409,23 @@ public class InterfaceScene extends Scene {
         }
     }
 
-    public void setIndicatorBox(int boxLocation,int hasIncreased,String value,String percentage){
+    /**
+     * Sets a individual indicator box with a value by referencing its index in the grid. Also sets the color depending of the input specified.
+     * @param boxLocation Index of box in grid
+     * @param hasIncreased if 1 the box's text turns green, if -1 the box's text turns red and if 0 the text turns white
+     * @param value The value which the box displays
+     * @param percentage The subtext value of the box
+     */
+    public void setIndicatorBox(int boxLocation, int hasIncreased, String value, String percentage){
         VBox vbIndicatorBox = (VBox)gpLocalIndicators.getChildren().get(boxLocation);
         Text tGDP = (Text)vbIndicatorBox.getChildren().get(1);
         Text tPercentageIncrease = (Text)vbIndicatorBox.getChildren().get(2);
         tGDP.setText(value);
         tPercentageIncrease.setText(percentage);
         switch (hasIncreased){
-            case 1: tGDP.setStyle("-fx-fill: #9AF261"); tPercentageIncrease.setStyle("-fx-fill: #9AF261");
+            case 1:
+                tGDP.setStyle("-fx-fill: #90e55e");
+                tPercentageIncrease.setStyle("-fx-fill: #89de5e");
                 break;
             case 0: tGDP.setStyle("-fx-fill: white"); tPercentageIncrease.setStyle("-fx-fill: white");
                 break;
@@ -375,8 +436,13 @@ public class InterfaceScene extends Scene {
 
     }
 
-    public void loadTopIndicators(final ArrayList<String> headlines,final int currentIndex) {
-        if (headlines != null) {
+    /**
+     *  Recursively iterates through the array of headlines in an infinite loop
+     * @param headlines The array of headlines to display
+     * @param currentIndex Index of current headline displayed
+     */
+    public void loadTopIndicators(final ArrayList<String> headlines, final int currentIndex) {
+        if (headlines != null && !headlines.isEmpty()) {
             Timeline ts = new Timeline(new KeyFrame(new Duration(6000), new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
                     tTopBanner.setText(headlines.get(currentIndex));
@@ -390,18 +456,22 @@ public class InterfaceScene extends Scene {
             });
             ts.play();
 
-        }
-        else{
+        } else{
             tTopBanner.setText("Macro Economics");
         }
     }
+
+    /**
+     * Alternates the page displayed on the interface depending on input pane.
+     * @param view  The pane you want to set at the center
+     */
     public void setView(Pane view){
         if(spGlobal.getChildren().size() >2 ) {
             spGlobal.getChildren().remove(2);
         }
-            view.setPickOnBounds(false);
-            spGlobal.getChildren().add(2,view);
-        }
+        view.setPickOnBounds(false);
+        spGlobal.getChildren().add(2,view);
+    }
 
 
 }
