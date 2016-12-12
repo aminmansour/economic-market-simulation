@@ -407,6 +407,13 @@ public class InterfaceScene extends Scene {
         }
     }
 
+    /**
+     * sets display of stock indicators
+     * @param boxLocation location of indicator box
+     * @param hasIncreased sets the color of display based on trend
+     * @param value value of stock
+     * @param percentage increase in percentage
+     */
     public void setIndicatorBox(int boxLocation,int hasIncreased,String value,String percentage){
         VBox vbIndicatorBox = (VBox)gpLocalIndicators.getChildren().get(boxLocation);
         Text tGDP = (Text)vbIndicatorBox.getChildren().get(1);
@@ -424,6 +431,12 @@ public class InterfaceScene extends Scene {
 
 
     }
+
+    /**
+     * sets hadlines for news bar
+     * @param headlines a list of news headlines
+     * @param currentIndex index of headline
+     */
 
     public void loadTopIndicators(final ArrayList<String> headlines,final int currentIndex) {
         if (headlines != null) {
@@ -445,6 +458,11 @@ public class InterfaceScene extends Scene {
             tTopBanner.setText("Macro Economics");
         }
     }
+
+    /**
+     * sets the view to a given pane
+     * @param view the pane given
+     */
     public void setView(Pane view){
         if(spGlobal.getChildren().size() >2 ) {
             spGlobal.getChildren().remove(2);
