@@ -91,6 +91,10 @@ public class CountryReader {
     public ArrayList<String> getCountrynames() {
         return countrynames;
     }
+
+    public String getcode(String a){
+        return pairs.get(a);
+    }
 }
 
 

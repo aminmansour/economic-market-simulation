@@ -37,11 +37,10 @@ public class ArrayBuilder {
 
         for (int i = 0; i < countries.size(); i++) {
 
-            testJSONParsing test = new testJSONParsing();
+            JSONParsing test = new JSONParsing();
 
-            urlBuilder urlBuilder = new urlBuilder();
 
-            String a = urlBuilder.URL(countries.get(i), indicator, from, to);
+            String a = DataFactory.URL(countries.get(i), indicator, from, to);
 
             JSONArray jsonObject = null;
 
@@ -55,9 +54,6 @@ public class ArrayBuilder {
 
                 alert.showAndWait();
             }
-
-            System.out.println(jsonObject);
-
             JSONArray jaDataArray = null;
 
             try{
@@ -95,7 +91,6 @@ public class ArrayBuilder {
                         inner.add(countyName);
                         // outer.add(inner);
                         DataPiece dataPiece = new DataPiece(valueX1, year1, countyName, indicatorName);
-                        System.out.println(dataPiece);
                         outer.add(dataPiece);
 
                     } catch (Exception eb) {
