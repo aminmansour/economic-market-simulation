@@ -32,7 +32,6 @@ public class History {
             ioe.printStackTrace();
         }catch(ClassNotFoundException c)
         {
-            System.out.println("Class not found");
             c.printStackTrace();
         }
 

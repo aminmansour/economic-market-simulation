@@ -67,11 +67,23 @@ public class DataFactory {
                 definitionStore.add(currentLine.substring(indexSeperator + 1));
             }
         } catch (Exception c) {
-            System.out.println(c.getMessage());
             return null;
         }
         return new Pair<ArrayList<String>, ArrayList<String>>(wordStore, definitionStore);
     }
 
+    /**
+     * constructs a url query based on the input data
+     *
+     * @param countyCode     the iso 2 county code
+     * @param indicartorType the code for the indicator
+     * @param from           year
+     * @param to             year
+     * @return a url to query the api
+     */
+    public static String URL(String countyCode, String indicartorType, String from, String to) {
+        String a = "http://api.worldbank.org/countries/" + countyCode + "/indicators/" + indicartorType + "/?date=" + from + ":" + to + "&format=JSON";
+        return a;
+    }
 
 }

@@ -25,11 +25,13 @@ public class HistoryPane extends BorderPane {
     private ToggleGroup tgViewType;
     private RadioButton rbBar;
     private RadioButton rbLine;
-
-    private GridPane fl;
-
+    private GridPane gpFlowPane;
     private History localhistory;
 
+    /**
+     * a view displaying the search history of previous queries.
+     * @param hist the archive of previous searches
+     */
     public HistoryPane(History hist){
         Button clear = new Button("Delete History");
 
@@ -37,36 +39,31 @@ public class HistoryPane extends BorderPane {
         setPadding(new Insets(30, 0, 0, 306));
         localhistory = hist;
         Collection<ArrayList<ArrayList<DataPiece>>> valset =localhistory.getHistories().values();
-        fl = new GridPane();
-        fl.add(new Label("History: "),0,4);
+        gpFlowPane = new GridPane();
+        gpFlowPane.add(new Label("History: "), 0, 4);
         tgViewType = new ToggleGroup();
         rbBar = new RadioButton("bar-chart");
         rbLine = new RadioButton("line-chart");
         rbBar.setToggleGroup(tgViewType);
         rbLine.setToggleGroup(tgViewType);
         Label chartype = new Label("Chart Type: ");
-        fl.add(chartype,0,1);
-        fl.setMargin(clear, new Insets(0, 90, 0, 0));
-        fl.add(rbBar,0,2);
-        fl.add(rbLine,0,3);
-        fl.setPadding(new Insets(10, 5, 10, 5));
-        fl.add(clear, 0, 0);
+        gpFlowPane.add(chartype, 0, 1);
+        gpFlowPane.setMargin(clear, new Insets(0, 90, 0, 0));
+        gpFlowPane.add(rbBar, 0, 2);
+        gpFlowPane.add(rbLine, 0, 3);
+        gpFlowPane.setPadding(new Insets(10, 5, 10, 5));
+        gpFlowPane.add(clear, 0, 0);
         rbLine.setSelected(true);
-        javafx.scene.control.ScrollPane scp = new javafx.scene.control.ScrollPane(fl);
+        javafx.scene.control.ScrollPane scp = new javafx.scene.control.ScrollPane(gpFlowPane);
         scp.setStyle("-fx-background-color: white; -fx-focus-color: transparent;   -fx-background: #FFFFFF; -fx-border-color: #FFFFFF;");
         setRight(scp);
 
-        fl.setVgap(10);
-        if (fl.getChildren().size() > 5) {
-            setCenter(new Label("Select a diagram to view"));
-        } else {
-            setCenter(new Label("Nothing to show"));
-        }
+        gpFlowPane.setVgap(20);
         clear.setOnAction((event) ->{
 
             hist.clear();
-            if (fl.getChildren().size() > 5) {
-                fl.getChildren().remove(5, fl.getChildren().size());
+            if (gpFlowPane.getChildren().size() > 5) {
+                gpFlowPane.getChildren().remove(5, gpFlowPane.getChildren().size());
                 setCenter(new Label("Nothing to show"));
             }
             ((Label) getCenter()).setText("Nothing to show");
@@ -106,7 +103,7 @@ public class HistoryPane extends BorderPane {
             Button elemennt = new Button(seperated + " " + toYears + " - " + fromYears + " " + indicatorString);
             elemennt.setPadding(new Insets(10,10,10,10));
             GridPane.setMargin(elemennt,new Insets(5,0,0,0));
-            fl.add(elemennt, 0,i+5);
+            gpFlowPane.add(elemennt, 0, i + 5);
             elemennt.setId("bQuery");
             ChartBuillder ch = new ChartBuillder();
 
@@ -132,7 +129,7 @@ public class HistoryPane extends BorderPane {
             });
             i++;
 
-            if (fl.getChildren().size() > 5) {
+            if (gpFlowPane.getChildren().size() > 5) {
                 setCenter(new Label("Select a diagram to view"));
             } else {
                 setCenter(new Label("Nothing to show"));

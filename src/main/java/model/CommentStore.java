@@ -93,7 +93,6 @@ public class CommentStore {
             bw = new BufferedWriter(fw);
             int counter = 0;
             for (Map.Entry<String, Pair<String, String>> currentComment : getComments().entrySet()) {
-                System.out.println(currentComment);
                 content += currentComment.getKey() + "+" + currentComment.getValue().getKey() + "+" + currentComment.getValue().getValue() + "\n";
             }
 
