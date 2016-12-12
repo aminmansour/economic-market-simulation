@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,7 +40,7 @@ public class ChartBuillder {
         }
 
         ObservableList<String> years = FXCollections.observableArrayList();
-        for (int i = earliestYear; i < latestyear; i++) {
+        for (int i = earliestYear; i <= latestyear; i++) {
             years.add(Integer.toString(i));
         }
 
@@ -82,7 +83,7 @@ public class ChartBuillder {
 
     }
 
-    public  static BarChart<String,Number> buildBarChart(ArrayList<ArrayList<DataPiece>> dataArray) {
+    public static BarChart<String,Number> buildBarChart(ArrayList<ArrayList<DataPiece>> dataArray) {
 
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
@@ -110,29 +111,29 @@ public class ChartBuillder {
     }
 
     static void checkNoData(XYChart.Series<Integer,Double> series) {
-//        double d1 = 0;
-//        XYChart.Data<Integer,Double> last = null;
-//        for (Object data : series.getData()) {
-//            if (data instanceof XYChart.Data<?,?>) {
-//                XYChart.Data<Integer,Double> cdata = (XYChart.Data<Integer,Double>)data;
-//                if (last != null && last.getYValue() == null) {
-//                    double mid = (d1 + cdata.getYValue())/2;
-//                    last.setYValue(mid);
-//                    Text nodata = new Text("no data");
-//                    nodata.setTranslateY(nodata.getLayoutBounds().getHeight()/2);
-//                    last.setNode(nodata);
-//                }
-//                if (last != null) d1 = last.getYValue();
-//                last = cdata;
-//            }
-//        }
-//        if (last != null && last.getYValue() == null) {
-//            last.setYValue(d1);
-//            Text nodata = new Text("no data");
-//            nodata.setTranslateY(nodata.getLayoutBounds().getHeight()/2);
-//            last.setNode(nodata);
-//
-//        }
+        double d1 = 0;
+        XYChart.Data<Integer,Double> last = null;
+        for (Object data : series.getData()) {
+            if (data instanceof XYChart.Data<?,?>) {
+                XYChart.Data<Integer,Double> cdata = (XYChart.Data<Integer,Double>)data;
+                if (last != null && last.getYValue() == null) {
+                    double mid = (d1 + cdata.getYValue())/2;
+                    last.setYValue(mid);
+                    Text nodata = new Text("no data");
+                    nodata.setTranslateY(nodata.getLayoutBounds().getHeight()/2);
+                    last.setNode(nodata);
+                }
+                if (last != null) d1 = last.getYValue();
+                last = cdata;
+            }
+        }
+        if (last != null && last.getYValue() == null) {
+            last.setYValue(d1);
+            Text nodata = new Text("no data");
+            nodata.setTranslateY(nodata.getLayoutBounds().getHeight()/2);
+            last.setNode(nodata);
+
+        }
 }
 
 }
