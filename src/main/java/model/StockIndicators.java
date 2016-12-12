@@ -7,10 +7,10 @@ import java.util.Objects;
 
 /**
  * Created by denissaidov on 09/12/2016.
- *  Retrieves data from the internet on stock prices of the 4 major technology companies. Google,Microsott,Apple and Yahoo.
  */
 public class StockIndicators {
 
+    private  String s;
     private String aaplBid;
     private String aaplChangeinPercent;
     private String msftBid;
@@ -21,11 +21,11 @@ public class StockIndicators {
     private String yhooChangeinPercent;
 
     /**
-     * Loads the stock prices of each company from Yahoo Apis and converts JSON data to strings.
-     *
-     * @throws Exception an Exception is thrown if a access to the internet is made when the user is offline
+     * indicators showing current trends in stock data
+     * @throws Exception
      */
     public StockIndicators() throws Exception {
+
         testJSONParsing test = new testJSONParsing();
 
         try {
@@ -90,31 +90,35 @@ public class StockIndicators {
     }
 
     /**
-     * @return Google's latest bid.
+     * Return Google's latest bid.
      */
     public String getGOOGLBid() {
         return googlBid;
     }
 
     /**
-     *  @return Google's latest change in percentage.
+     * Return Google's latest change in percentage.
      */
     public String getGOOGLPercent() {
         return googlChangeinPercent;
     }
 
     /**
-     * @return Yahoo's latest bid.
+     * Return Yahoo's latest bid.
      */
     public String getYHOOBid() {
         return yhooBid;
     }
 
     /**
-     * @return Yahoo's latest change in percentage.
+     * Return Yahoo's latest change in percentage.
      */
     public String getYHOOPercent() {
         return yhooChangeinPercent;
+    }
+
+    public String getS(){
+        return s;
     }
 
 }

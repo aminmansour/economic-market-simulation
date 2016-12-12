@@ -436,7 +436,8 @@ public class InterfaceScene extends Scene {
             });
             ts.play();
 
-        } else{
+        }
+        else{
             tTopBanner.setText("Macro Economics");
         }
     }

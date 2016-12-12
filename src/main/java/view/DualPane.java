@@ -27,10 +27,24 @@ import java.util.concurrent.Callable;
 
 /**
  * Created by denissaidov on 28/11/2016.
- * creates a split vertical view of two chart panes as one view to be displayed side to side
  */
 
 public class DualPane extends BorderPane {
+
+    private ArrayList<CountryNode> CountryNodeArray = new ArrayList<CountryNode>();
+    private Button go;
+    private ComboBox<String> indicators;
+    private TextField tfFrom;
+    private TextField tfTo;
+    private GridPane grid;
+    private Button addCountry;
+    private GridPane countriesPane;
+
+    /**
+     * a view to compare two different graphs on the same pane
+     * @param history an archive of previous searches
+     * @throws Exception
+     */
 
     public DualPane(History history) throws Exception {
         //<div>Icons made by <a href="http://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
@@ -38,13 +52,15 @@ public class DualPane extends BorderPane {
         VBox gpStack = new VBox();
 
         ArrayList<String> count = new ArrayList<String>();
-        LineChart<String, Number> lcChartTwo = new LineChart<String, Number>(new CategoryAxis(), (new NumberAxis()));
-        LineChart<String, Number> lcChartOne = new LineChart<String, Number>(new CategoryAxis(), (new NumberAxis()));
-        lcChartOne.setAnimated(true);
-        lcChartTwo.setAnimated(true);
-        ChartPane cpChartOne = new ChartPane(lcChartOne, history);
-        ChartPane cpChartTwo = new ChartPane(lcChartTwo, history);
-        gpStack.getChildren().add(cpChartOne);
+//        count.add("br");
+//
+        LineChart<String, Number> chart2 = new LineChart<String, Number>(new CategoryAxis(), (new NumberAxis()));
+        LineChart<String, Number> chart1 = new LineChart<String, Number>(new CategoryAxis(), (new NumberAxis()));
+        chart1.setAnimated(true);
+        chart2.setAnimated(true);
+        ChartPane child = new ChartPane(chart1, history);
+        ChartPane child1 = new ChartPane(chart2, history);
+        gpStack.getChildren().add(child);
         gpStack.setAlignment(Pos.CENTER_LEFT);
         GridPane.setHalignment(cpChartOne, HPos.CENTER);
         GridPane.setHalignment(cpChartTwo, HPos.CENTER);

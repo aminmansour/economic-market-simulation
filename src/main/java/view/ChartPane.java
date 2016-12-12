@@ -317,33 +317,59 @@ public class ChartPane extends BorderPane {
 
     }
 
+    /**
+     * @return an array of countries on the pane
+     */
     public GridPane getCountriesPane(){
         return  countriesPane;
     }
 
+    /**
+     * sets the center of the borderpane to a given Line chart
+     * @param lineChart the given Line chart
+     */
     public void setCenterLineChart(LineChart<String,Number> lineChart){
         setCenter(lineChart);
 
     }
+    /**
+     * sets the center of the borderpane to a given Bar chart
+     * @param lineChart the given Bar chart
+     */
     public void setCenterLineChart(BarChart<String,Number> lineChart){
         setCenter(lineChart);
     }
 
-
+    /**
+     * @return the group of radiobuttons to choose between chart types
+     */
     public  ToggleGroup getTgViewType(){
         return tgViewType;
     }
+    /**
+     * @return the radiobutton for Bar chart
+     */
     public RadioButton getRbBar(){
         return rbBar;
     }
+
+    /**
+     * @return the radiobutton for Line chart
+     */
     public RadioButton getRbLine(){
         return rbLine;
     }
 
+    /**
+     * sets margin
+     */
     public void setMarginAround() {
         setPadding(new Insets(20, 0, 0, 300));
     }
 
+    /**
+     * sets margin
+     */
     public void setMarginWithIn() {
         BorderPane.setMargin((Node) getCenter(), new Insets(60));
     }
