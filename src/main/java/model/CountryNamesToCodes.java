@@ -1,6 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by Sarosi on 27/11/2016.
@@ -28,5 +31,22 @@ public class CountryNamesToCodes {
 
     }
 
-    
+    public String backwardsConvert(String code, CountryReader reader) {
+
+        HashMap<String, String> map = reader.getPairs();
+
+        String answer = null;
+
+        for(Map.Entry<String, String> chart : map.entrySet()) {
+
+            if(Objects.equals(chart.getValue(), code)) {
+
+                answer = chart.getKey();
+            }
+
+        }
+
+        return answer;
+
+    }
 }
