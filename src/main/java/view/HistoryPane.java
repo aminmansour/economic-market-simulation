@@ -31,6 +31,10 @@ public class HistoryPane extends BorderPane {
 
     private History localhistory;
 
+    /**
+     * a view displaying the search history of previous queries.
+     * @param hist the archive of previous searches
+     */
     public HistoryPane(History hist){
         Button clear = new Button("Delete History");
 

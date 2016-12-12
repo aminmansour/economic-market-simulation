@@ -21,6 +21,11 @@ public class CountryNode extends GridPane {
     private ComboBox<String> countries;
     private ImageView flag;
 
+    /**
+     * an object representing a combobox and surounding Nodes in order to make a selection of countries
+     * @param defualtValue the default string of the combobox
+     */
+
     public CountryNode(String defualtValue) {
         try {
             String csvFile = "src/main/resources/storage/CountryCodesCore.csv";
@@ -74,10 +79,17 @@ public class CountryNode extends GridPane {
 
     }
 
+    /**
+     * @return the combobox
+     */
+
     public ComboBox<String> getCountries() {
         return countries;
     }
 
+    /**
+     * @return the flag associated with the country
+     */
     public ImageView getFlag() {
         return flag;
     }

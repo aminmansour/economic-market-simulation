@@ -20,7 +20,12 @@ public class StockIndicators {
     private String yhooBid;
     private String yhooChangeinPercent;
 
+    /**
+     * indicators showing current trends in stock data
+     * @throws Exception
+     */
     public StockIndicators() throws Exception {
+
         testJSONParsing test = new testJSONParsing();
 
         try {

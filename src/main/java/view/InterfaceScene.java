@@ -45,6 +45,11 @@ public class InterfaceScene extends Scene {
     private GlossaryPane cachedGlossary;
     public BorderPane bpSideNav;
 
+    /**
+     * The scene containing the sidebar and housing the different views.
+     * @param sCurrent the current stage
+     */
+
     public InterfaceScene(Stage sCurrent) {
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
         spGlobal = (StackPane)getRoot();

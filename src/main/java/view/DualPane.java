@@ -40,7 +40,11 @@ public class DualPane extends BorderPane {
     private Button addCountry;
     private GridPane countriesPane;
 
-
+    /**
+     * a view to compare two different graphs on the same pane
+     * @param history an archive of previous searches
+     * @throws Exception
+     */
 
     public DualPane(History history) throws Exception {
         //<div>Icons made by <a href="http://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>

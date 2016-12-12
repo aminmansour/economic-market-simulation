@@ -16,6 +16,11 @@ public class DualController implements EventHandler<MouseEvent> {
 
     private DualPane dualPane;
 
+    /**
+     * controller for compare mode
+     * @param dualPane a pane containing 2 charts
+     * @throws Exception
+     */
     public DualController(DualPane dualPane) throws Exception {
         this.dualPane = dualPane;
 
@@ -24,6 +29,9 @@ public class DualController implements EventHandler<MouseEvent> {
 //actionlistener of go calls this method
 
     @Override
+    /**
+     * handling the event of a query on the dualpane
+     */
     public void handle(MouseEvent event) {
         ArrayBuilder AB = new ArrayBuilder();
         CountryReader charles = null;
