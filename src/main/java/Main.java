@@ -3,23 +3,17 @@
  */
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
+import javafx.scene.chart.XYChart;
 import javafx.scene.image.Image;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
-import javafx.scene.chart.*;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import model.CountryNamesToCodes;
 import model.CountryReader;
 import model.History;
 import view.InterfaceScene;
-
-import java.util.ArrayList;
 
 public class Main extends Application {
 
@@ -39,7 +33,19 @@ public class Main extends Application {
         primaryStage.setMaximized(true);
         String csvFile = "src/main/resources/storage/CountryCodesCore.csv";
         CountryReader charles = new CountryReader(csvFile);
-        LineChart<String, Number> chart2 = new LineChart<String, Number>(new CategoryAxis(),(new NumberAxis()));
+        ObservableList<String> years = FXCollections.observableArrayList();
+        for (int i = 1915; i < 2017; i++) {
+            years.add(Integer.toString(i));        }
+        final CategoryAxis xAxis = new CategoryAxis(years);
+        final NumberAxis yAxis = new NumberAxis();
+        LineChart<String, Number> chart2 = new LineChart<String, Number>(xAxis,yAxis);
+      XYChart.Series series = new XYChart.Series();
+        series.setName("My portfolio");
+        for (int i = 1960; i < 2017; i++) {
+            series.getData().add(new XYChart.Data(Integer.toString(i),0 ));
+        }
+        chart2.getData().add(series);
+
         History history = new History();
         main.loadStore(primaryStage, chart2, history);
 

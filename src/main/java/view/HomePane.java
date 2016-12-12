@@ -33,15 +33,19 @@ public class HomePane extends BorderPane {
         GridPane gpLogoStore = new GridPane();
         gpLogoStore.setAlignment(Pos.CENTER);
         ImageView logoIconIV = createIcon();
-        Label lWelcomeMsg = new Label("Macro Economics");
+        Label lWelcomeMsg = new Label("EVA:");
+        Label lWelcomeMsg2 = new Label("Economics Virtual Assistant");
         lWelcomeMsg.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
+        lWelcomeMsg2.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
         GridPane.setHalignment(lWelcomeMsg, HPos.CENTER);
         GridPane.setHalignment(logoIconIV, HPos.CENTER);
+        GridPane.setHalignment(lWelcomeMsg2, HPos.CENTER);
 //        lWelcomeMsg.setStyle("-fx-background-color: #0D1B1E");
 //        lWelcomeMsg.getStyleClass().add("welcomeMsg");
         setCenter(gpLogoStore);
         gpLogoStore.add(logoIconIV, 0, 0);
         gpLogoStore.add(lWelcomeMsg,0,1);
+        gpLogoStore.add(lWelcomeMsg2,0,2);
         gpLogoStore.setVgap(10);
     }
 
