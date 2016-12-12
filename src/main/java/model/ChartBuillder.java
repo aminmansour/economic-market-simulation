@@ -52,8 +52,8 @@ public class ChartBuillder {
             dialogPane.getStylesheets().add("css/chartPane-style.css");
             dialogPane.getStyleClass().add("alert");
             alert.setTitle("Error");
-            alert.setHeaderText("No data found");
-            alert.setContentText("There is no data for this coutry in this time period.");
+            alert.setHeaderText("Lack of data");
+            alert.setContentText("One or more of the countries selected has no data for your given indicator and time period. \n Displaying data for other countries. ");
 
             alert.showAndWait();
         }

@@ -5,6 +5,7 @@
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
+import javafx.scene.image.Image;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
@@ -32,8 +33,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //System.setProperty("glass.accessible.force", "false");
-
-
+        primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("icons/EconIcon.png")));
         InterfaceScene main = new InterfaceScene(primaryStage);
         primaryStage.setWidth(1200);
         primaryStage.setHeight(840);
@@ -54,7 +54,7 @@ public class Main extends Application {
         //ADD ERROR HANDLING TO Arraybuider and ChartBuider for when there is no data for given year
         //ADD CSV of indicators and indicator codes eg.: Gross Domestic Product, NY.GDP.MKTP.CD
 
-        primaryStage.setTitle("Project Core");
+        primaryStage.setTitle("Economics Virtual Assistant");
         //StockIndicators test = new StockIndicators();
         //System.out.println(test.getAAPLBid());
 
