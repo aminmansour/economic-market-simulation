@@ -98,8 +98,6 @@ public class InterfaceScene extends Scene {
             bpSideNav.setBottom(null);
         }
 
-
-
         view.setPickOnBounds(false);
         pageLoad = new Stack<BorderPane>();
 

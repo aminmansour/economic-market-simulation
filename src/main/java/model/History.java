@@ -118,4 +118,8 @@ public class History {
     public void clear(){
         histories.clear();
     }
+
+    public ArrayList<ArrayList<DataPiece>> getLastEntry() {
+        return histories.get(1);
+    }
 }

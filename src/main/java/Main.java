@@ -3,23 +3,15 @@
  */
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
-import javafx.scene.chart.*;
-import javafx.stage.Screen;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import model.*;
-import org.json.JSONArray;
-import view.HistoryPane;
+import model.CountryNamesToCodes;
+import model.CountryReader;
+import model.History;
 import view.InterfaceScene;
 
-import java.awt.*;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class Main extends Application {

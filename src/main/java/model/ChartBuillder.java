@@ -60,9 +60,6 @@ public class ChartBuillder {
 
         return lineChart;
 
-
-
-
     }
 
     public  static BarChart<String,Number> buildBarChart(ArrayList<ArrayList<DataPiece>> dataArray) {
