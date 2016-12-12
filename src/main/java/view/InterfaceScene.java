@@ -309,7 +309,7 @@ public class InterfaceScene extends Scene {
         bpSideNav = createSideNav(vbStack);
         gpLocalIndicators = new GridPane();
         bpSideNav.setBottom(gpLocalIndicators);
-        createIndicatorBoxes(new String[]{"World GDP", "East Asia GDP", "Europe GDP", "Sub-Africa GDP"}, gpLocalIndicators);
+        createIndicatorBoxes(new String[]{"World GDP", "Sub-Africa GDP", "Europe GDP", "East Asia GDP"}, gpLocalIndicators);
         gpLocalIndicators.setAlignment(Pos.CENTER);
         BorderPane.setMargin(gpLocalIndicators,new Insets(0,10,10,10));
         BorderPane.setAlignment(gpLocalIndicators,Pos.CENTER);
