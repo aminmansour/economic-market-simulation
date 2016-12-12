@@ -16,7 +16,7 @@ public class urlBuilder {
      * @param to year
      * @return a url to query the api
      */
-    public String URL(String countyCode, String indicartorType,String from, String to){
+    public static String URL(String countyCode, String indicartorType, String from, String to) {
         String a = "http://api.worldbank.org/countries/"  + countyCode + "/indicators/" + indicartorType + "/?date=" + from + ":" + to + "&format=JSON";
         return a;
     }

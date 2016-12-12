@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -21,12 +22,14 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 import model.DataFactory;
 import model.History;
+import model.IndicatorRetrieval;
 import model.StockIndicators;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -45,6 +48,12 @@ public class InterfaceScene extends Scene {
     private GlossaryPane cachedGlossary;
     public BorderPane bpSideNav;
 
+
+    /**
+     * Sets up side and top navigation with the defualt lander page set as the view.
+     *
+     * @param sCurrent The primary stage
+     */
     public InterfaceScene(Stage sCurrent) {
         super(new StackPane(),sCurrent.getWidth(),sCurrent.getHeight());
         spGlobal = (StackPane)getRoot();
@@ -54,56 +63,27 @@ public class InterfaceScene extends Scene {
         spGlobal.setStyle("-fx-background-color: white");
         spGlobal.getStylesheets().add("css/interface-style.css");
         spGlobal.getStyleClass().add("banner");
-        try {
-            StockIndicators stockIndicatorsData = new StockIndicators();
-
-
-            String aaplRawPercentage = stockIndicatorsData.getAAPLPercent().replaceAll("[%\\+]","");
-            String msftRawPercentage = stockIndicatorsData.getMSFTPercent().replaceAll("[%\\+]","");
-            String googlRawPercentage = stockIndicatorsData.getGOOGLPercent().replaceAll("[%\\+]","");
-            String yhooRawPercentage = stockIndicatorsData.getYHOOPercent().replaceAll("[%\\+]","");
-            if(Double.parseDouble(aaplRawPercentage) < 0) {
-                setIndicatorBox(0,-1,stockIndicatorsData.getAAPLBid(),stockIndicatorsData.getAAPLPercent());
-            } else if(Double.parseDouble(aaplRawPercentage) == 0) {
-                setIndicatorBox(0,0,stockIndicatorsData.getAAPLBid(),stockIndicatorsData.getAAPLPercent());
-            } else if(Double.parseDouble(aaplRawPercentage) > 0) {
-                setIndicatorBox(0,1,stockIndicatorsData.getAAPLBid(),stockIndicatorsData.getAAPLPercent());
-            }
-
-            if(Double.parseDouble(msftRawPercentage) < 0) {
-                setIndicatorBox(1,-1,stockIndicatorsData.getMSFTBid(),stockIndicatorsData.getMSFTPercent());
-            } else if(Double.parseDouble(msftRawPercentage) == 0) {
-                setIndicatorBox(1,0,stockIndicatorsData.getMSFTBid(),stockIndicatorsData.getMSFTPercent());
-            } else if(Double.parseDouble(msftRawPercentage) > 0) {
-                setIndicatorBox(1,1,stockIndicatorsData.getMSFTBid(),stockIndicatorsData.getMSFTPercent());
-            }
-
-            if(Double.parseDouble(googlRawPercentage) < 0) {
-                setIndicatorBox(2,-1,stockIndicatorsData.getGOOGLBid(),stockIndicatorsData.getGOOGLPercent());
-            } else if(Double.parseDouble(googlRawPercentage) == 0) {
-                setIndicatorBox(2,0,stockIndicatorsData.getGOOGLBid(),stockIndicatorsData.getGOOGLPercent());
-            } else if(Double.parseDouble(googlRawPercentage) > 0) {
-                setIndicatorBox(2,1,stockIndicatorsData.getGOOGLBid(),stockIndicatorsData.getGOOGLPercent());
-            }
-
-            if(Double.parseDouble(yhooRawPercentage) < 0) {
-                setIndicatorBox(3,-1,stockIndicatorsData.getYHOOBid(),stockIndicatorsData.getYHOOPercent());
-            } else if(Double.parseDouble(yhooRawPercentage) == 0) {
-                setIndicatorBox(3,0,stockIndicatorsData.getYHOOBid(),stockIndicatorsData.getYHOOPercent());
-            } else if(Double.parseDouble(yhooRawPercentage) > 0) {
-                setIndicatorBox(3,1,stockIndicatorsData.getYHOOBid(),stockIndicatorsData.getYHOOPercent());
-            }
-
-        } catch (Exception E) {
-            bpSideNav.setBottom(null);
-        }
-
+        setUpIndicatorBoxes();
 
 
         view.setPickOnBounds(false);
         pageLoad = new Stack<BorderPane>();
 
 
+    }
+
+    //retrieves from storage and loads data to the indicators
+    private void setUpIndicatorBoxes() {
+        try {
+            IndicatorRetrieval ir = new IndicatorRetrieval();
+            int counter = 0;
+            for (Map.Entry<Pair<String, String>, Integer> currentComment : ir.returnBox().entrySet()) {
+                setIndicatorBox(counter, currentComment.getValue(), currentComment.getKey().getKey(), currentComment.getKey().getValue());
+                counter++;
+            }
+        } catch (Exception E) {
+            bpSideNav.setBottom(null);
+        }
     }
 
     public void doWork(Stage sCurrent, LineChart<String, Number> linechart, History history) {
@@ -322,7 +302,7 @@ public class InterfaceScene extends Scene {
         bpSideNav = createSideNav(vbStack);
         gpLocalIndicators = new GridPane();
         bpSideNav.setBottom(gpLocalIndicators);
-        createIndicatorBoxes(new String[]{"AAPL","MSFT","GOOGL","YHOO"},gpLocalIndicators);
+        createIndicatorBoxes(new String[]{"World GDP", "East Asia GDP", "Europe GDP", "Sub-Africa GDP"}, gpLocalIndicators);
         gpLocalIndicators.setAlignment(Pos.CENTER);
         BorderPane.setMargin(gpLocalIndicators,new Insets(0,10,10,10));
         BorderPane.setAlignment(gpLocalIndicators,Pos.CENTER);
