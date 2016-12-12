@@ -29,7 +29,7 @@ public class StockIndicators {
     //retrieves from source and stores it
     private void setDataOfIndicators(JSONParsing test) {
         try {
-            JSONArray jsonObject = test.httpGET("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20%28%22AAPL,MSFT,GOOGL,YHOO%22%29&env=store://datatables.org/alltableswithkeys&format=json", "StockIndicators");
+            JSONArray jsonObject = test.httpGET("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20%28%22AAPL,MSFT,GOOGL,YHOO%22%29&env=store://datatables.org/alltableswithkeys&format=json");
             JSONObject jsb = (JSONObject) jsonObject.getJSONObject(0);
             JSONObject jsbQuery = (JSONObject) jsb.getJSONObject("query");
             JSONObject jsbResults = (JSONObject) jsbQuery.getJSONObject("results");

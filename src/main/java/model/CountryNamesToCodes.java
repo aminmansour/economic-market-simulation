@@ -24,13 +24,25 @@ public class CountryNamesToCodes {
         }
         return codes;
     }
-    
+
+    /**
+     *
+     * @param name the name of the code of indicator/country you wish to convert to code
+     * @param reader the file you wish to use to convert the name into code
+     * @return
+     */
     public static String singleConvert(String name, CountryReader reader) {
 
         return reader.getPairs().get(name);
 
     }
 
+    /**
+     *
+     * @param code the code of the indicator/country you wish to convert back to its meaningful name
+     * @param reader the file you wish to use to convert the name into name
+     * @return
+     */
     public String backwardsConvert(String code, CountryReader reader) {
 
         HashMap<String, String> map = reader.getPairs();

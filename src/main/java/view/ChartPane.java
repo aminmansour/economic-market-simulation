@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 /**
- * Created by denissaidov on 28/11/2016.
+ * Created by hanitawil on 28/11/2016.
  */
 
 public class ChartPane extends BorderPane {

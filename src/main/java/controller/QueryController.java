@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Alert;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Created by Sarosi on 30/11/2016.
+ * Created by hanitawil on 30/11/2016.
  */
 public class QueryController implements EventHandler<MouseEvent> {
 

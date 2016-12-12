@@ -27,12 +27,9 @@ public class History {
             histories = (HashMap) ois.readObject();
             ois.close();
             fis.close();
-        }catch(IOException ioe)
+        }catch(IOException | ClassNotFoundException ioe)
         {
             ioe.printStackTrace();
-        }catch(ClassNotFoundException c)
-        {
-            c.printStackTrace();
         }
 
     }

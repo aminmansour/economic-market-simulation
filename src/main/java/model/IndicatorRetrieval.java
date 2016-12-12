@@ -81,7 +81,11 @@ public class IndicatorRetrieval {
         return store;
     }
 
-    //rounds +- doubles to 4 significant places
+    /**
+     *
+     * @param value the value you wish to round up to
+     * @return a double which is rounded up to 4 significant places
+     */
     private String round(Double value) {
         ;
         int valOfRound = value.toString().indexOf(".") + 3;
