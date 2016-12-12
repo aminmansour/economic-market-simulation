@@ -1,10 +1,7 @@
 package model;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.DialogPane;
 import javafx.util.Pair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
@@ -27,10 +24,9 @@ public class IndicatorRetrieval {
      * @throws Exception
      */
     public IndicatorRetrieval() throws Exception {
-        testJSONParsing test = new testJSONParsing();
-        urlBuilder urlBuilder = new urlBuilder();
+        JSONParsing test = new JSONParsing();
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        String a = urlBuilder.URL("WLD;SSF;ECS;EAS", "NY.GDP.MKTP.CD", "2014", Integer.toString(Calendar.getInstance().get(Calendar.YEAR) - 1));
+        String a = DataFactory.URL("WLD;SSF;ECS;EAS", "NY.GDP.MKTP.CD", "2014", Integer.toString(Calendar.getInstance().get(Calendar.YEAR) - 1));
         JSONArray jsonObject = null;
         jsonObject = test.httpGET(a);
         JSONArray jaDataArray = (JSONArray) jsonObject.get(1);

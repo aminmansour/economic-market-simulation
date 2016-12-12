@@ -43,22 +43,15 @@ public class ChartPane extends BorderPane {
     private RadioButton rbLine;
 
     /**
-     *  creates a BorderPane contaiing a chart and a sidebar for making a request
-     * @param linechart an initial linechart
-     * @param history a hasmap containing  history, which we add new queries to
+     *  creates a BorderPane containg the chart from the data queried and a sidebar for making a particular query.
+     * @param linechart The intial linechart.
+     * @param history The object which encapsulates a hashmmap containing the data retrieved from the queries.
      */
-
-
     public ChartPane(LineChart<String, Number> linechart, History history) {
         //<div>Icons made by <a href="http://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-
         this.history = history;
-
         getStylesheets().add("css/chartPane-style.css");
-
-
         setCenter(linechart);
-
         addCountry = new Button("Add Country");
         addCountry.setId("add");
 
@@ -68,6 +61,7 @@ public class ChartPane extends BorderPane {
         grid = new GridPane();
         ScrollPane spSidePanel = new ScrollPane(grid);
         spSidePanel.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+
         grid.setVgap(5);
         grid.setHgap(5);
         grid.setPadding(new Insets(0,5,0,0));
@@ -197,9 +191,6 @@ public class ChartPane extends BorderPane {
 
                         @Override
                         public void handle(MouseEvent event) {
-
-                            System.out.println(bMinus.getId());
-
                             int rowOfNode = countriesPane.getRowIndex(bMinus);
                             int colOfNode = countriesPane.getColumnIndex(bMinus) - 1;
 
@@ -243,68 +234,45 @@ public class ChartPane extends BorderPane {
         setCenter(lMessage);
     }
 
-    /**
-     *  sets size
-     * @param width
-     * @param height
-     */
-    public void makeMeBigger(int width, int height) {
-        System.out.println(this.getParent().getParent());
-    }
+
 
     /**
-     * @return history
+     * Retrieval of the history
+     * @return history cache
      */
     public History getHistory() {
         return history;
     }
 
     /**
-     * @return array of data in combobox selection
-     */
-    public ArrayList<CountryNode> getCountriesArray() {
-        return countriesArray;
-    }
-
-    /**
-     * @return the button that initiates the query
-     */
-    public Button getbQuery() {
-        return bQuery;
-    }
-
-    /**
-     * @return indicator
+     * Allows access for a list of indicator dropdown
+     * @return The combobox containing list of indicator strings
      */
     public ComboBox<String> getIndicators() {
         return indicators;
     }
 
     /**
-     * @return start  query year
+     * Retrieves the textfield which you specify year from
+     * @return The textfield which you specify year from
      */
     public TextField getTfFrom() {
         return tfFrom;
     }
 
     /**
-     * @return end  query year
+     * Retrieves the textfield where you specify year to
+     * @return The textfield which you specify year to
      */
     public TextField getTfTo() {
         return tfTo;
     }
 
-    /**
-     * @return the gridpane
-     */
-    public GridPane getGrid() {
-        return grid;
-    }
 
     /**
+     * retrieves an array list of all the country names
      * @return an array of the names of the countries selected
      */
-
     public ArrayList<String> countrynames() {
         ArrayList<String> names = new ArrayList<String>();
         for (int i = 0; i < countriesArray.size(); i++) {
@@ -312,9 +280,7 @@ public class ChartPane extends BorderPane {
                 names.add(countriesArray.get(i).getCountries().getSelectionModel().getSelectedItem().toString());
             }
         }
-
         return names;
-
     }
 
     /**
@@ -361,14 +327,14 @@ public class ChartPane extends BorderPane {
     }
 
     /**
-     * sets margin
+     * sets margin of the page to a fixed amount
      */
     public void setMarginAround() {
         setPadding(new Insets(20, 0, 0, 300));
     }
 
     /**
-     * sets margin
+     * sets margin of the graph with a fixed value
      */
     public void setMarginWithIn() {
         BorderPane.setMargin((Node) getCenter(), new Insets(60));

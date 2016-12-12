@@ -109,7 +109,6 @@ public class InterfaceScene extends Scene {
                     oos.writeObject(history.getHistories());
                     oos.close();
                     fos.close();
-                    System.out.printf("Serialized HashMap data is saved in hashmap.ser");
                 } catch (IOException ioe) {
                     ioe.printStackTrace();
                 }

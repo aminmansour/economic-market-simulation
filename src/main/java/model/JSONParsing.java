@@ -10,14 +10,15 @@ import java.net.URL;
 /**
  * Created by denissaidov on 25/11/2016.
  */
-public class testJSONParsing {
+public class JSONParsing {
     private final String USER_AGENT = "Mozilla/5.0";
 
-    public testJSONParsing() {
+    public JSONParsing() {
 
     }
 
-    /** HTTP GET request
+    /**
+     * Makes a HTTP GET request
      *
      * @param urlIn url input
      * @return Json array from API
@@ -37,9 +38,6 @@ public class testJSONParsing {
         con.setRequestProperty("User-Agent", USER_AGENT);
 
         int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'GET' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
-
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
@@ -67,11 +65,7 @@ public class testJSONParsing {
 
         //add request header
         con.setRequestProperty("User-Agent", USER_AGENT);
-
         int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'GET' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
-
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
@@ -80,7 +74,6 @@ public class testJSONParsing {
             response.append(inputLine);
         }
         in.close();
-
         //print result
         JSONArray returnArray = new JSONArray("[" + response.toString() + "]");
         return returnArray;

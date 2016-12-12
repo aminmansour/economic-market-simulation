@@ -93,7 +93,6 @@ public class CountryReader {
     }
 
     public String getcode(String a){
-        System.out.println(pairs.get(a));
         return pairs.get(a);
     }
 }

@@ -39,7 +39,6 @@ public class ChartBuillder {
                 SerialKiller.get(q).setName(dataArray.get(q).get(0).getCountry());
 
                 for (int i = 0; i < dataArray.get(q).size(); i++) {
-                    System.out.println(SerialKiller.get(q).getName());
                     SerialKiller.get(q).getData().add(new XYChart.Data(dataArray.get(q).get(i).getYear(), Double.parseDouble(dataArray.get(q).get(i).getValue())));
                 }
                 checkNoData(SerialKiller.get(q));
@@ -82,7 +81,6 @@ public class ChartBuillder {
             SerialKiller.get(q).setName(dataArray.get(q).get(0).getCountry());
 
             for (int i = 0; i < dataArray.get(q).size(); i++) {
-                System.out.println(SerialKiller.get(q).getName());
                 SerialKiller.get(q).getData().add(new XYChart.Data(dataArray.get(q).get(i).getYear(), Double.parseDouble(dataArray.get(q).get(i).getValue())));
             }
                 checkNoData(SerialKiller.get(q));

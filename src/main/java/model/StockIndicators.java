@@ -3,14 +3,11 @@ package model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Objects;
-
 /**
  * Created by denissaidov on 09/12/2016.
  */
 public class StockIndicators {
 
-    private  String s;
     private String aaplBid;
     private String aaplChangeinPercent;
     private String msftBid;
@@ -25,12 +22,14 @@ public class StockIndicators {
      * @throws Exception
      */
     public StockIndicators() throws Exception {
+        JSONParsing test = new JSONParsing();
+        setDataOfIndicators(test);
+    }
 
-        testJSONParsing test = new testJSONParsing();
-
+    //retrieves from source and stores it
+    private void setDataOfIndicators(JSONParsing test) {
         try {
             JSONArray jsonObject = test.httpGET("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20%28%22AAPL,MSFT,GOOGL,YHOO%22%29&env=store://datatables.org/alltableswithkeys&format=json", "StockIndicators");
-            System.out.println(jsonObject);
             JSONObject jsb = (JSONObject) jsonObject.getJSONObject(0);
             JSONObject jsbQuery = (JSONObject) jsb.getJSONObject("query");
             JSONObject jsbResults = (JSONObject) jsbQuery.getJSONObject("results");
@@ -117,8 +116,5 @@ public class StockIndicators {
         return yhooChangeinPercent;
     }
 
-    public String getS(){
-        return s;
-    }
 
 }

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 /**
  * Created by hanitawil on 30/11/2016.
+ * A stack which contains a comboxBox to query the country and also contains all the countries currently currently qurried. It also provides the ability to remove a particular country that is queried.
  */
 public class CountryNode extends GridPane {
 
@@ -22,75 +23,39 @@ public class CountryNode extends GridPane {
     private ImageView flag;
 
     /**
-     * an object representing a combobox and surounding Nodes in order to make a selection of countries
+     * creates a stack containing a combobox with a list of countries which the user can select from.
      * @param defualtValue the default string of the combobox
      */
-
     public CountryNode(String defualtValue) {
         try {
             String csvFile = "src/main/resources/storage/CountryCodesCore.csv";
-            CountryReader countryReader = new CountryReader(csvFile);
-            ArrayList<String> cnames = countryReader.getCountrynames();
+
+            ArrayList<String> cNames = new CountryReader(csvFile).getCountrynames();
             countries = new ComboBox<String>();
+            for (int i = 0; i < cNames.size(); ++i) {
+                countries.getItems().add(i, cNames.get(i));
+            }
+            countries.setValue(defualtValue);
+            countries.setMaxWidth(162);
             add(countries, 0, 0);
             GridPane grid2 = new GridPane();
             add(grid2, 1, 0);
-
-
-            countries.setOnAction((event) -> {
-            String name  =  countries.getSelectionModel().getSelectedItem();
-             String code =  countryReader.getcode(name);
-                 flag = new ImageView();
-                grid2.getChildren().remove(flag);
-                FileInputStream fis = null;
-                try {
-                    if(name == "Select a country"){
-
-                    }else{
-                    fis = new FileInputStream("src/main/resources/image/flags/"+ code.toLowerCase() + ".png");
-                    flag = new ImageView(new Image(fis));
-                    flag.setFitHeight(25);
-                    grid2.add(flag, 1, 0);
-                    }
-                } catch (FileNotFoundException e) {
-                    System.out.println("no flag");
-                }
-
-            });
-            for (int i = 0; i < cnames.size(); ++i) {
-
-                countries.getItems().add(i, cnames.get(i));
-
-
-            }
-
-            countries.setValue(defualtValue);
-            countries.setMaxWidth(162);
-
-
-
         } catch (IOException e) {
             DialogPane jdError = new DialogPane();
             jdError.setContentText("The storage files have either been deleted or corrupted");
-
-
         }
-
 
     }
 
+
     /**
-     * @return the combobox
+     * Allows open access to the list of countries in a combobox
+     * @return The combobox with particular countries
      */
 
     public ComboBox<String> getCountries() {
         return countries;
     }
 
-    /**
-     * @return the flag associated with the country
-     */
-    public ImageView getFlag() {
-        return flag;
-    }
+
 }
