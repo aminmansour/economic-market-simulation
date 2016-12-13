@@ -70,7 +70,7 @@ public class QueryController implements EventHandler<MouseEvent> {
                     Boolean isInsideMap = false;
                     String savedMapId = null;
 
-                    String searchId = countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter);
+                    String searchId = countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getCbIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter);
 
                     for (String mapId : adding.getDataStore().keySet()) {
 
@@ -94,7 +94,7 @@ public class QueryController implements EventHandler<MouseEvent> {
                         } else {
                             ArrayList<ArrayList<DataPiece>> toBeCharted = null;
                             try {
-                                toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
+                                toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), ConversionFactory.singleConvert(chartPane.getCbIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -102,7 +102,7 @@ public class QueryController implements EventHandler<MouseEvent> {
                             LineChart<String, Number> charts = chartBuillder.buildLineChart(toBeCharted);
                             chartPane.setCenterLineChart(charts);
 
-                            adding.getDataStore().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
+                            adding.getDataStore().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getCbIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
                         }
                     }
                     if (chartPane.getTgViewType().getSelectedToggle() == chartPane.getRbBar()) {
@@ -117,7 +117,7 @@ public class QueryController implements EventHandler<MouseEvent> {
                         } else {
                             ArrayList<ArrayList<DataPiece>> toBeCharted = null;
                             try {
-                                toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
+                                toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), ConversionFactory.singleConvert(chartPane.getCbIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -125,7 +125,7 @@ public class QueryController implements EventHandler<MouseEvent> {
                             BarChart<String, Number> charts = chartBuillder.buildBarChart(toBeCharted);
                             chartPane.setCenterLineChart(charts);
 
-                            adding.getDataStore().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
+                            adding.getDataStore().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getCbIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
                         }
                     }
                 }
