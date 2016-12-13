@@ -11,7 +11,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import model.CountryReader;
+import model.CountryCodeDictionary;
 import model.History;
 import view.InterfaceScene;
 
@@ -32,7 +32,7 @@ public class Main extends Application {
         primaryStage.show();
         primaryStage.setMaximized(true);
         String csvFile = "src/main/resources/storage/CountryCodesCore.csv";
-        CountryReader charles = new CountryReader(csvFile);
+        CountryCodeDictionary charles = new CountryCodeDictionary(csvFile);
         ObservableList<String> years = FXCollections.observableArrayList();
         for (int i = 1915; i < 2017; i++) {
             years.add(Integer.toString(i));        }

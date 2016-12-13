@@ -114,7 +114,4 @@ public class History {
         hpDataStore.clear();
     }
 
-    public ArrayList<ArrayList<DataPiece>> getLastEntry() {
-        return histories.get(1);
-    }
 }
