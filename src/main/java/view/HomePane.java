@@ -3,6 +3,7 @@ package view;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 
 
 /**
@@ -32,20 +34,19 @@ public class HomePane extends BorderPane {
     private void addLogoAndTitle() {
         GridPane gpLogoStore = new GridPane();
         gpLogoStore.setAlignment(Pos.CENTER);
+
         ImageView logoIconIV = createIcon();
-        Label lWelcomeMsg = new Label("EVA:");
-        Label lWelcomeMsg2 = new Label("Economics Virtual Assistant");
+
+        Label lWelcomeMsg = new Label("Macro Economics");
         lWelcomeMsg.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
-        lWelcomeMsg2.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
         GridPane.setHalignment(lWelcomeMsg, HPos.CENTER);
         GridPane.setHalignment(logoIconIV, HPos.CENTER);
-        GridPane.setHalignment(lWelcomeMsg2, HPos.CENTER);
-//        lWelcomeMsg.setStyle("-fx-background-color: #0D1B1E");
-//        lWelcomeMsg.getStyleClass().add("welcomeMsg");
+        lWelcomeMsg.setStyle("-fx-background-color: #0D1B1E");
+        lWelcomeMsg.getStyleClass().add("welcomeMsg");
         setCenter(gpLogoStore);
+
         gpLogoStore.add(logoIconIV, 0, 0);
         gpLogoStore.add(lWelcomeMsg,0,1);
-        gpLogoStore.add(lWelcomeMsg2,0,2);
         gpLogoStore.setVgap(10);
     }
 

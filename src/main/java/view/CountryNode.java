@@ -1,15 +1,11 @@
 package view;
 
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import model.CountryReader;
+import model.CountryCodeDictionary;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -30,7 +26,7 @@ public class CountryNode extends GridPane {
         try {
             String csvFile = "src/main/resources/storage/CountryCodesCore.csv";
 
-            ArrayList<String> cNames = new CountryReader(csvFile).getCountrynames();
+            ArrayList<String> cNames = new CountryCodeDictionary(csvFile).getCountrynames();
             countries = new ComboBox<String>();
             for (int i = 0; i < cNames.size(); ++i) {
                 countries.getItems().add(i, cNames.get(i));

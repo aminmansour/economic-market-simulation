@@ -14,7 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import model.CountryReader;
+import model.CountryCodeDictionary;
 import model.History;
 
 import java.io.IOException;
@@ -22,9 +22,10 @@ import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 /**
- * Created by denissaidov on 28/11/2016.
+ * Created by hanitawil on 28/11/2016.
+ * Creates a chart pane which will contain the graph with particular data loaded on to it. The data retrieved is from the query specified at the sidebar.
+ * The side bar consists of several settings i.e indicator to allow the user to specify a query.
  */
-
 public class ChartPane extends BorderPane {
 
 
@@ -81,7 +82,7 @@ public class ChartPane extends BorderPane {
         String csvFile = "src/main/resources/storage/IndicatorCodesCore.csv";
         indicators = new ComboBox<String>();
         try {
-            ArrayList<String> cnames = new CountryReader(csvFile).getCountrynames();
+            ArrayList<String> cnames = new CountryCodeDictionary(csvFile).getCountrynames();
             indicators.setId("dropdown");
             for (int i = 0; i < cnames.size(); ++i) {
                 indicators.getItems().add(i, cnames.get(i));
@@ -187,6 +188,8 @@ public class ChartPane extends BorderPane {
                     Button bMinus = new Button("-");
                     bMinus.setId(Integer.toString((countriesArray.size() - 1)));
                     bMinus.getStyleClass().add("minus");
+
+                    //allows for removal of country
                     bMinus.setOnMousePressed(new EventHandler<MouseEvent>() {
 
                         @Override

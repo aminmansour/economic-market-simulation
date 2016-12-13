@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 /**
  * Created by denissaidov on 09/12/2016.
+ * Retrieves particular data from an api of cnn of Goog,Appl,Mcrst and yahoo stock prices.
  */
 public class StockIndicators {
 
@@ -19,7 +20,7 @@ public class StockIndicators {
 
     /**
      * indicators showing current trends in stock data
-     * @throws Exception
+     * @throws Exception if internet not on such an exception is thrown
      */
     public StockIndicators() throws Exception {
         JSONParsing test = new JSONParsing();
@@ -29,7 +30,7 @@ public class StockIndicators {
     //retrieves from source and stores it
     private void setDataOfIndicators(JSONParsing test) {
         try {
-            JSONArray jsonObject = test.httpGET("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20%28%22AAPL,MSFT,GOOGL,YHOO%22%29&env=store://datatables.org/alltableswithkeys&format=json", "StockIndicators");
+            JSONArray jsonObject = test.httpGET("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20%28%22AAPL,MSFT,GOOGL,YHOO%22%29&env=store://datatables.org/alltableswithkeys&format=json");
             JSONObject jsb = (JSONObject) jsonObject.getJSONObject(0);
             JSONObject jsbQuery = (JSONObject) jsb.getJSONObject("query");
             JSONObject jsbResults = (JSONObject) jsbQuery.getJSONObject("results");

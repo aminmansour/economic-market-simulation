@@ -18,6 +18,8 @@ import java.util.Collection;
 
 /**
  * Created by Sarosi on 07/12/2016.
+ * History pane which will contain and display a list of all the data that has been cached recently and allow the user to display
+ * the data in either a line chart or bar chart.
  */
 public class HistoryPane extends BorderPane {
 
@@ -26,19 +28,18 @@ public class HistoryPane extends BorderPane {
     private RadioButton rbBar;
     private RadioButton rbLine;
     private GridPane gpFlowPane;
-    private History localhistory;
 
     /**
      * a view displaying the search history of previous queries.
      * @param hist the archive of previous searches
      */
-    public HistoryPane(History hist){
+    public HistoryPane(History hist) {
         Button clear = new Button("Delete History");
 
         getStylesheets().add("css/chartPane-style.css");
         setPadding(new Insets(30, 0, 0, 306));
-        localhistory = hist;
-        Collection<ArrayList<ArrayList<DataPiece>>> valset =localhistory.getHistories().values();
+        History localhistory = hist;
+        Collection<ArrayList<ArrayList<DataPiece>>> valset = localhistory.getDataStore().values();
         gpFlowPane = new GridPane();
         gpFlowPane.add(new Label("History: "), 0, 4);
         tgViewType = new ToggleGroup();
@@ -59,7 +60,7 @@ public class HistoryPane extends BorderPane {
         setRight(scp);
 
         gpFlowPane.setVgap(20);
-        clear.setOnAction((event) ->{
+        clear.setOnAction((event) -> {
 
             hist.clear();
             if (gpFlowPane.getChildren().size() > 5) {
@@ -72,17 +73,17 @@ public class HistoryPane extends BorderPane {
 
 
         int i = 0;
+        CountryCodeDictionary indicatorConverter = null;
 
-        CountryReader indicatorConverter = null;
         try {
-            indicatorConverter = new CountryReader("src/main/resources/storage/IndicatorCodesCore.csv");
+            indicatorConverter = new CountryCodeDictionary("src/main/resources/storage/IndicatorCodesCore.csv");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         for (ArrayList k: valset){
 
-            String historyID = localhistory.getId(k);
+            String historyID = localhistory.getKey(k);
 
             String[] countries = historyID.split("\\+")[0].split("(?<=\\G..)");;
             String restOfId =  historyID.split("\\+")[1];
@@ -98,7 +99,7 @@ public class HistoryPane extends BorderPane {
                 seperated = seperated + country + ",";
             }
 
-            String indicatorString = new CountryNamesToCodes().backwardsConvert(indicatorCode, indicatorConverter);
+            String indicatorString = new ConversionFactory().backwardsConvert(indicatorCode, indicatorConverter);
 
             Button elemennt = new Button(seperated + " " + toYears + " - " + fromYears + " " + indicatorString);
             elemennt.setPadding(new Insets(10,10,10,10));
@@ -110,22 +111,13 @@ public class HistoryPane extends BorderPane {
             elemennt.setOnAction((event) -> {
 
                 if (tgViewType.getSelectedToggle() == rbLine) {
-
-
                     LineChart<String, Number> ln = ch.buildLineChart(k);
-
                     setCenter(ln);
-
                 }
                 if (tgViewType.getSelectedToggle() == rbBar) {
-
                     BarChart<String, Number> br = ch.buildBarChart(k);
                     setCenter(br);
-
-
                 }
-
-
             });
             i++;
 
@@ -136,7 +128,6 @@ public class HistoryPane extends BorderPane {
             }
 
         }
-
     }
 
 

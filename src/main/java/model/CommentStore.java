@@ -27,15 +27,20 @@ public class CommentStore {
 
     }
 
+
+    //loads the comments from file to the linkedhashmap
     private void loadComments() {
         storeOfComments = new LinkedHashMap<String, Pair<String, String>>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(new File("src/main/resources/storage/comments.txt")));
             String currentLine;
+            //iterate through each line
             while ((currentLine = reader.readLine()) != null) {
                 Matcher matcher = dataSplitter.matcher(currentLine);
+                //split each line into each piece of data using regex
                 String[] commentData = new String[3];
                 int counter = 0;
+                //store each piece of data within a array
                 while (matcher.find()) {
                     String val = matcher.group(0);
                     if (val.trim().length() != 0) {
@@ -43,6 +48,7 @@ public class CommentStore {
                         counter++;
                     }
                 }
+                //add the comment with its associated data to store of comments
                 storeOfComments.put(commentData[0], new Pair<String, String>(commentData[1], commentData[2]));
             }
         } catch (Exception e) {
