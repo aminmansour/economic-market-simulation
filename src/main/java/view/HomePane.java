@@ -44,6 +44,7 @@ public class HomePane extends BorderPane {
         lWelcomeMsg.setStyle("-fx-background-color: #0D1B1E");
         lWelcomeMsg.getStyleClass().add("welcomeMsg");
         setCenter(gpLogoStore);
+
         gpLogoStore.add(logoIconIV, 0, 0);
         gpLogoStore.add(lWelcomeMsg,0,1);
         gpLogoStore.setVgap(10);
