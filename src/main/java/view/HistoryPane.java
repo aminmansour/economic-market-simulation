@@ -13,6 +13,7 @@ import model.ChartBuillder;
 import model.DataPiece;
 import model.History;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -59,6 +60,7 @@ public class HistoryPane extends BorderPane {
         javafx.scene.control.ScrollPane scp = new javafx.scene.control.ScrollPane(gpFlowPane);
         scp.setStyle("-fx-background-color: white; -fx-focus-color: transparent;   -fx-background: #FFFFFF; -fx-border-color: #FFFFFF;");
         setRight(scp);
+
         gpFlowPane.setVgap(20);
         clear.setOnAction((event) ->{
 
@@ -73,16 +75,38 @@ public class HistoryPane extends BorderPane {
 
 
         int i = 0;
-        createHistoryRecords(localhistory, valset, i);
 
-    }
+        CountryReader indicatorConverter = null;
+        try {
+            indicatorConverter = new CountryReader("src/main/resources/storage/IndicatorCodesCore.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     //creates a list of all the data recorded in cache and adds to each a listener which allows the user to click on it
     private void createHistoryRecords(History localhistory, Collection<ArrayList<ArrayList<DataPiece>>> valset, int i) {
         for (ArrayList k: valset){
 
-            Button elemennt = new Button(localhistory.getKey(k));
-            elemennt.setPadding(new Insets(5,5,5,0));
+            String historyID = localhistory.getId(k);
+
+            String[] countries = historyID.split("\\+")[0].split("(?<=\\G..)");;
+            String restOfId =  historyID.split("\\+")[1];
+
+            String toYears = restOfId.substring(0,8).substring(0,4);
+            String fromYears = restOfId.substring(0,8).substring(4);
+
+            String indicatorCode = restOfId.substring(8);
+
+            String seperated = "";
+
+            for(String country : countries) {
+                seperated = seperated + country + ",";
+            }
+
+            String indicatorString = new CountryNamesToCodes().backwardsConvert(indicatorCode, indicatorConverter);
+
+            Button elemennt = new Button(seperated + " " + toYears + " - " + fromYears + " " + indicatorString);
+            elemennt.setPadding(new Insets(10,10,10,10));
             GridPane.setMargin(elemennt,new Insets(5,0,0,0));
             gpFlowPane.add(elemennt, 0, i + 5);
             elemennt.setId("bQuery");

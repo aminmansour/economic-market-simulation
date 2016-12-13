@@ -67,7 +67,6 @@ public class QueryController implements EventHandler<MouseEvent> {
 
                     ChartBuillder chartBuillder = new ChartBuillder();
 
-
                     Boolean isInsideMap = false;
                     String savedMapId = null;
 

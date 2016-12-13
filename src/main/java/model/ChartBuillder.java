@@ -3,6 +3,7 @@ package model;
 import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,26 @@ public class ChartBuillder {
      */
     public  static LineChart<String,Number> buildLineChart(ArrayList<ArrayList<DataPiece>> dataArray) {
 
-        final CategoryAxis xAxis = new CategoryAxis();
+        int earliestYear = Calendar.getInstance().get(Calendar.YEAR);
+        int latestyear = 0;
+
+        for(ArrayList<DataPiece> data : dataArray) {
+            if(Integer.parseInt(data.get(0).getYear()) < earliestYear) {
+                earliestYear = Integer.parseInt(data.get(0).getYear());
+            }
+
+            if(Integer.parseInt(data.get(data.size() - 1).getYear()) > latestyear) {
+                System.out.println(Integer.parseInt(data.get(data.size() - 1).getYear()));
+                latestyear = Integer.parseInt(data.get(data.size() - 1).getYear());
+            }
+        }
+
+        ObservableList<String> years = FXCollections.observableArrayList();
+        for (int i = earliestYear; i <= latestyear; i++) {
+            years.add(Integer.toString(i));
+        }
+
+        final CategoryAxis xAxis = new CategoryAxis(years);
         final NumberAxis yAxis = new NumberAxis();
         final LineChart<String,Number> lineChart =
                 new LineChart<String,Number>(xAxis,yAxis);
@@ -30,6 +50,7 @@ public class ChartBuillder {
         try {
             yAxis.setLabel(dataArray.get(0).get(0).getIndicator());
 
+            //make a fixed x axis and then add the plots afterwards.
 
             ArrayList<XYChart.Series> SerialKiller = new ArrayList<XYChart.Series>();
 
@@ -41,7 +62,7 @@ public class ChartBuillder {
                 for (int i = 0; i < dataArray.get(q).size(); i++) {
                     SerialKiller.get(q).getData().add(new XYChart.Data(dataArray.get(q).get(i).getYear(), Double.parseDouble(dataArray.get(q).get(i).getValue())));
                 }
-                //checkNoData(SerialKiller.get(q));
+                checkNoData(SerialKiller.get(q));
                 lineChart.getData().add(SerialKiller.get(q));
 
             }
@@ -88,38 +109,38 @@ public class ChartBuillder {
             for (int i = 0; i < dataArray.get(q).size(); i++) {
                 SerialKiller.get(q).getData().add(new XYChart.Data(dataArray.get(q).get(i).getYear(), Double.parseDouble(dataArray.get(q).get(i).getValue())));
             }
-             //   checkNoData(SerialKiller.get(q));
+                checkNoData(SerialKiller.get(q));
             lineChart.getData().add(SerialKiller.get(q));
 
         }
 
         return lineChart;
     }
-//
-//    static void checkNoData(XYChart.Series<Integer,Double> series) {
-//        double d1 = 0;
-//        XYChart.Data<Integer,Double> last = null;
-//        for (Object data : series.getData()) {
-//            if (data instanceof XYChart.Data<?,?>) {
-//                XYChart.Data<Integer,Double> cdata = (XYChart.Data<Integer,Double>)data;
-//                if (last != null && last.getYValue() == null) {
-//                    double mid = (d1 + cdata.getYValue())/2;
-//                    last.setYValue(mid);
-//                    Text nodata = new Text("no data");
-//                    nodata.setTranslateY(nodata.getLayoutBounds().getHeight()/2);
-//                    last.setNode(nodata);
-//                }
-//                if (last != null) d1 = last.getYValue();
-//                last = cdata;
-//            }
-//        }
-//        if (last != null && last.getYValue() == null) {
-//            last.setYValue(d1);
-//            Text nodata = new Text("no data");
-//            nodata.setTranslateY(nodata.getLayoutBounds().getHeight()/2);
-//            last.setNode(nodata);
-//
-//        }
-//    }
+
+    static void checkNoData(XYChart.Series<Integer,Double> series) {
+        double d1 = 0;
+        XYChart.Data<Integer,Double> last = null;
+        for (Object data : series.getData()) {
+            if (data instanceof XYChart.Data<?,?>) {
+                XYChart.Data<Integer,Double> cdata = (XYChart.Data<Integer,Double>)data;
+                if (last != null && last.getYValue() == null) {
+                    double mid = (d1 + cdata.getYValue())/2;
+                    last.setYValue(mid);
+                    Text nodata = new Text("no data");
+                    nodata.setTranslateY(nodata.getLayoutBounds().getHeight()/2);
+                    last.setNode(nodata);
+                }
+                if (last != null) d1 = last.getYValue();
+                last = cdata;
+            }
+        }
+        if (last != null && last.getYValue() == null) {
+            last.setYValue(d1);
+            Text nodata = new Text("no data");
+            nodata.setTranslateY(nodata.getLayoutBounds().getHeight()/2);
+            last.setNode(nodata);
+
+        }
+}
 
 }
