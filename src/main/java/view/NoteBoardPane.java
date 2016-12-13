@@ -78,11 +78,13 @@ public class NoteBoardPane extends BorderPane {
      * @return
      */
     public Pair<BorderPane, Label> createCommentTile(String comment, String date, String color) {
+        //sets up a particular comment
         BorderPane bpComment = new BorderPane();
         vbNodeStack.setMargin(bpComment, new Insets(2, 0, 0, 0));
         bpComment.getStyleClass().add("comment-section");
         bpComment.setId(color);
         HBox gpFlow = new HBox();
+        //remove label which allow the user to remove comment
         Label lRemove = createRemoveButton(gpFlow);
         VBox.setVgrow(gpFlow, Priority.ALWAYS);
         Label lDate = new Label(date);
@@ -95,10 +97,12 @@ public class NoteBoardPane extends BorderPane {
         gpFlow.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         BorderPane.setMargin(gpFlow, new Insets(3, 10, 0, 10));
         bpComment.setTop(gpFlow);
+        //set the label and date label to top of file
         Label lComment = new Label(comment);
         BorderPane.setMargin(lComment, new Insets(5, 0, 20, 30));
         lComment.getStyleClass().add("comment-text");
         lComment.setWrapText(true);
+        //add the components to the borderpane
         bpComment.setCenter(lComment);
         BorderPane.setAlignment(lComment, Pos.CENTER_LEFT);
         BorderPane.setAlignment(fpDate, Pos.CENTER_RIGHT);
@@ -106,10 +110,14 @@ public class NoteBoardPane extends BorderPane {
         bpComment.prefWidthProperty().bind(vbNodeStack.widthProperty());
         lDate.setPadding(new Insets(0, 20, 0, 0));
         lComment.setMinWidth(20);
+        //return the comment tile border pane with the remove label
         return new Pair<BorderPane, Label>(bpComment, lRemove);
 
     }
 
+
+
+    //create the remove buttons
     private Label createRemoveButton(HBox gpFlow) {
         Label lRemove = new Label("Remove");
         lRemove.setOnMouseClicked(nbcController);
@@ -124,6 +132,8 @@ public class NoteBoardPane extends BorderPane {
         return lRemove;
     }
 
+
+    //sets commments text wrap to stretch with the page's width
     private void setLabelBinding(BorderPane bpComment, Label lComment) {
         lComment.prefWidthProperty().bind(bpComment.widthProperty());
         lComment.prefWidthProperty().bind(bpComment.prefWidthProperty());
@@ -140,6 +150,7 @@ public class NoteBoardPane extends BorderPane {
         return cbColor.getValue();
     }
 
+    //returns the Controller associated to the view
     protected NoteBoardController getController() {
         return nbcController;
     }

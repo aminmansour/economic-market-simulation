@@ -76,6 +76,7 @@ public class InterfaceScene extends Scene {
         try {
             IndicatorRetrieval ir = new IndicatorRetrieval();
             int counter = 0;
+            //iterate through data collection and populate each indicator box with data
             for (Map.Entry<Pair<String, String>, Integer> currentComment : ir.returnBox().entrySet()) {
                 setIndicatorBox(counter, currentComment.getValue(), currentComment.getKey().getKey(), currentComment.getKey().getValue());
                 counter++;
@@ -99,6 +100,7 @@ public class InterfaceScene extends Scene {
         setButtonListeners(linechart);
         cachedGlossary = new GlossaryPane();
         cachedNoteBoard = new NoteBoardPane();
+        //a close request listener whcih triggers event of taking storage within the program and saves the comment storage to file as well as the queried data
         sCurrent.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 cachedNoteBoard.getController().saveToFile();
@@ -142,7 +144,6 @@ public class InterfaceScene extends Scene {
         bNavButtons.get(0).setOnMousePressed(new EventHandler<MouseEvent>() {
                                                  @Override
                                                  public void handle(MouseEvent event) {
-                                                     System.out.println("hello");
                                                      if (!pageLoad.isEmpty() && !pageLoad.peek().getClass().toString().equals("class view.NoteBoardPane")) {
                                                          Pair<Boolean, BorderPane> checkOccurence = checkForPageReoccurence("NoteBoardPane");
                                                          if (checkOccurence.getKey() == true) {

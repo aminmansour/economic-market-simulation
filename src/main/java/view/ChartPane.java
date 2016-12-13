@@ -184,7 +184,6 @@ public class ChartPane extends BorderPane {
                     CountryNode cbCountries = null;
                     cbCountries = new CountryNode(cn.getCountries().getValue());
                     cbCountries.setDisable(true);
-
                     Button bMinus = new Button("-");
                     bMinus.setId(Integer.toString((countriesArray.size() - 1)));
                     bMinus.getStyleClass().add("minus");

@@ -35,7 +35,6 @@ public class ChartBuillder {
             }
 
             if(Integer.parseInt(data.get(data.size() - 1).getYear()) > latestyear) {
-                System.out.println(Integer.parseInt(data.get(data.size() - 1).getYear()));
                 latestyear = Integer.parseInt(data.get(data.size() - 1).getYear());
             }
         }
