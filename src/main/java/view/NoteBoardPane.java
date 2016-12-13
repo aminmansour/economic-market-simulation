@@ -37,11 +37,9 @@ public class NoteBoardPane extends BorderPane {
         lNoteBoard.setId("title");
         TextArea taCommentToAdd = new TextArea();
         taCommentToAdd.setMinHeight(190);
-//        taCommentToAdd.setMinHeight(400);
         Button bPost = new Button("Post Note");
         FlowPane flButtonContainer = new FlowPane(bPost);
         flButtonContainer.setAlignment(Pos.CENTER_RIGHT);
-//        bPost.setMinSize(80,20);
 
         vbNodeStack.setMargin(flButtonContainer, new Insets(0, 0, 20, 0));
         flButtonContainer.setMargin(bPost, new Insets(10, 30, 0, 0));
