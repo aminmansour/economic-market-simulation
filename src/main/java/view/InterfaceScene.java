@@ -9,7 +9,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -23,7 +22,6 @@ import javafx.util.Pair;
 import model.DataFactory;
 import model.History;
 import model.IndicatorRetrieval;
-import model.StockIndicators;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,6 +32,7 @@ import java.util.Stack;
 
 /**
  * Created by Amans on 26/11/2016.
+ * The main and only scene, which contains the global interface of the program.
  */
 public class InterfaceScene extends Scene {
 
@@ -106,7 +105,7 @@ public class InterfaceScene extends Scene {
                 try {
                     FileOutputStream fos = new FileOutputStream("src/main/resources/storage/hashmap.ser");
                     ObjectOutputStream oos = new ObjectOutputStream(fos);
-                    oos.writeObject(history.getHistories());
+                    oos.writeObject(history.getDataStore());
                     oos.close();
                     fos.close();
                 } catch (IOException ioe) {
@@ -116,6 +115,7 @@ public class InterfaceScene extends Scene {
         });
     }
 
+    //sets up actions listoners for each button in the side navigation based on index
     private void setButtonListeners(LineChart<String, Number> lcChart) {
         bNavButtons.get(3).setOnMousePressed(new EventHandler<MouseEvent>() {
                                                  @Override
@@ -296,6 +296,9 @@ public class InterfaceScene extends Scene {
 
     }
 
+
+    //sets up the buttons and adds to a vbox and adds the vbox to the top of a borderpane.
+    //also sets up the top bar by calling createTopBar
     private void setUpNaviagation(){
         spGlobal.setAlignment(Pos.TOP_LEFT);
 
@@ -307,6 +310,7 @@ public class InterfaceScene extends Scene {
 
         bpSideNav = createSideNav(vbStack);
         gpLocalIndicators = new GridPane();
+        //creating indicators
         bpSideNav.setBottom(gpLocalIndicators);
         createIndicatorBoxes(new String[]{"World GDP", "Sub-Africa GDP", "Europe GDP", "East Asia GDP"}, gpLocalIndicators);
         gpLocalIndicators.setAlignment(Pos.CENTER);
@@ -314,15 +318,19 @@ public class InterfaceScene extends Scene {
         BorderPane.setAlignment(gpLocalIndicators,Pos.CENTER);
     }
 
+    //a method to check if a particular type of page exists more than once in the stack to prevent duplicate pages in stack/back history
     private Pair<Boolean, BorderPane> checkForPageReoccurence(String typeCheck) {
         for (BorderPane bpPages : pageLoad) {
             if (bpPages.getClass().toString().equals("class view." + typeCheck)) {
+                //page found. The borderpane of that particular type is returned.
                 return new Pair<Boolean, BorderPane>(true, bpPages);
             }
         }
+        //no page found
         return new Pair<Boolean, BorderPane>(false, null);
     }
 
+    //sets up top  bar of the scene.
     private void createTopBar() {
         FlowPane flChangingStocks = new FlowPane();
         spGlobal.getChildren().add(flChangingStocks);
@@ -336,6 +344,7 @@ public class InterfaceScene extends Scene {
         flChangingStocks.getChildren().add(tTopBanner);
     }
 
+    //create the side navigation and creating the associated buttons that come with it.
     private BorderPane createSideNav(VBox vbStack) {
         BorderPane bpSideNav = new BorderPane();
         bpSideNav.setCenter(vbStack);
@@ -348,7 +357,8 @@ public class InterfaceScene extends Scene {
     }
 
 
-    private void createIndicatorBoxes(String[] nameOfCountry,GridPane gpBoxes) {
+    //sets up indicator boxs into a gridpane
+    private void createIndicatorBoxes(String[] nameOfCountry, GridPane gpBoxes) {
         int counter = 0;
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
@@ -358,10 +368,10 @@ public class InterfaceScene extends Scene {
                 Text tName = new Text(nameOfCountry[counter]);
                 counter++;
 
-                    tName.getStyleClass().add("indicator-title");
-                    Text tGDP = new Text("GOO2");
-                    tGDP.getStyleClass().add("indicator-gdp");
-                    Text tPercent = new Text("GOO");
+                tName.getStyleClass().add("indicator-title");
+                Text tGDP = new Text("GOO2");
+                tGDP.getStyleClass().add("indicator-gdp");
+                Text tPercent = new Text("GOO");
                 tPercent.getStyleClass().add("indicator-increase");
                 vbIndicatorBox.getChildren().addAll(tName, tGDP, tPercent);
                 gpBoxes.add(vbIndicatorBox, i, j);

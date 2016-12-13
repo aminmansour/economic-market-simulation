@@ -29,7 +29,7 @@ public class NoteBoardPane extends BorderPane {
      * The constructor sets up the note board layout and adds action listeners to the buttons. It also loads the comments from file to the vbox stack.
      */
     public NoteBoardPane() {
-        setPadding(new Insets(30, 0, 0, 306));
+        setPadding(new Insets(30, 0, 0, 300));
         getStylesheets().add("css/notePane-style.css");
         GridPane gpComments = new GridPane();
         vbNodeStack = new VBox();
@@ -37,11 +37,9 @@ public class NoteBoardPane extends BorderPane {
         lNoteBoard.setId("title");
         TextArea taCommentToAdd = new TextArea();
         taCommentToAdd.setMinHeight(190);
-//        taCommentToAdd.setMinHeight(400);
         Button bPost = new Button("Post Note");
         FlowPane flButtonContainer = new FlowPane(bPost);
         flButtonContainer.setAlignment(Pos.CENTER_RIGHT);
-//        bPost.setMinSize(80,20);
 
         vbNodeStack.setMargin(flButtonContainer, new Insets(0, 0, 20, 0));
         flButtonContainer.setMargin(bPost, new Insets(10, 30, 0, 0));

@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Alert;
@@ -16,7 +15,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Created by Sarosi on 30/11/2016.
+ * Created by hanitawil on 30/11/2016.
+ * This is the controller which provides listeners to the addd,query and minus button. When a query is made by a user
+ *,The controller alerts the
  */
 public class QueryController implements EventHandler<MouseEvent> {
 
@@ -27,7 +28,6 @@ public class QueryController implements EventHandler<MouseEvent> {
 
 
     }
-//actionlistener of go calls this method
 
 
     /**
@@ -39,23 +39,23 @@ public class QueryController implements EventHandler<MouseEvent> {
         if (isValid(chartPane.getTfFrom().getText().trim()) && isValid(chartPane.getTfTo().getText().trim())) {
             if (Integer.parseInt(chartPane.getTfFrom().getText().trim()) - Integer.parseInt(chartPane.getTfTo().getText().trim()) <= 0) {
                 if (!(((CountryNode) chartPane.getCountriesPane().getChildren().get(0)).getCountries().getValue().equals("Select a country") && chartPane.getCountriesPane().getChildren().size() == 1)) {
-                    ArrayBuilder query = new ArrayBuilder();
-                    CountryReader crListOfCountries = null;
+                    DataRetriever query = new DataRetriever();
+                    CountryCodeDictionary crListOfCountries = null;
                     try {
-                        crListOfCountries = new CountryReader("src/main/resources/storage/CountryCodesCore.csv");
+                        crListOfCountries = new CountryCodeDictionary("src/main/resources/storage/CountryCodesCore.csv");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
-                    CountryReader indicatorConverter = null;
+                    CountryCodeDictionary indicatorConverter = null;
                     try {
-                        indicatorConverter = new CountryReader("src/main/resources/storage/IndicatorCodesCore.csv");
+                        indicatorConverter = new CountryCodeDictionary("src/main/resources/storage/IndicatorCodesCore.csv");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
                     ArrayList<String> countriesFormatted = chartPane.countrynames();
-                    ArrayList<String> countriesCoded = CountryNamesToCodes.convert(countriesFormatted, crListOfCountries);
+                    ArrayList<String> countriesCoded = ConversionFactory.convert(countriesFormatted, crListOfCountries);
 
                     History adding = chartPane.getHistory();
 
@@ -71,9 +71,9 @@ public class QueryController implements EventHandler<MouseEvent> {
                     Boolean isInsideMap = false;
                     String savedMapId = null;
 
-                    String searchId = countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + CountryNamesToCodes.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter);
+                    String searchId = countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter);
 
-                    for (String mapId : adding.getHistories().keySet()) {
+                    for (String mapId : adding.getDataStore().keySet()) {
 
                         if (adding.compareIds(mapId, searchId)) {
                             isInsideMap = true;
@@ -86,7 +86,7 @@ public class QueryController implements EventHandler<MouseEvent> {
 
                         if (isInsideMap) {
 
-                            ArrayList<ArrayList<DataPiece>> newChart = adding.getLineChart(savedMapId);
+                            ArrayList<ArrayList<DataPiece>> newChart = adding.getChartData(savedMapId);
 
 
                             LineChart<String, Number> xy = chartBuillder.buildLineChart(newChart);
@@ -95,7 +95,7 @@ public class QueryController implements EventHandler<MouseEvent> {
                         } else {
                             ArrayList<ArrayList<DataPiece>> toBeCharted = null;
                             try {
-                                toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), CountryNamesToCodes.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
+                                toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -103,13 +103,13 @@ public class QueryController implements EventHandler<MouseEvent> {
                             LineChart<String, Number> charts = chartBuillder.buildLineChart(toBeCharted);
                             chartPane.setCenterLineChart(charts);
 
-                            adding.getHistories().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + CountryNamesToCodes.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
+                            adding.getDataStore().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
                         }
                     }
                     if (chartPane.getTgViewType().getSelectedToggle() == chartPane.getRbBar()) {
                         if (isInsideMap) {
 
-                            ArrayList<ArrayList<DataPiece>> newChart = adding.getLineChart(savedMapId);
+                            ArrayList<ArrayList<DataPiece>> newChart = adding.getChartData(savedMapId);
 
                             BarChart<String, Number> xy = chartBuillder.buildBarChart(newChart);
 
@@ -118,7 +118,7 @@ public class QueryController implements EventHandler<MouseEvent> {
                         } else {
                             ArrayList<ArrayList<DataPiece>> toBeCharted = null;
                             try {
-                                toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), CountryNamesToCodes.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
+                                toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -126,7 +126,7 @@ public class QueryController implements EventHandler<MouseEvent> {
                             BarChart<String, Number> charts = chartBuillder.buildBarChart(toBeCharted);
                             chartPane.setCenterLineChart(charts);
 
-                            adding.getHistories().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + CountryNamesToCodes.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
+                            adding.getDataStore().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
                         }
                     }
                 }
@@ -139,7 +139,8 @@ public class QueryController implements EventHandler<MouseEvent> {
 
     }
 
-    public void printError(String messageHeader, String submessage) {
+    //encapsulates error printing into one method with the main and secondary message of error pane specified
+    private void printError(String messageHeader, String submessage) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         DialogPane dialogPane = alert.getDialogPane();
@@ -147,12 +148,19 @@ public class QueryController implements EventHandler<MouseEvent> {
         dialogPane.getStyleClass().add("alert");
         alert.setContentText(submessage);
         alert.setHeaderText(messageHeader);
+        //displays the alert pane
         alert.showAndWait();
     }
 
-
+    /**
+     * Checks if a particular year is a valid one.Checks between range of 1915 to current year
+     *
+     * @param input The year
+     * @return true it's within range, false if otherwise
+     */
     public boolean isValid(String input) {
         String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+        //current year
         if (input.matches("(191[5-9]|19[2-9]\\d|200\\d|" + year.substring(0, 3) + "[0-" + year.substring(3) + "])")) {
             return true;
         }

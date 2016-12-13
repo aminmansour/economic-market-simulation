@@ -3,25 +3,11 @@
  */
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
 import javafx.scene.chart.*;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import model.*;
-import org.json.JSONArray;
-import view.HistoryPane;
 import view.InterfaceScene;
-
-import java.awt.*;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 
 public class Main extends Application {
 
@@ -32,7 +18,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("icons/EconIcon.png")));
+        primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("image/logo-icon.png")));
         InterfaceScene main = new InterfaceScene(primaryStage);
         primaryStage.setWidth(1200);
         primaryStage.setHeight(840);
@@ -40,7 +26,7 @@ public class Main extends Application {
         primaryStage.show();
         primaryStage.setMaximized(true);
         String csvFile = "src/main/resources/storage/CountryCodesCore.csv";
-        CountryReader charles = new CountryReader(csvFile);
+        CountryCodeDictionary charles = new CountryCodeDictionary(csvFile);
         LineChart<String, Number> chart2 = new LineChart<String, Number>(new CategoryAxis(),(new NumberAxis()));
         History history = new History();
         main.loadStore(primaryStage, chart2, history);

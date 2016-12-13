@@ -34,7 +34,9 @@ public class HomePane extends BorderPane {
     private void addLogoAndTitle() {
         GridPane gpLogoStore = new GridPane();
         gpLogoStore.setAlignment(Pos.CENTER);
+
         ImageView logoIconIV = createIcon();
+
         Label lWelcomeMsg = new Label("Macro Economics");
         lWelcomeMsg.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
         GridPane.setHalignment(lWelcomeMsg, HPos.CENTER);
@@ -42,6 +44,7 @@ public class HomePane extends BorderPane {
         lWelcomeMsg.setStyle("-fx-background-color: #0D1B1E");
         lWelcomeMsg.getStyleClass().add("welcomeMsg");
         setCenter(gpLogoStore);
+
         gpLogoStore.add(logoIconIV, 0, 0);
         gpLogoStore.add(lWelcomeMsg,0,1);
         gpLogoStore.setVgap(10);

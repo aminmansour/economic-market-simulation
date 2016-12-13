@@ -8,8 +8,9 @@ import java.util.Scanner;
 
 /**
  * Created by Sarosi on 27/11/2016.
+ * Groups all country names with their associated code and gives access to either the countries available or codes
  */
-public class CountryReader {
+public class CountryCodeDictionary {
 
     //ArrayList<Pair<String,String>> pairs;
     private HashMap<String, String> pairs;
@@ -22,7 +23,7 @@ public class CountryReader {
      * @param filepath  filepath of a csv file containing country names then iso2 codes
      * @throws IOException
      */
-    public CountryReader(String filepath) throws IOException {
+    public CountryCodeDictionary(String filepath) throws IOException {
         String csvFile = "src\\main\\resources\\storage\\CountryCodesCore.csv";
         BufferedReader reader = new BufferedReader(new FileReader(filepath));
 
