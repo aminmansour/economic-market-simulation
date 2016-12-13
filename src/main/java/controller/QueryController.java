@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Alert;
@@ -66,7 +65,6 @@ public class QueryController implements EventHandler<MouseEvent> {
                     }
 
                     ChartBuillder chartBuillder = new ChartBuillder();
-
 
                     Boolean isInsideMap = false;
                     String savedMapId = null;

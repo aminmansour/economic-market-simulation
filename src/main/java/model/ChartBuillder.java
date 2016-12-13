@@ -1,11 +1,14 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Sarosi on 26/11/2016.
@@ -22,7 +25,26 @@ public class ChartBuillder {
      */
     public  static LineChart<String,Number> buildLineChart(ArrayList<ArrayList<DataPiece>> dataArray) {
 
-        final CategoryAxis xAxis = new CategoryAxis();
+        int earliestYear = Calendar.getInstance().get(Calendar.YEAR);
+        int latestyear = 0;
+
+        for(ArrayList<DataPiece> data : dataArray) {
+            if(Integer.parseInt(data.get(0).getYear()) < earliestYear) {
+                earliestYear = Integer.parseInt(data.get(0).getYear());
+            }
+
+            if(Integer.parseInt(data.get(data.size() - 1).getYear()) > latestyear) {
+                System.out.println(Integer.parseInt(data.get(data.size() - 1).getYear()));
+                latestyear = Integer.parseInt(data.get(data.size() - 1).getYear());
+            }
+        }
+
+        ObservableList<String> years = FXCollections.observableArrayList();
+        for (int i = earliestYear; i <= latestyear; i++) {
+            years.add(Integer.toString(i));
+        }
+
+        final CategoryAxis xAxis = new CategoryAxis(years);
         final NumberAxis yAxis = new NumberAxis();
         final LineChart<String,Number> lineChart =
                 new LineChart<String,Number>(xAxis,yAxis);
@@ -30,9 +52,9 @@ public class ChartBuillder {
         try {
             yAxis.setLabel(dataArray.get(0).get(0).getIndicator());
 
+            //make a fixed x axis and then add the plots afterwards.
 
             ArrayList<XYChart.Series> SerialKiller = new ArrayList<XYChart.Series>();
-
 
             for (int q = 0; q < dataArray.size(); q++) {
                 SerialKiller.add(new XYChart.Series());
@@ -59,12 +81,9 @@ public class ChartBuillder {
 
         return lineChart;
 
-
-
-
     }
 
-    public  static BarChart<String,Number> buildBarChart(ArrayList<ArrayList<DataPiece>> dataArray) {
+    public static BarChart<String,Number> buildBarChart(ArrayList<ArrayList<DataPiece>> dataArray) {
 
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
@@ -115,6 +134,6 @@ public class ChartBuillder {
             last.setNode(nodata);
 
         }
-    }
+}
 
 }

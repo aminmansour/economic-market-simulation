@@ -5,7 +5,6 @@
 #top-banner{
     -fx-fill: white;
     -fx-font-family: "verdana";
-
 }
 
 .nav-buttons{
@@ -16,16 +15,11 @@
     -fx-border-color: #595959;
     -fx-border-width: 0px 0px 1px 0px;
     -fx-graphic-text-gap: 30px;
-
-
 }
 
 .text-area .text {
     -fx-font-alignment: center;
     -fx-alignment: center;
-
-
-
 }
 
 .text-area .content {

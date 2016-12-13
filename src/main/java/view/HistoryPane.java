@@ -9,10 +9,9 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import model.ChartBuillder;
-import model.DataPiece;
-import model.History;
+import model.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -74,11 +73,35 @@ public class HistoryPane extends BorderPane {
 
         int i = 0;
 
+        CountryReader indicatorConverter = null;
+        try {
+            indicatorConverter = new CountryReader("src/main/resources/storage/IndicatorCodesCore.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         for (ArrayList k: valset){
 
-            Button elemennt = new Button(localhistory.getId(k));
-            elemennt.setPadding(new Insets(5,5,5,0));
+            String historyID = localhistory.getId(k);
+
+            String[] countries = historyID.split("\\+")[0].split("(?<=\\G..)");;
+            String restOfId =  historyID.split("\\+")[1];
+
+            String toYears = restOfId.substring(0,8).substring(0,4);
+            String fromYears = restOfId.substring(0,8).substring(4);
+
+            String indicatorCode = restOfId.substring(8);
+
+            String seperated = "";
+
+            for(String country : countries) {
+                seperated = seperated + country + ",";
+            }
+
+            String indicatorString = new CountryNamesToCodes().backwardsConvert(indicatorCode, indicatorConverter);
+
+            Button elemennt = new Button(seperated + " " + toYears + " - " + fromYears + " " + indicatorString);
+            elemennt.setPadding(new Insets(10,10,10,10));
             GridPane.setMargin(elemennt,new Insets(5,0,0,0));
             gpFlowPane.add(elemennt, 0, i + 5);
             elemennt.setId("bQuery");
