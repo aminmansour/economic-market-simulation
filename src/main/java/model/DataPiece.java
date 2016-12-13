@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by Sarosi on 26/11/2016.
+ * A class to allow for instances to store data retrieved from the query within.
  */
 public class DataPiece implements Serializable {
 

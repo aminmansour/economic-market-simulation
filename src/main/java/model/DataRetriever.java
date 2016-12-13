@@ -11,16 +11,14 @@ import java.util.ArrayList;
 
 /**
  * Created by Sarosi on 26/11/2016.
+ * DataRetriever produces the data required to produce charts by giving the ability to take a query and turn it into viable data
+ * which can either be inputed to a line or bar chart.
  */
 
-public class ArrayBuilder {
-
-    public ArrayBuilder() {
-
-    }
+public class DataRetriever {
 
     /**
-     * this method generates the data required to build a line chart conatining the names of countries and the data for x and y axis
+     * this method generates the data required to build a line chart containing the names of countries and the data for x and y axis
      * @param countries an array containing iso2 country codes
      * @param from starting date
      * @param to ending date
@@ -31,8 +29,8 @@ public class ArrayBuilder {
     public ArrayList<ArrayList<DataPiece>> buildArray(ArrayList<String> countries, String from, String to, String indicator) throws Exception {
         ArrayList<ArrayList<DataPiece>> galaxy = new ArrayList<ArrayList<DataPiece>>();
 
-        CountryReader countryCodes = new CountryReader("src/main/resources/storage/CountryCodesCore.csv");
-        CountryReader indicatorCodes = new CountryReader("src/main/resources/storage/IndicatorCodesCore.csv");
+        CountryCodeDictionary countryCodes = new CountryCodeDictionary("src/main/resources/storage/CountryCodesCore.csv");
+        CountryCodeDictionary indicatorCodes = new CountryCodeDictionary("src/main/resources/storage/IndicatorCodesCore.csv");
 
 
         for (int i = 0; i < countries.size(); i++) {
@@ -64,8 +62,8 @@ public class ArrayBuilder {
                 dialogPane.getStylesheets().add("css/chartPane-style.css");
                 dialogPane.getStyleClass().add("alert");
                 alert.setTitle("Error");
-                alert.setHeaderText("Can't Retrieve Data For " + new CountryNamesToCodes().backwardsConvert(countries.get(i),countryCodes));
-                alert.setContentText("Ooops, looks like there's no data to be retrieved for " + new CountryNamesToCodes().backwardsConvert(countries.get(i),countryCodes) + " between the years " + from + " - " + to + " with the " + new CountryNamesToCodes().backwardsConvert(indicator,indicatorCodes) + " indicator.");
+                alert.setHeaderText("Can't Retrieve Data For " + new ConversionFactory().backwardsConvert(countries.get(i), countryCodes));
+                alert.setContentText("Ooops, looks like there's no data to be retrieved for " + new ConversionFactory().backwardsConvert(countries.get(i), countryCodes) + " between the years " + from + " - " + to + " with the " + new ConversionFactory().backwardsConvert(indicator, indicatorCodes) + " indicator.");
 
                 alert.showAndWait();
             }

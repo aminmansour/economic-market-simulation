@@ -15,7 +15,7 @@ import java.util.TreeMap;
 
 /**
  * Created by Amans on 27/11/2016.
- * Contains a set miscellaneous methods
+ * Contains a set miscellaneous methods that retrieve from internet.
  */
 public class DataFactory {
     //"http://rss.cnn.com/rss/money_news_economy.rss"

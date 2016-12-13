@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Sarosi on 26/11/2016.
+ * Creates either line or bar chart based on the data inputed from the query made by the user.
  */
 public class ChartBuillder {
     public ChartBuillder(){

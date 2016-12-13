@@ -19,6 +19,8 @@ import java.util.Collection;
 
 /**
  * Created by Sarosi on 07/12/2016.
+ * History pane which will contain and display a list of all the data that has been cached recently and allow the user to display
+ * the data in either a line chart or bar chart.
  */
 public class HistoryPane extends BorderPane {
 
@@ -27,7 +29,6 @@ public class HistoryPane extends BorderPane {
     private RadioButton rbBar;
     private RadioButton rbLine;
     private GridPane gpFlowPane;
-    private History localhistory;
 
     /**
      * a view displaying the search history of previous queries.
@@ -38,8 +39,8 @@ public class HistoryPane extends BorderPane {
 
         getStylesheets().add("css/chartPane-style.css");
         setPadding(new Insets(30, 0, 0, 306));
-        localhistory = hist;
-        Collection<ArrayList<ArrayList<DataPiece>>> valset =localhistory.getHistories().values();
+        History localhistory = hist;
+        Collection<ArrayList<ArrayList<DataPiece>>> valset = localhistory.getDataStore().values();
         gpFlowPane = new GridPane();
         gpFlowPane.add(new Label("History: "), 0, 4);
         tgViewType = new ToggleGroup();
@@ -58,7 +59,6 @@ public class HistoryPane extends BorderPane {
         javafx.scene.control.ScrollPane scp = new javafx.scene.control.ScrollPane(gpFlowPane);
         scp.setStyle("-fx-background-color: white; -fx-focus-color: transparent;   -fx-background: #FFFFFF; -fx-border-color: #FFFFFF;");
         setRight(scp);
-
         gpFlowPane.setVgap(20);
         clear.setOnAction((event) ->{
 
@@ -73,11 +73,15 @@ public class HistoryPane extends BorderPane {
 
 
         int i = 0;
+        createHistoryRecords(localhistory, valset, i);
 
+    }
 
+    //creates a list of all the data recorded in cache and adds to each a listener which allows the user to click on it
+    private void createHistoryRecords(History localhistory, Collection<ArrayList<ArrayList<DataPiece>>> valset, int i) {
         for (ArrayList k: valset){
 
-            Button elemennt = new Button(localhistory.getId(k));
+            Button elemennt = new Button(localhistory.getKey(k));
             elemennt.setPadding(new Insets(5,5,5,0));
             GridPane.setMargin(elemennt,new Insets(5,0,0,0));
             gpFlowPane.add(elemennt, 0, i + 5);
@@ -87,22 +91,13 @@ public class HistoryPane extends BorderPane {
             elemennt.setOnAction((event) -> {
 
                 if (tgViewType.getSelectedToggle() == rbLine) {
-
-
                     LineChart<String, Number> ln = ch.buildLineChart(k);
-
                     setCenter(ln);
-
                 }
                 if (tgViewType.getSelectedToggle() == rbBar) {
-
                     BarChart<String, Number> br = ch.buildBarChart(k);
                     setCenter(br);
-
-
                 }
-
-
             });
             i++;
 
@@ -113,7 +108,6 @@ public class HistoryPane extends BorderPane {
             }
 
         }
-
     }
 
 

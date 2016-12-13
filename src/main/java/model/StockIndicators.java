@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 /**
  * Created by denissaidov on 09/12/2016.
+ * Retrieves particular data from an api of cnn of Goog,Appl,Mcrst and yahoo stock prices.
  */
 public class StockIndicators {
 
@@ -19,7 +20,7 @@ public class StockIndicators {
 
     /**
      * indicators showing current trends in stock data
-     * @throws Exception
+     * @throws Exception if internet not on such an exception is thrown
      */
     public StockIndicators() throws Exception {
         JSONParsing test = new JSONParsing();

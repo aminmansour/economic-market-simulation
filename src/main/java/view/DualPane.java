@@ -1,29 +1,13 @@
 package view;
 
-import controller.DualController;
-import controller.QueryController;
-import javafx.beans.binding.Bindings;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.control.*;
-import javafx.scene.effect.Effect;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import model.ArrayBuilder;
-import model.ChartBuillder;
-import model.CountryReader;
 import model.History;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.Callable;
 
 /**
  * Created by denissaidov on 28/11/2016.

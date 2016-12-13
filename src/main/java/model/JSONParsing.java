@@ -9,6 +9,7 @@ import java.net.URL;
 
 /**
  * Created by denissaidov on 25/11/2016.
+ * A class to allow for json parsing of queries to DataPieces which can be used within the program
  */
 public class JSONParsing {
     private final String USER_AGENT = "Mozilla/5.0";
