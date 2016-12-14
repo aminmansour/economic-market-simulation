@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class CountryNamesToCodesTest {
+public class CountryCodeDictionaryTest {
 
     private ConversionFactory countryNamesToCodes = new ConversionFactory();
     private static ConversionFactory countryNamesToCodes1 = new ConversionFactory();
@@ -28,7 +28,6 @@ public class CountryNamesToCodesTest {
         countries.add("Afghanistan");
         countries.add("Albania");
         countries.add("Algeria");
-        countries.add("American Samoa");
         countries.add("Andorra");
         countries.add("Angola");
 
@@ -37,7 +36,6 @@ public class CountryNamesToCodesTest {
         code.add("AF");
         code.add("AL");
         code.add("DZ");
-        code.add("AS");
         code.add("AD");
         code.add("AO");
 
