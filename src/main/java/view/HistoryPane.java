@@ -78,7 +78,6 @@ public class HistoryPane extends BorderPane {
     private void createButtonStackRepresentingCache(History localhistory, Collection<ArrayList<ArrayList<DataPiece>>> valset, int i, CountryCodeDictionary indicatorConverter) {
         for (ArrayList<ArrayList<DataPiece>> cachedDataInstance : valset) {
             //strings that will be represented  within button
-            if (!cachedDataInstance.get(0).isEmpty()) {
                 String historyID = localhistory.getKey(cachedDataInstance);
                 String[] countries = historyID.split("\\+")[0].split("(?<=\\G..)");
                 ;
@@ -100,7 +99,7 @@ public class HistoryPane extends BorderPane {
                 } else {
                     setCenter(new Label("Nothing to show"));
                 }
-            }
+
         }
     }
 

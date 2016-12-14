@@ -29,8 +29,8 @@ import java.util.concurrent.Callable;
 public class ChartPane extends BorderPane {
 
 
-    private CountryNode cnCountry;
-    private ArrayList<CountryNode> alListOfCountries;
+    private CountryNode cn;
+    private ArrayList<CountryNode> alListOfCountries = new ArrayList<CountryNode>();
     private Button bQuery;
     private ComboBox<String> cbIndicators;
     private TextField tfFrom;
@@ -51,7 +51,6 @@ public class ChartPane extends BorderPane {
     public ChartPane(LineChart<String, Number> linechart, History history) {
         //<div>Icons made by <a href="http://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
         this.history = history;
-        alListOfCountries = new ArrayList<CountryNode>();
         getStylesheets().add("css/chartPane-style.css");
         setCenter(linechart);
         bAddCountry = new Button("Add Country");
@@ -167,23 +166,23 @@ public class ChartPane extends BorderPane {
 
         grid.add(belowCountries, 0, 14);
 
-        cnCountry = new CountryNode("Select a country");
-        cnCountry.setPadding(new Insets(2.5, 0, 2.5, 0));
+        cn = new CountryNode("Select a country");
+        cn.setPadding(new Insets(2.5, 0, 2.5, 0));
 
-        alListOfCountries.add(cnCountry);
+        alListOfCountries.add(cn);
 
         gpCountries = new GridPane();
 
-        gpCountries.add(cnCountry, 0, 0);
+        gpCountries.add(cn, 0, 0);
         grid.add(gpCountries, 0, 12);
 
         bAddCountry.setOnMousePressed(new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent event) {
-                if (!(cnCountry.getCountries().getValue().equals("Select a country"))) {
+                if (!(cn.getCountries().getValue().equals("Select a country"))) {
                     CountryNode cbCountries = null;
-                    cbCountries = new CountryNode(cnCountry.getCountries().getValue());
+                    cbCountries = new CountryNode(cn.getCountries().getValue());
                     cbCountries.setDisable(true);
                     Button bMinus = new Button("-");
                     bMinus.setId(Integer.toString((alListOfCountries.size() - 1)));
@@ -225,7 +224,7 @@ public class ChartPane extends BorderPane {
                     gpCountries.add(cbCountries, 0, (alListOfCountries.size() - 1));
                     gpCountries.add(bMinus, 1, (alListOfCountries.size() - 1));
                     gpCountries.setMargin(cbCountries, new Insets(0, 4, 0, 0));
-                    cnCountry.getCountries().setValue("Select a country");
+                    cn.getCountries().setValue("Select a country");
 
                 }
             }
@@ -251,7 +250,7 @@ public class ChartPane extends BorderPane {
      * Allows access for a list of indicator dropdown
      * @return The combobox containing list of indicator strings
      */
-    public ComboBox<String> getCbIndicators() {
+    public ComboBox<String> getIndicators() {
         return cbIndicators;
     }
 
@@ -289,7 +288,7 @@ public class ChartPane extends BorderPane {
     /**
      * @return an array of countries on the pane
      */
-    public GridPane getGpCountries() {
+    public GridPane getCountriesPane() {
         return gpCountries;
     }
 
@@ -297,7 +296,7 @@ public class ChartPane extends BorderPane {
      * sets the center of the borderpane to a given Line chart
      * @param lineChart the given Line chart
      */
-    public void setCenterBarChart(LineChart<String, Number> lineChart) {
+    public void setCenterLineChart(LineChart<String, Number> lineChart) {
         setCenter(lineChart);
 
     }
@@ -305,7 +304,7 @@ public class ChartPane extends BorderPane {
      * sets the center of the borderpane to a given Bar chart
      * @param lineChart the given Bar chart
      */
-    public void setCenterBarChart(BarChart<String, Number> lineChart) {
+    public void setCenterLineChart(BarChart<String, Number> lineChart) {
         setCenter(lineChart);
     }
 
