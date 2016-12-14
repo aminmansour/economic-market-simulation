@@ -21,7 +21,7 @@ public class IndicatorRetrieval {
      * Pulls data for each location region from the world bank Api. The four ragions are europe,world , east china
      * and sub-africa and caches it within a linked hash map.
      *
-     * @throws Exception
+     * @throws Exception Thrown if json object fails to recognize the link as a json file
      */
     public IndicatorRetrieval() throws Exception {
         JSONParsing test = new JSONParsing();

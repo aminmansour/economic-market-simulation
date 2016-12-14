@@ -30,7 +30,7 @@ public class ConversionFactory {
      * Converts a country name to the associated code value.
      * @param name the name of the code of indicator/country you wish to convert to code
      * @param reader the file you wish to use to convert the name into code
-     * @return
+     * @return returns the string name in code format
      */
     public static String singleConvert(String name, CountryCodeDictionary reader) {
         return reader.getPairs().get(name);
@@ -40,7 +40,7 @@ public class ConversionFactory {
      * Convert from country code to its associated name
      * @param code the code of the indicator/country you wish to convert back to its meaningful name
      * @param reader the file you wish to use to convert the name into name
-     * @return
+     * @return returns a string that is the actual name of a particular country using its code.
      */
     public String backwardsConvert(String code, CountryCodeDictionary reader) {
 

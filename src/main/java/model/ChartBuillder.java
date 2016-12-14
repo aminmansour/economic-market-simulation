@@ -122,7 +122,7 @@ public class ChartBuillder {
     /**
      * Retrieces the data and sees  if it exists
      *
-     * @param series
+     * @param series requires Chart input data type and checks whether there is data within it
      */
     public static void checkNoData(XYChart.Series<Integer, Double> series) {
         double d1 = 0;

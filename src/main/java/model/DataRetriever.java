@@ -24,7 +24,7 @@ public class DataRetriever {
      * @param to ending date
      * @param indicator the economic inicator wanted
      * @return county code, data and year sorted grouped by country and then by year
-     * @throws Exception
+     * @throws Exception Thrown if json object fails to recognize the link as a json file
      */
     public ArrayList<ArrayList<DataPiece>> buildArray(ArrayList<String> countries, String from, String to, String indicator) throws Exception {
         ArrayList<ArrayList<DataPiece>> galaxy = new ArrayList<ArrayList<DataPiece>>();

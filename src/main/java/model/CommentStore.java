@@ -58,6 +58,7 @@ public class CommentStore {
 
     /**
      * returns the store of comments in an ordered fashion.
+     * @return returns the storage of comments
      */
     public LinkedHashMap<String, Pair<String, String>> getComments() {
         return storeOfComments;

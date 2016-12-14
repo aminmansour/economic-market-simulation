@@ -21,7 +21,7 @@ public class CountryCodeDictionary {
     /**
      * given a csv filepath extracts the country codes and country names into separate arrays a Key Value pair map
      * @param filepath  filepath of a csv file containing country names then iso2 codes
-     * @throws IOException
+     * @throws IOException If the file can not be read for some reason, such an exception is thrown
      */
     public CountryCodeDictionary(String filepath) throws IOException {
         String csvFile = "src\\main\\resources\\storage\\CountryCodesCore.csv";

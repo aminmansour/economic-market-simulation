@@ -75,7 +75,7 @@ public class NoteBoardPane extends BorderPane {
      * @param comment The primary comment message
      * @param date  The date of that paritcular message
      * @param color The color of the message note
-     * @return
+     * @return returns a pair. The key being the borderpane which encapsulates a comment and the "remove" label associated with borderpane associated with key
      */
     public Pair<BorderPane, Label> createCommentTile(String comment, String date, String color) {
         //sets up a particular comment
