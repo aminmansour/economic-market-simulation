@@ -40,6 +40,7 @@ public class NoteBoardController implements EventHandler<MouseEvent> {
         vbCommentStack = vbComments;
         taComment = comment;
         nbpCommentView = view;
+        //loads the comments and displays it on the view
         for (Map.Entry<String, Pair<String, String>> currentComment : commentStrore.getComments().entrySet()) {
             Pair<BorderPane, Label> commentSection = nbpCommentView.createCommentTile(currentComment.getKey(), currentComment.getValue().getKey(), currentComment.getValue().getValue().toLowerCase());
             vbComments.getChildren().add(0, commentSection.getKey());

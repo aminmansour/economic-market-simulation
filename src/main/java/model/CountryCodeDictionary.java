@@ -14,8 +14,8 @@ public class CountryCodeDictionary {
 
     //ArrayList<Pair<String,String>> pairs;
     private HashMap<String, String> pairs;
-   private  ArrayList<String> countrynames;
-  private  ArrayList<String> countrycodes;
+    private ArrayList<String> countryNames;
+    private ArrayList<String> countryCodes;
 
 
     /**
@@ -33,8 +33,6 @@ public class CountryCodeDictionary {
         HashMap<String,String> inner = new HashMap<String,String>();
         ArrayList<String> names = new ArrayList<String>();
         ArrayList<String> codes = new ArrayList<String>();
-
-
 
 
         while ((line = reader.readLine()) != null) {
@@ -58,10 +56,9 @@ public class CountryCodeDictionary {
 
         //close reader
         reader.close();
-
         pairs = inner;
-        countrycodes = codes;
-        countrynames = names;
+        countryCodes = codes;
+        countryNames = names;
 
 
 
@@ -82,7 +79,7 @@ public class CountryCodeDictionary {
      * @return a list of iso2 codes
      */
     public ArrayList<String> getCountrycodes() {
-        return countrycodes;
+        return countryCodes;
     }
 
     /**
@@ -90,7 +87,7 @@ public class CountryCodeDictionary {
      * @return a list of country names
      */
     public ArrayList<String> getCountrynames() {
-        return countrynames;
+        return countryNames;
     }
 
     public String getcode(String a){

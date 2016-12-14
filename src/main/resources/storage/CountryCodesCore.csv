@@ -1,11 +1,16 @@
+World,WLD
+East Asia,EAS
+Europe and Central Asia,ECS
+Latin America & Caribbean,LCN
+Middle East & North Africa,MEA
+South Asia,SAS
+Sub-Saharan Africa,SSF
 United Kingdom,GB
 Afghanistan,AF
 Albania,AL
 Algeria,DZ
-American Samoa,AS
 Andorra,AD
 Angola,AO
-Antarctica,AQ
 Argentina,AR
 Armenia,AM
 Australia,AU
@@ -16,27 +21,23 @@ Bangladesh,BD
 Barbados,BB
 Belarus,BY
 Belgium,BE
-Belize,BZ
 Bermuda,BM
 Bhutan,BT
 Bolivia,BO
 Bosnia and Herzegovina,BA
 Botswana,BW
 Brazil,BR
-British Indian Ocean Territory,IO
 Bulgaria,BG
 Burundi,BI
 Cambodia,KH
 Cameroon,CM
 Canada,CA
-Cayman Islands,KY
 Central African Republic,CF
 Chad,TD
 Chile,CL
 China,CN
 Colombia,CO
 Congo,CG
-Cook Islands,CK
 Costa Rica,CR
 Cote d'Ivoire,CI
 Croatia,HR
@@ -53,27 +54,19 @@ El Salvador,SV
 Equatorial Guinea,GQ
 Estonia,EE
 Ethiopia,ET
-Falkland Islands (Malvinas),FK
 Fiji,FJ
 Finland,FI
 France,FR
-French Guiana,GF
-French Polynesia,PF
 Gabon,GA
 Gambia,GM
 Georgia,GE
 Germany,DE
 Ghana,GH
-Gibraltar,GI
 Greece,GR
-Greenland,GL
 Grenada,GD
-Guam,GU
 Guatemala,GT
 Guinea,GN
-Guyana,GY
 Haiti,HT
-Holy See (Vatican City State),VA
 Honduras,HN
 Hungary,HU
 Hong Kong,HK
@@ -83,16 +76,13 @@ Indonesia,ID
 Iran,IR
 Iraq,IQ
 Ireland,IE
-Isle of Man,IM
 Israel,IL
 Italy,IT
 Jamaica,JM
 Japan,JP
-Jersey,JE
 Jordan,JO
 Kazakhstan,KZ
 Kenya,KE
-Democratic People's Republic of Korea,KP
 Republic of Korea,KR
 Kuwait,KW
 Kyrgyzstan,KG
@@ -103,16 +93,13 @@ Libya,LY
 Liechtenstein,LI
 Lithuania,LT
 Luxembourg,LU
-Macao,MO
 Macedonia,MK
-Madagascar,MG
 Malawi,MW
 Malaysia,MY
 Maldives,MV
 Mali,ML
 Malta,MT
 Mexico,MX
-Micronesia,FM
 Moldova,MD
 Monaco,MC
 Mongolia,MN
@@ -123,12 +110,10 @@ Myanmar,MM
 Namibia,NA
 Nepal,NP
 Netherlands,NL
-New Caledonia,NC
 New Zealand,NZ
 Nicaragua,NI
 Niger,NE
 Nigeria,NG
-Norfolk Island,NF
 Norway,NO
 Oman,OM
 Pakistan,PK
@@ -145,24 +130,17 @@ Qatar,QA
 Romania,RO
 Russian Federation,RU
 Rwanda,RW
-Saint Barthalemy,BL
-Saint Helena,SH
-Samoa,WS
-San Marino,SM
 Saudi Arabia,SA
 Serbia,RS
-Seychelles,SC
 Sierra Leone,SL
 Singapore,SG
 Slovakia,SK
 Slovenia,SI
-Solomon Islands,SB
 Somalia,SO
 South Africa,ZA
 Spain,ES
 Sri Lanka,LK
 Sudan,SD
-Swaziland,SZ
 Sweden,SE
 Switzerland,CH
 Syrian Arab Republic,SY
@@ -171,23 +149,17 @@ Tajikistan,TJ
 Tanzania,TZ
 Thailand,TH
 Togo,TG
-Tonga,TO
 Trinidad and Tobago,TT
 Tunisia,TN
 Turkey,TR
-Turkmenistan,TM
 Uganda,UG
 Ukraine,UA
 United Arab Emirates,AE
 United States,US
-United States Minor Outlying Islands,UM
 Uruguay,UY
 Uzbekistan,UZ
-Vanuatu,VU
 Venezuela,VE
 Viet Nam,VN
-Virgin Islands British,VG
-Virgin Islands  U.S.,VI
 Yemen,YE
 Zambia,ZM
 Zimbabwe,ZW

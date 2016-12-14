@@ -5,6 +5,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import model.*;
 import view.ChartPane;
@@ -38,7 +39,7 @@ public class QueryController implements EventHandler<MouseEvent> {
     public void handle(MouseEvent event) {
         if (isValid(chartPane.getTfFrom().getText().trim()) && isValid(chartPane.getTfTo().getText().trim())) {
             if (Integer.parseInt(chartPane.getTfFrom().getText().trim()) - Integer.parseInt(chartPane.getTfTo().getText().trim()) <= 0) {
-                if (!(((CountryNode) chartPane.getCountriesPane().getChildren().get(0)).getCountries().getValue().equals("Select a country") && chartPane.getCountriesPane().getChildren().size() == 1)) {
+                if (!(((CountryNode) chartPane.getGpCountries().getChildren().get(0)).getCountries().getValue().equals("Select a country") && chartPane.getGpCountries().getChildren().size() == 1)) {
                     DataRetriever query = new DataRetriever();
                     CountryCodeDictionary crListOfCountries = null;
                     try {
@@ -47,6 +48,7 @@ public class QueryController implements EventHandler<MouseEvent> {
                         e.printStackTrace();
                     }
 
+                    //loads indicators
                     CountryCodeDictionary indicatorConverter = null;
                     try {
                         indicatorConverter = new CountryCodeDictionary("src/main/resources/storage/IndicatorCodesCore.csv");
@@ -70,7 +72,7 @@ public class QueryController implements EventHandler<MouseEvent> {
                     Boolean isInsideMap = false;
                     String savedMapId = null;
 
-                    String searchId = countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter);
+                    String searchId = countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getCbIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter);
 
                     for (String mapId : adding.getDataStore().keySet()) {
 
@@ -80,54 +82,11 @@ public class QueryController implements EventHandler<MouseEvent> {
                             break;
                         }
                     }
-
-                    if (chartPane.getTgViewType().getSelectedToggle() == chartPane.getRbLine()) {
-
-                        if (isInsideMap) {
-
-                            ArrayList<ArrayList<DataPiece>> newChart = adding.getChartData(savedMapId);
-
-
-                            LineChart<String, Number> xy = chartBuillder.buildLineChart(newChart);
-                            chartPane.setCenterLineChart(xy);
-
-                        } else {
-                            ArrayList<ArrayList<DataPiece>> toBeCharted = null;
-                            try {
-                                toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                            LineChart<String, Number> charts = chartBuillder.buildLineChart(toBeCharted);
-                            chartPane.setCenterLineChart(charts);
-
-                            adding.getDataStore().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
-                        }
-                    }
-                    if (chartPane.getTgViewType().getSelectedToggle() == chartPane.getRbBar()) {
-                        if (isInsideMap) {
-
-                            ArrayList<ArrayList<DataPiece>> newChart = adding.getChartData(savedMapId);
-
-                            BarChart<String, Number> xy = chartBuillder.buildBarChart(newChart);
-
-                            chartPane.setCenterLineChart(xy);
-
-                        } else {
-                            ArrayList<ArrayList<DataPiece>> toBeCharted = null;
-                            try {
-                                toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                            BarChart<String, Number> charts = chartBuillder.buildBarChart(toBeCharted);
-                            chartPane.setCenterLineChart(charts);
-
-                            adding.getDataStore().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
-                        }
-                    }
+                    //checks if conditions to populate line chat is met
+                    retrieveAndPopulateLine(query, indicatorConverter, countriesCoded, adding, countries, chartBuillder, isInsideMap, savedMapId);
+                    //checks if conditions to populate bar chat is met
+                    retrieveAndPopulateBar(query, indicatorConverter, countriesCoded, adding, countries, chartBuillder, isInsideMap, savedMapId);
+                    //only one can be true
                 }
 
             } else {
@@ -136,6 +95,57 @@ public class QueryController implements EventHandler<MouseEvent> {
         }
 
 
+    }
+
+    private void retrieveAndPopulateLine(DataRetriever query, CountryCodeDictionary indicatorConverter, ArrayList<String> countriesCoded, History adding, String countries, ChartBuillder chartBuillder, Boolean isInsideMap, String savedMapId) {
+        //checks what radio button is ticked
+        if (chartPane.getTgViewType().getSelectedToggle() == chartPane.getRbLine()) {
+            if (isInsideMap) {
+                ArrayList<ArrayList<DataPiece>> newChart = adding.getChartData(savedMapId);
+                LineChart<String, Number> xy = chartBuillder.buildLineChart(newChart);
+                //builds line and sets it center
+                chartPane.setCenterBarChart(xy);
+
+            } else {
+                ArrayList<ArrayList<DataPiece>> toBeCharted = null;
+                try {
+                    toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), ConversionFactory.singleConvert(chartPane.getCbIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
+                    LineChart<String, Number> charts = chartBuillder.buildLineChart(toBeCharted);
+                    chartPane.setCenterBarChart(charts);
+                } catch (Exception e) {
+                    chartPane.setCenter(new Label("The result failed!"));
+                }
+
+
+                adding.getDataStore().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getCbIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
+            }
+        }
+    }
+
+    private void retrieveAndPopulateBar(DataRetriever query, CountryCodeDictionary indicatorConverter, ArrayList<String> countriesCoded, History adding, String countries, ChartBuillder chartBuillder, Boolean isInsideMap, String savedMapId) {
+        //checks what radio button is ticked
+        if (chartPane.getTgViewType().getSelectedToggle() == chartPane.getRbBar()) {
+            if (isInsideMap) {
+
+                ArrayList<ArrayList<DataPiece>> newChart = adding.getChartData(savedMapId);
+                BarChart<String, Number> xy = chartBuillder.buildBarChart(newChart);
+                chartPane.setCenterBarChart(xy);
+                //builds bar chart and sets it center
+            } else {
+                ArrayList<ArrayList<DataPiece>> toBeCharted = null;
+                try {
+                    toBeCharted = query.buildArray(countriesCoded, chartPane.getTfFrom().getText(), chartPane.getTfTo().getText(), ConversionFactory.singleConvert(chartPane.getCbIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter));
+                    LineChart<String, Number> charts = chartBuillder.buildLineChart(toBeCharted);
+                    chartPane.setCenterBarChart(charts);
+                } catch (Exception e) {
+                    chartPane.setCenter(new Label("The result failed!"));
+
+                }
+
+
+                adding.getDataStore().put(countries + "+" + chartPane.getTfFrom().getText() + chartPane.getTfTo().getText() + ConversionFactory.singleConvert(chartPane.getCbIndicators().getSelectionModel().getSelectedItem().toString(), indicatorConverter), toBeCharted);
+            }
+        }
     }
 
     //encapsulates error printing into one method with the main and secondary message of error pane specified

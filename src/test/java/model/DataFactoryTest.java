@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  */
 public class DataFactoryTest {
     /**
-     * Test for if the correct data on macroeconomics is retrieved  from CNN.
+     * Test to see if it successfully retrieved macroeconomic headlines from CNN.
      */
     @Test
     public void retrieveHeadlinesFromCorrectSiteTest() {
@@ -22,6 +22,10 @@ public class DataFactoryTest {
         }
     }
 
+    /**
+     * Test to see if the reader accesses the file storage and pull data from it. Fails if the resulting strinng is null, meaning that the buffered reader failed to read the
+     * word-bank.txt.
+     */
     @Test
     public void getWordsFromFilesTest() {
         try {

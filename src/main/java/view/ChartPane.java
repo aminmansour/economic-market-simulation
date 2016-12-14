@@ -29,15 +29,15 @@ import java.util.concurrent.Callable;
 public class ChartPane extends BorderPane {
 
 
-    private CountryNode cn;
-    private ArrayList<CountryNode> countriesArray = new ArrayList<CountryNode>();
+    private CountryNode cnCountry;
+    private ArrayList<CountryNode> alListOfCountries;
     private Button bQuery;
-    private ComboBox<String> indicators;
+    private ComboBox<String> cbIndicators;
     private TextField tfFrom;
     private TextField tfTo;
     private GridPane grid;
-    private Button addCountry;
-    private GridPane countriesPane;
+    private Button bAddCountry;
+    private GridPane gpCountries;
     private History history;
     private ToggleGroup tgViewType;
     private RadioButton rbBar;
@@ -51,10 +51,11 @@ public class ChartPane extends BorderPane {
     public ChartPane(LineChart<String, Number> linechart, History history) {
         //<div>Icons made by <a href="http://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
         this.history = history;
+        alListOfCountries = new ArrayList<CountryNode>();
         getStylesheets().add("css/chartPane-style.css");
         setCenter(linechart);
-        addCountry = new Button("Add Country");
-        addCountry.setId("add");
+        bAddCountry = new Button("Add Country");
+        bAddCountry.setId("add");
 
         bQuery = new Button("Query");
         bQuery.setId("bQuery");
@@ -80,12 +81,12 @@ public class ChartPane extends BorderPane {
         }, spSidePanel.viewportBoundsProperty()));
 
         String csvFile = "src/main/resources/storage/IndicatorCodesCore.csv";
-        indicators = new ComboBox<String>();
+        cbIndicators = new ComboBox<String>();
         try {
             ArrayList<String> cnames = new CountryCodeDictionary(csvFile).getCountrynames();
-            indicators.setId("dropdown");
+            cbIndicators.setId("dropdown");
             for (int i = 0; i < cnames.size(); ++i) {
-                indicators.getItems().add(i, cnames.get(i));
+                cbIndicators.getItems().add(i, cnames.get(i));
             }
         } catch (IOException e) {
             DialogPane jdError = new DialogPane();
@@ -94,13 +95,13 @@ public class ChartPane extends BorderPane {
             jdError.setVisible(true);
         }
 
-        indicators.getSelectionModel().selectFirst();
-        indicators.setMaxWidth(250);
+        cbIndicators.getSelectionModel().selectFirst();
+        cbIndicators.setMaxWidth(250);
 
         Label lIndicators = new Label("Indicator:");
         grid.add(lIndicators, 0,3);
 
-        grid.add(indicators, 0, 4);
+        grid.add(cbIndicators, 0, 4);
 
         Label from = new Label("From:");
 
@@ -150,7 +151,7 @@ public class ChartPane extends BorderPane {
 
         //belowCountries.add(chartype,0,0);
         belowCountries.setAlignment(Pos.CENTER_RIGHT);
-        belowCountries.add(addCountry, 1, 2);
+        belowCountries.add(bAddCountry, 1, 2);
 
         HBox hbGo = new HBox();
         hbGo.setAlignment(Pos.CENTER_RIGHT);
@@ -166,26 +167,26 @@ public class ChartPane extends BorderPane {
 
         grid.add(belowCountries, 0, 14);
 
-        cn = new CountryNode("Select a country");
-        cn.setPadding(new Insets(2.5,0,2.5,0));
+        cnCountry = new CountryNode("Select a country");
+        cnCountry.setPadding(new Insets(2.5, 0, 2.5, 0));
 
-        countriesArray.add(cn);
+        alListOfCountries.add(cnCountry);
 
-        countriesPane = new GridPane();
+        gpCountries = new GridPane();
 
-        countriesPane.add(cn, 0, 0);
-        grid.add(countriesPane, 0, 12);
+        gpCountries.add(cnCountry, 0, 0);
+        grid.add(gpCountries, 0, 12);
 
-        addCountry.setOnMousePressed(new EventHandler<MouseEvent>() {
+        bAddCountry.setOnMousePressed(new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent event) {
-                if (!(cn.getCountries().getValue().equals("Select a country"))) {
+                if (!(cnCountry.getCountries().getValue().equals("Select a country"))) {
                     CountryNode cbCountries = null;
-                    cbCountries = new CountryNode(cn.getCountries().getValue());
+                    cbCountries = new CountryNode(cnCountry.getCountries().getValue());
                     cbCountries.setDisable(true);
                     Button bMinus = new Button("-");
-                    bMinus.setId(Integer.toString((countriesArray.size() - 1)));
+                    bMinus.setId(Integer.toString((alListOfCountries.size() - 1)));
                     bMinus.getStyleClass().add("minus");
 
                     //allows for removal of country
@@ -193,38 +194,38 @@ public class ChartPane extends BorderPane {
 
                         @Override
                         public void handle(MouseEvent event) {
-                            int rowOfNode = countriesPane.getRowIndex(bMinus);
-                            int colOfNode = countriesPane.getColumnIndex(bMinus) - 1;
+                            int rowOfNode = gpCountries.getRowIndex(bMinus);
+                            int colOfNode = gpCountries.getColumnIndex(bMinus) - 1;
 
                             Node result = null;
-                            ObservableList<Node> childrens = countriesPane.getChildren();
+                            ObservableList<Node> childrens = gpCountries.getChildren();
 
                             for (Node node : childrens) {
-                                if (countriesPane.getRowIndex(node) == rowOfNode && countriesPane.getColumnIndex(node) == colOfNode) {
+                                if (gpCountries.getRowIndex(node) == rowOfNode && gpCountries.getColumnIndex(node) == colOfNode) {
                                     result = node;
                                     break;
                                 }
                             }
 
 
-                            countriesArray.remove(result);
+                            alListOfCountries.remove(result);
 
-                            countriesPane.getChildren().remove(bMinus);
+                            gpCountries.getChildren().remove(bMinus);
 
-                            countriesPane.getChildren().remove(result);
+                            gpCountries.getChildren().remove(result);
 
                         }
                     });
 
-                    countriesArray.add(cbCountries);
+                    alListOfCountries.add(cbCountries);
 
                     if (cbCountries != null) {
                         cbCountries.setPadding(new Insets(2.5, 0, 2.5, 0));
                     }
-                    countriesPane.add(cbCountries, 0, (countriesArray.size() - 1));
-                    countriesPane.add(bMinus, 1, (countriesArray.size() - 1));
-                    countriesPane.setMargin(cbCountries, new Insets(0, 4, 0, 0));
-                    cn.getCountries().setValue("Select a country");
+                    gpCountries.add(cbCountries, 0, (alListOfCountries.size() - 1));
+                    gpCountries.add(bMinus, 1, (alListOfCountries.size() - 1));
+                    gpCountries.setMargin(cbCountries, new Insets(0, 4, 0, 0));
+                    cnCountry.getCountries().setValue("Select a country");
 
                 }
             }
@@ -250,8 +251,8 @@ public class ChartPane extends BorderPane {
      * Allows access for a list of indicator dropdown
      * @return The combobox containing list of indicator strings
      */
-    public ComboBox<String> getIndicators() {
-        return indicators;
+    public ComboBox<String> getCbIndicators() {
+        return cbIndicators;
     }
 
     /**
@@ -277,9 +278,9 @@ public class ChartPane extends BorderPane {
      */
     public ArrayList<String> countrynames() {
         ArrayList<String> names = new ArrayList<String>();
-        for (int i = 0; i < countriesArray.size(); i++) {
-            if (!countriesArray.get(i).getCountries().getValue().equals("Select a country")) {
-                names.add(countriesArray.get(i).getCountries().getSelectionModel().getSelectedItem().toString());
+        for (int i = 0; i < alListOfCountries.size(); i++) {
+            if (!alListOfCountries.get(i).getCountries().getValue().equals("Select a country")) {
+                names.add(alListOfCountries.get(i).getCountries().getSelectionModel().getSelectedItem().toString());
             }
         }
         return names;
@@ -288,15 +289,15 @@ public class ChartPane extends BorderPane {
     /**
      * @return an array of countries on the pane
      */
-    public GridPane getCountriesPane(){
-        return  countriesPane;
+    public GridPane getGpCountries() {
+        return gpCountries;
     }
 
     /**
      * sets the center of the borderpane to a given Line chart
      * @param lineChart the given Line chart
      */
-    public void setCenterLineChart(LineChart<String,Number> lineChart){
+    public void setCenterBarChart(LineChart<String, Number> lineChart) {
         setCenter(lineChart);
 
     }
@@ -304,7 +305,7 @@ public class ChartPane extends BorderPane {
      * sets the center of the borderpane to a given Bar chart
      * @param lineChart the given Bar chart
      */
-    public void setCenterLineChart(BarChart<String,Number> lineChart){
+    public void setCenterBarChart(BarChart<String, Number> lineChart) {
         setCenter(lineChart);
     }
 

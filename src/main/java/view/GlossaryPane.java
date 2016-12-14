@@ -30,6 +30,7 @@ public class GlossaryPane extends BorderPane {
         displayFacts(gpFactStack);
     }
 
+    //sets the general view of the pane
     private GridPane setUpView() {
         GridPane gpFactStack = new GridPane();
 

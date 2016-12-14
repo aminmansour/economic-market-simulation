@@ -34,12 +34,11 @@ public class HistoryPane extends BorderPane {
      * @param hist the archive of previous searches
      */
     public HistoryPane(History hist) {
-        Button clear = new Button("Delete History");
-
         getStylesheets().add("css/chartPane-style.css");
         setPadding(new Insets(30, 0, 0, 306));
         History localhistory = hist;
         Collection<ArrayList<ArrayList<DataPiece>>> valset = localhistory.getDataStore().values();
+
         gpFlowPane = new GridPane();
         gpFlowPane.add(new Label("History: "), 0, 4);
         tgViewType = new ToggleGroup();
@@ -49,6 +48,8 @@ public class HistoryPane extends BorderPane {
         rbLine.setToggleGroup(tgViewType);
         Label chartype = new Label("Chart Type: ");
         gpFlowPane.add(chartype, 0, 1);
+
+        Button clear = new Button("Delete History");
         gpFlowPane.setMargin(clear, new Insets(0, 90, 0, 0));
         gpFlowPane.add(rbBar, 0, 2);
         gpFlowPane.add(rbLine, 0, 3);
@@ -60,6 +61,71 @@ public class HistoryPane extends BorderPane {
         setRight(scp);
 
         gpFlowPane.setVgap(20);
+        //sets up actions listener to clear all histories in cache
+
+        setUpClearListener(hist, clear);
+        int i = 0;
+        CountryCodeDictionary indicatorConverter = null;
+        try {
+            indicatorConverter = new CountryCodeDictionary("src/main/resources/storage/IndicatorCodesCore.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        createButtonStackRepresentingCache(localhistory, valset, i, indicatorConverter);
+    }
+
+    //creates all buttons representing the cache data
+    private void createButtonStackRepresentingCache(History localhistory, Collection<ArrayList<ArrayList<DataPiece>>> valset, int i, CountryCodeDictionary indicatorConverter) {
+        for (ArrayList<ArrayList<DataPiece>> cachedDataInstance : valset) {
+            //strings that will be represented  within button
+            if (!cachedDataInstance.get(0).isEmpty()) {
+                String historyID = localhistory.getKey(cachedDataInstance);
+                String[] countries = historyID.split("\\+")[0].split("(?<=\\G..)");
+                ;
+                String restOfId = historyID.split("\\+")[1];
+                String toYears = restOfId.substring(0, 8).substring(0, 4);
+                String fromYears = restOfId.substring(0, 8).substring(4);
+                String indicatorCode = restOfId.substring(8);
+                String seperated = "";
+                for (String country : countries) {
+                    seperated = seperated + country + ",";
+                }
+                String indicatorString = new ConversionFactory().backwardsConvert(indicatorCode, indicatorConverter);
+                //creates single button to view and review for a particular cached data
+                createHistoryStoreButton(i, cachedDataInstance, toYears, fromYears, seperated, indicatorString);
+                i++;
+
+                if (gpFlowPane.getChildren().size() > 5) {
+                    setCenter(new Label("Select a diagram to view"));
+                } else {
+                    setCenter(new Label("Nothing to show"));
+                }
+            }
+        }
+    }
+
+    //creates a button to represent particular data
+    private void createHistoryStoreButton(int i, ArrayList k, String toYears, String fromYears, String seperated, String indicatorString) {
+        Button bCacheInstancce = new Button(seperated + " " + toYears + " - " + fromYears + " " + indicatorString);
+        bCacheInstancce.setPadding(new Insets(10, 10, 10, 10));
+        GridPane.setMargin(bCacheInstancce, new Insets(5, 0, 0, 0));
+        gpFlowPane.add(bCacheInstancce, 0, i + 5);
+        bCacheInstancce.setId("bQuery");
+        ChartBuillder ch = new ChartBuillder();
+        bCacheInstancce.setOnAction((event) -> {
+            if (tgViewType.getSelectedToggle() == rbLine) {
+                LineChart<String, Number> ln = ch.buildLineChart(k);
+                setCenter(ln);
+            }
+            if (tgViewType.getSelectedToggle() == rbBar) {
+                BarChart<String, Number> br = ch.buildBarChart(k);
+                setCenter(br);
+            }
+        });
+    }
+
+    //add a listener to the clear button which removes all the cache history
+    private void setUpClearListener(History hist, Button clear) {
         clear.setOnAction((event) -> {
 
             hist.clear();
@@ -70,64 +136,6 @@ public class HistoryPane extends BorderPane {
             ((Label) getCenter()).setText("Nothing to show");
 
         });
-
-
-        int i = 0;
-        CountryCodeDictionary indicatorConverter = null;
-
-        try {
-            indicatorConverter = new CountryCodeDictionary("src/main/resources/storage/IndicatorCodesCore.csv");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for (ArrayList k: valset){
-
-            String historyID = localhistory.getKey(k);
-
-            String[] countries = historyID.split("\\+")[0].split("(?<=\\G..)");;
-            String restOfId =  historyID.split("\\+")[1];
-
-            String toYears = restOfId.substring(0,8).substring(0,4);
-            String fromYears = restOfId.substring(0,8).substring(4);
-
-            String indicatorCode = restOfId.substring(8);
-
-            String seperated = "";
-
-            for(String country : countries) {
-                seperated = seperated + country + ",";
-            }
-
-            String indicatorString = new ConversionFactory().backwardsConvert(indicatorCode, indicatorConverter);
-
-            Button elemennt = new Button(seperated + " " + toYears + " - " + fromYears + " " + indicatorString);
-            elemennt.setPadding(new Insets(10,10,10,10));
-            GridPane.setMargin(elemennt,new Insets(5,0,0,0));
-            gpFlowPane.add(elemennt, 0, i + 5);
-            elemennt.setId("bQuery");
-            ChartBuillder ch = new ChartBuillder();
-
-            elemennt.setOnAction((event) -> {
-
-                if (tgViewType.getSelectedToggle() == rbLine) {
-                    LineChart<String, Number> ln = ch.buildLineChart(k);
-                    setCenter(ln);
-                }
-                if (tgViewType.getSelectedToggle() == rbBar) {
-                    BarChart<String, Number> br = ch.buildBarChart(k);
-                    setCenter(br);
-                }
-            });
-            i++;
-
-            if (gpFlowPane.getChildren().size() > 5) {
-                setCenter(new Label("Select a diagram to view"));
-            } else {
-                setCenter(new Label("Nothing to show"));
-            }
-
-        }
     }
 
 

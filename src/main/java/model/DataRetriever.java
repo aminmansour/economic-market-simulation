@@ -28,18 +28,13 @@ public class DataRetriever {
      */
     public ArrayList<ArrayList<DataPiece>> buildArray(ArrayList<String> countries, String from, String to, String indicator) throws Exception {
         ArrayList<ArrayList<DataPiece>> galaxy = new ArrayList<ArrayList<DataPiece>>();
-
         CountryCodeDictionary countryCodes = new CountryCodeDictionary("src/main/resources/storage/CountryCodesCore.csv");
         CountryCodeDictionary indicatorCodes = new CountryCodeDictionary("src/main/resources/storage/IndicatorCodesCore.csv");
-
 
         for (int i = 0; i < countries.size(); i++) {
 
             JSONParsing test = new JSONParsing();
-
-
             String a = DataFactory.URL(countries.get(i), indicator, from, to);
-
             JSONArray jsonObject = null;
 
             try {
