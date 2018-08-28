@@ -1,2 +1,1 @@
-Core
-The main repo for code releated to the designing of a alevel economic's application
+An economic application which allows you to view macro-economic data in a clear and consice way. Allows comparisions to be made between different countries.
